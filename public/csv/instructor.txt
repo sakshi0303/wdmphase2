@@ -1,0 +1,47 @@
+Instructor Information
+Name:Sakshi-i
+Email:sx3702@mavs.uta.edu
+UtaId: 1001993702
+Education: MS in CSE at UTA
+
+
+# CSV Report for CSE Class - Fall Semester 2021
+# Columns: Student_ID, Name, Course_1_Grade, Course_2_Grade, Course_3_Grade, Course_4_Grade, Average_Grade
+
+1, Alice, 90, 85, 88, 95, 89.5
+2, Bob, 78, 82, 74, 88, 80.5
+3, Carol, 88, 85, 82, 91, 86.5
+4, David, 70, 65, 60, 80, 68.75
+5, Emily, 92, 90, 85, 88, 88.75
+6, Frank, 76, 74, 80, 81, 77.75
+7, Grace, 85, 83, 82, 80, 82.5
+8, Henry, 87, 91, 89, 92, 89.75
+9, Isabelle, 78, 70, 73, 80, 75.25
+10, Jack, 84, 80, 82, 87, 83.25
+11, Kim, 90, 94, 93, 88, 91.25
+12, Larry, 65, 70, 60, 75, 67.5
+13, Mike, 88, 85, 89, 84, 86.5
+14, Nancy, 92, 91, 90, 94, 91.75
+15, Oliver, 76, 75, 72, 80, 75.75
+16, Paul, 82, 80, 86, 83, 82.75
+17, Quinn, 75, 80, 70, 85, 77.5
+18, Rachel, 94, 92, 96, 93, 93.75
+19, Steve, 82, 83, 80, 81, 81.5
+20, Tanya, 85, 88, 89, 92, 88.5
+
+# Comments:
+# - The class's average grade is 82.09.
+# - The highest average grade is 93.75, achieved by Rachel.
+# - The lowest average grade is 67.5, achieved by Larry.
+# - 5 students have an average above 90, indicating excellent performance.
+# - 3 students have an average below 70, indicating they are at risk.
+# - Most students performed consistently across all 4 courses.
+
+
+# Analysis and Findings
+Class Average: The class average is 82.09, which indicates a generally high level of performance across all students and courses.
+Top Performer: The highest average grade is 93.75, achieved by Rachel.
+Bottom Performer: The lowest average grade is 67.5, achieved by Larry.
+Excellent Performance: 5 students (Alice, Emily, Kim, Nancy, and Rachel) have an average grade above 90, indicating excellent academic performance.
+At Risk: 3 students (David, Larry, and Paul) have an average grade below 70, indicating they are at risk and may require additional academic support.
+Course Consistency: Most students performed consistently across all 4 courses, indicating a balanced academic capability.

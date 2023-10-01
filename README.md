@@ -1,3 +1,30 @@
+install 
+-npx create-react-app my-app --template typescript
+-npm install react-router-dom
+-npm install --save @types/react-router-dom
+-npm outdated
+-npm update
+-npm install react@latest react-dom@latest react-scripts@latest
+-rm -rf node_modules
+-#React Router v6
+-npm install react-router-dom@latest
+-npm install papaparse chart.js <!---for papaparse and chart.js/auto -->
+-npm install @types/papaparse @types/chart.js
+npm install react-scripts@latest
+npm install -g npm@latest
+npm update
+
+--rm -rf node_modules      
+--clear
+--npm run build   
+--npm install --force
+--npm audit fix --force 
+--npm install chart.js@latest @types/chart.js@latest
+--sudo npm install -g typescript@latest
+--npm install chartjs-plugin-annotation --legacy-peer-deps
+--npm start
+--npm install @types/papaparse
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

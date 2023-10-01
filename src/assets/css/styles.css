@@ -1,0 +1,1448 @@
+/* <!--    
+    Author: Sakshi
+    UTA ID: 1001993702
+    Email: sx3702@mavs.uta.edu
+    Group number: 1, WDM assignment, Phase 1
+    Date: September 25, 2023
+    Description: style sheet for all the HTML content for the website
+
+	header theme: linear-gradient(to right, #ff416c, #ff4b2b)
+	background: aliceblue
+--> */
+
+body {
+	font-family: Arial, sans-serif;
+	line-height: 1.6;
+	margin: 0;
+	padding: 0;
+}
+
+.container {
+	max-width: 100%;
+	margin: auto;
+	overflow: hidden;
+	padding: 0px;
+}
+
+.header {
+	background: linear-gradient(to right, #ff416c, #ff4b2b);
+	/* Gradient background */
+	color: #fff;
+	padding: 1rem;
+}
+
+.header-content {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	max-width: 1200px;
+	margin: auto;
+}
+
+/* Show dropdown content on click */
+.header-dropdown.active .dropdown-content {
+	display: block;
+}
+
+.service-name {
+
+	font-size: 1.3rem;
+	font-weight: bold;
+}
+
+.header-buttons {
+	display: flex;
+}
+
+.header-button {
+	display: inline-block;
+	/* Makes it block-like */
+	background-color: #fff;
+	/* Background color */
+	color: #333;
+	/* Text color */
+	text-decoration: none;
+	/* Removes underline */
+	border: none;
+	border-radius: 5px;
+	/* Rounded corners */
+	padding: 10px 20px;
+	/* Padding */
+	margin: 0 5px;
+	/* Margins */
+	cursor: pointer;
+	/* Hand cursor */
+	box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+	/* Box shadow */
+	transition: box-shadow 0.3s ease;
+	/* Transition for hover state */
+}
+
+.header-button:hover {
+	box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.2);
+	/* Box shadow on hover */
+}
+
+.auth-form {
+	max-width: 400px;
+	margin: 0 auto;
+	padding: 20px;
+	background-color: #fff;
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+	border-radius: 8px;
+}
+
+.auth-form div {
+	margin-bottom: 15px;
+}
+
+.auth-form input[type="text"],
+.auth-form input[type="email"],
+.auth-form input[type="password"] {
+	width: 100%;
+	padding: 10px;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	font-size: 16px;
+}
+
+.auth-form button {
+	width: 100%;
+	padding: 10px;
+	background-color: #007BFF;
+	color: #fff;
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
+	font-size: 18px;
+}
+
+.auth-form button:hover {
+	background-color: #0056b3;
+}
+
+.auth-form a {
+	text-decoration: none;
+	color: #007BFF;
+}
+
+.auth-form a:hover {
+	text-decoration: underline;
+}
+
+.auth-form p {
+	text-align: center;
+	margin-top: 10px;
+}
+
+.auth-form a,
+.auth-form p a {
+	color: #007BFF;
+}
+
+
+/* Sticky footer */
+html,
+body {
+	height: 100%;
+}
+
+body {
+	display: flex;
+	flex-direction: column;
+}
+
+.container {
+	flex: 1 0 auto;
+}
+
+.footer,
+.footer-links {
+	flex-shrink: 0;
+}
+
+.section-container {
+	margin: 20px;
+	padding: 20px;
+	border-radius: 5px;
+	background-color: #f4f4f4;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.section-title {
+	font-size: 1.5em;
+	margin-bottom: 15px;
+}
+
+.section-item {
+	margin-bottom: 15px;
+	padding: 10px;
+	border-left: 4px solid #007bff;
+	background-color: #e9f8ff;
+}
+
+.section-item p {
+	margin: 0;
+}
+
+/* end */
+.footer {
+	background-color: #333;
+	color: #fff;
+	text-align: center;
+	padding: 1rem;
+}
+
+.footer p {
+	margin: 0;
+}
+
+.main-content {
+	padding: 20px;
+}
+
+.program-description {
+	background: #f9f9f9;
+	padding: 20px;
+}
+
+.program-description h2,
+.program-description p {
+	margin: 10px 0;
+}
+
+.program-objectives,
+.performance-measures {
+	display: flex;
+	justify-content: space-between;
+	flex-wrap: wrap;
+}
+
+.objective,
+.measure {
+	flex: 1;
+	background: #eee;
+	margin: 10px;
+	padding: 10px;
+}
+
+.footer-links {
+	display: flex;
+	justify-content: space-around;
+	background-color: #222;
+	padding: 1rem;
+}
+
+.footer-link {
+	color: #fff;
+	text-decoration: none;
+	margin: 0 15px;
+}
+
+.footer-link:hover {
+	text-decoration: underline;
+}
+
+/* Existing Styles */
+.section-container {
+	text-align: center;
+	margin: 0 auto;
+	padding: 15px;
+}
+
+.section-title {
+	font-size: 1.8em;
+	margin-bottom: 10px;
+	color: #333;
+}
+
+.section-content {
+	display: flex;
+	align-items: flex-start;
+	justify-content: center;
+	gap: 20px;
+}
+
+.gif-container {
+	flex: 1;
+	max-width: 1000px;
+	position: relative;
+	/* Important: set to relative */
+}
+
+.overlay {
+	position: absolute;
+	/* Important: set to absolute */
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background: transparent;
+	/* Transparent */
+	z-index: 10;
+	/* Higher than iframe */
+}
+
+.table-container {
+	flex: 1;
+	max-width: 500px;
+}
+
+.styled-table {
+	width: 100%;
+	border-collapse: collapse;
+	box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+}
+
+.styled-table td {
+	padding: 12px 15px;
+	border: 1px solid #ddd;
+}
+
+.table-title {
+	font-weight: bold;
+	background-color: #f4f4f4;
+	white-space: nowrap;
+}
+
+.table-desc {
+	font-size: 0.8em;
+}
+
+/* Hover Effect */
+.styled-table tr:hover {
+	background-color: #f5f5f5;
+	transition: background-color 0.3s ease-in-out;
+}
+
+/* Row Striping */
+.styled-table tr:nth-child(odd) {
+	background-color: #f9f9f9;
+}
+
+.section-item {
+	text-align: left;
+	/* Aligns text to the left */
+}
+
+.section-item strong {
+	display: inline;
+	/* Keeps the strong text inline with the paragraph */
+}
+
+/* Contact form styles */
+.contact-form {
+	display: flex;
+	flex-direction: column;
+	gap: 15px;
+}
+
+.contact-form input[type="text"],
+.contact-form input[type="email"],
+.contact-form textarea,
+.contact-form input[type="submit"] {
+	padding: 10px;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+}
+
+.contact-form textarea {
+	resize: none;
+}
+
+.contact-form input[type="submit"] {
+	background-color: #007bff;
+	color: #fff;
+	cursor: pointer;
+	transition: background-color 0.3s ease;
+}
+
+.contact-form input[type="submit"]:hover {
+	background-color: #0056b3;
+}
+
+/* Additional CSS can go here */
+
+
+
+.course-container {
+	flex: 1;
+	text-align: center;
+	border-left: 1px dashed #ccc;
+	border-right: 1px dashed #ccc;
+	padding: 20px;
+	background: ivory;
+}
+
+.course-container h3 {
+	margin-top: 0;
+}
+
+.course-container a {
+	display: block;
+	margin: 5px 0;
+}
+
+
+/* student_dashboard */
+/* Additional CSS can go here */
+
+.course-container {
+	flex: 1;
+	text-align: center;
+	border-left: 1px dashed #ccc;
+	border-right: 1px dashed #ccc;
+	padding: 20px;
+	/* Added these for a box around each course */
+	border: 1px solid #ccc;
+	border-radius: 8px;
+	margin: 10px;
+	box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.course-container h3 {
+	margin-top: 0;
+}
+
+.course-container a {
+	display: block;
+	margin: 5px 0;
+}
+
+.book-appointment {
+	background-color: #f1c40f;
+	color: #fff;
+	padding: 10px 20px;
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+	margin: 5px;
+	margin-top: auto;
+}
+
+/* Instructor v2 styles */
+
+.instructor-1l-button {
+	margin: 40px;
+	background-color: #007bff;
+	color: #fff;
+	border: none;
+	padding: 20px;
+	border-radius: 10px;
+	cursor: pointer;
+}
+
+.instructor-1l-container {
+	flex: 1;
+	text-align: center;
+	border-left: 1px dashed #ccc;
+	border-right: 1px dashed #ccc;
+	padding: 20px;
+	/* Added these for a box around each course */
+	border: 1px solid #ccc;
+	border-radius: 8px;
+	margin: 20px;
+	box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+	height: 50px;
+}
+
+.instructor-2l-container {
+	flex: 3;
+	text-align: center;
+	border-left: 1px dashed #ccc;
+	border-right: 1px dashed #ccc;
+	padding: 5px;
+	margin: 10px;
+	background: floralwhite;
+}
+
+.instructor-2l-dashboard {
+	flex: 3;
+	flex-direction: row;
+	text-align: center;
+	border-left: 1px dashed #ccc;
+	border-right: 1px dashed #ccc;
+	padding: 5px;
+	margin: 40px;
+	background: floralwhite;
+}
+
+.instructor-3l-action {
+	background-color: cornflowerblue;
+	font-size: smaller;
+	padding-left: 20px;
+	color: white;
+	width: 100%;
+}
+
+.action-text {
+	padding-right: 20px;
+	/* Add right margin to create space between text and image */
+	font-size: smaller;
+	text-align: right;
+}
+
+.instructor-2l-action-item {
+	text-align: right;
+	font-size: x-large;
+	background-color: lavender;
+}
+
+.instructor-2l-action-footer {
+	text-align: justify;
+	font-size: x-large;
+	color: black;
+	text-align: center;
+}
+
+.instructor-2l-item {
+	background-color: ghostwhite;
+	text-align: justify;
+	font-size: x-large;
+}
+
+.instructor-chat-container {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 5px;
+	border-top: 1px solid #ccc;
+}
+
+.instructor-image-style {
+	width: 25px;
+	/* Adjust the width as needed */
+	height: 25px;
+	/* Adjust the height as needed */
+	vertical-align: middle;
+	/* Align the image vertically with text */
+	padding-left: 20px;
+
+}
+
+.text-before-image {
+	padding-right: 20px;
+	/* Add right margin to create space between text and image */
+	font-size: smaller;
+}
+
+.text-m-image {
+	padding-left: 55px;
+	padding-right: 55px;
+	/* Add right margin to create space between text and image */
+	font-size: smaller;
+}
+
+/* Instructor overlay styles */
+
+/* Style for the entire table */
+.csv-table {
+	width: 100%;
+	border-collapse: collapse;
+	margin-top: 20px;
+	/* Add some spacing above the table */
+}
+
+/* Style for table headers (th) */
+.csv-table th {
+	vertical-align: middle;
+
+	background-color: sienna;
+	color: white;
+	/* Gray background color for headers */
+	border: 1px solid #dddddd;
+	/* Add borders to headers */
+	padding: 10px;
+	/* Add padding for header cells */
+	text-align: left;
+	/* Align header text to the left */
+	font-weight: bold;
+	/* Make header text bold */
+}
+
+/* Style for data rows (td) */
+.csv-table .data-row {
+	border: 1px solid #dddddd;
+	/* Add borders to data rows */
+}
+
+.csv-table .data-row:nth-child(even) {
+	background-color: #f2f2f2;
+	/* Gray background color for even rows */
+}
+
+.csv-table .data-row:hover {
+	background-color: #e0e0e0;
+	/* Light gray background color on hover */
+}
+
+.csv-table .edit-button {
+	width: 100%;
+	padding: 5px;
+	box-sizing: border-box;
+}
+
+/* Add this CSS to style input fields */
+.csv-table input[type="text"],
+.csv-table select {
+	width: 100%;
+	/* Make input fields and selects span the entire cell */
+	padding: 5px;
+	/* Add padding to input fields */
+	box-sizing: border-box;
+	/* Include padding in the width */
+}
+
+.csv-table td {
+	vertical-align: middle;
+
+	padding: 10px;
+	/* Add padding for data cells */
+	text-align: left;
+	/* Align data text to the left */
+}
+
+/* Optional: Add some spacing between the table and other elements */
+#exam-list-container {
+	background: floralwhite;
+	color: black;
+	font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+#user-profile-table {
+	background: floralwhite;
+	color: black;
+	font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+#course-list-container {
+	background: floralwhite;
+	color: black;
+	font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+#student-list-container {
+	background: floralwhite;
+	color: black;
+	font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+#telemetry-list-container {
+	background: floralwhite;
+	color: black;
+	font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+#operational-logs-container {
+	padding-top: 40px;
+	background: floralwhite;
+	color: black;
+	font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+.log-search-bar {
+	width: 90%;
+	height: 40px;
+	font-family: fantasy;
+}
+
+
+#create-exam-overlay {
+	display: none;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.7);
+	z-index: 1;
+}
+
+#create-course-overlay {
+	display: none;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.7);
+	z-index: 1;
+}
+
+#create-pi-overlay {
+	display: none;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.7);
+	z-index: 1;
+}
+
+#create-feedback-overlay {
+	display: none;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.7);
+	z-index: 1;
+}
+
+/* Form container styles */
+
+.create-course-form-container {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	background-color: #fff;
+	padding: 20px;
+	width: 600px;
+	z-index: 2;
+	background-color: ghostwhite;
+	color: orangered;
+	font-size: x-large;
+}
+
+/* Form container styles */
+.create-pi-form-container {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	background-color: #fff;
+	padding: 20px;
+	width: 600px;
+	z-index: 2;
+	background-color: ghostwhite;
+	color: orangered;
+	font-size: x-large;
+}
+
+/* Form container styles */
+.create-feedback-form-container {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	background-color: #fff;
+	padding: 20px;
+	width: 600px;
+	z-index: 2;
+	background-color: ghostwhite;
+	color: orangered;
+	font-size: x-large;
+}
+
+/* Close button styles */
+.create-course-close-btn {
+	position: absolute;
+	top: 5px;
+	right: 10px;
+	cursor: pointer;
+}
+
+.create-pi-close-btn {
+	position: absolute;
+	top: 5px;
+	right: 10px;
+	cursor: pointer;
+}
+
+/* Close button styles */
+.create-feedback-close-btn {
+	position: absolute;
+	top: 5px;
+	right: 10px;
+	cursor: pointer;
+}
+
+/* dashboard */
+
+.dashboard-container {
+	display: flex;
+	justify-content: space-between;
+	flex-wrap: wrap;
+}
+
+.dashboard-instructor-container {
+	display: flex;
+	flex-wrap: wrap;
+	flex-direction: row;
+}
+
+.dashboard-instructor-y-container {
+	display: flex;
+	flex-direction: column;
+	flex-wrap: wrap;
+}
+
+/* chat */
+
+.course-container {
+	flex: 1;
+	border: 1px dashed #ccc;
+	padding: 20px;
+	text-align: center;
+}
+
+
+
+.chat-title {
+	margin: 0;
+	margin-bottom: 10px;
+}
+
+/* Extending the chat box more towards the left side */
+.chat-container {
+	bottom: 20px;
+	right: 20px;
+	background-color: #fff;
+	border: 1px solid #ccc;
+	border-radius: 10px;
+	padding: 20px;
+	width: inherit;
+	/* Increased width */
+	background: lavender;
+}
+
+/* Reduced padding and margin for smaller circumference */
+.message.admin {
+	background-color: #1565c0;
+	color: white;
+	padding: 0.1px;
+	/* Reduced padding */
+	padding-left: 2px;
+	margin: 0.1px;
+	/* Reduced margin */
+	border-radius: 8px;
+	width: auto;
+	text-align: left;
+	display: inline-block;
+	max-width: 20%;
+	box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.2);
+}
+
+.message.user {
+	background-color: aliceblue;
+	text-align: right;
+	border-radius: 8px;
+	width: auto;
+	display: inline-block;
+	font-size: small;
+	box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.2);
+}
+
+
+
+.chat-box {
+	display: flex;
+	flex-direction: column;
+	padding: 0px;
+	border: 1px solid #ccc;
+	max-height: 200px;
+	/* Set a max height */
+	height: 250px;
+	overflow-y: auto;
+	/* Enable scrolling */
+	background-color: lightblue;
+}
+
+.chat-input-container {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 5px;
+	border-top: 1px solid #ccc;
+}
+
+.chat-button {
+	padding: 8px 12px;
+	cursor: pointer;
+	background-color: #1565c0;
+	color: #fff;
+	border: none;
+	border-radius: 12px;
+	width: 100%;
+	margin: 10px;
+}
+
+.chat-button:hover {
+	background-color: #0d47a1;
+}
+
+.chat-input {
+	width: 90%;
+	padding: 10px;
+	border: 1px solid #ccc;
+	border-radius: 12px;
+}
+
+
+.message {
+	margin-bottom: 10px;
+}
+
+.admin {
+	text-align: left;
+}
+
+.user {
+	text-align: right;
+}
+
+
+
+
+.book-appointment {
+	bottom: 20px;
+	left: 20px;
+	background-color: #007bff;
+	color: #fff;
+	border: none;
+	padding: 10px 20px;
+	border-radius: 5px;
+	cursor: pointer;
+}
+
+/* Set both messages as block elements */
+.message.admin,
+.message.user {
+	display: ruby-text-container;
+	max-width: 100%;
+	padding: 0.01px;
+	/* Smaller padding */
+}
+
+/* Remove text-align for both admin and user messages */
+.admin,
+.user {
+	text-align: left;
+	/* or remove these completely */
+}
+
+/* Additional layout and styling adjustments */
+.message {
+	margin-bottom: 10px;
+	word-wrap: break-word;
+}
+
+.instructor-container {
+	max-width: 100%;
+	margin: 0 auto;
+	padding: 20px;
+}
+
+.instructor-header {
+	background: linear-gradient(to right, #416cff, #4b2bff);
+	color: #fff;
+	padding: 1rem;
+}
+
+.instructor-header-content {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	max-width: 100%;
+	/* Full width */
+	margin: auto;
+}
+
+.instructor-service-name {
+	font-size: 1.8rem;
+	font-weight: bold;
+}
+
+.instructor-buttons {
+	display: flex;
+}
+
+.instructor-button {
+	display: inline-block;
+	background-color: #fff;
+	color: #333;
+	padding: 12px 24px;
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+	transition: box-shadow 0.3s ease;
+}
+
+.instructor-button:hover {
+	box-shadow: 0px 8px 12px rgba(0, 0, 0, 0.2);
+}
+
+.instructor-section-container {
+	margin: 20px;
+	padding: 20px;
+	border-radius: 5px;
+	background-color: #e4e4e4;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.instructor-section-title {
+	font-size: 1.8em;
+	margin-bottom: 20px;
+}
+
+.instructor-section-item {
+	margin-bottom: 20px;
+	padding: 12px;
+	border-left: 4px solid #007bff;
+	background-color: #e9f8ff;
+}
+
+/* The below lines can make the container and content spread out more across the screen */
+.container,
+.instructor-container {
+	max-width: 100%;
+	width: 100%;
+	background: aliceblue;
+}
+
+
+/* Visually appealing button */
+.nav-link {
+	background-color: #4CAF50;
+	/* Green */
+	border: none;
+	color: white;
+	padding: 14px 28px;
+	text-align: center;
+	text-decoration: none;
+	display: inline-block;
+	font-size: 16px;
+	margin: 4px 2px;
+	cursor: pointer;
+	border-radius: 12px;
+	/* Rounded corners */
+	transition: all 0.3s ease;
+	/* Smooth transition */
+}
+
+.nav-link:hover {
+	background-color: #45a049;
+	/* Darker green on hover */
+}
+
+/* Dark green when clicked */
+.nav-link.clicked {
+	background-color: #006400;
+	/* Dark Green */
+}
+
+/* Dropdown styles */
+.dropdown-content {
+	display: none;
+	position: relative;
+	background-color: #f9f9f9;
+	min-width: 160px;
+	border: 1px solid #ddd;
+	border-radius: 4px;
+	z-index: 1;
+}
+
+.dropdown-content a {
+	color: black;
+	padding: 12px 16px;
+	text-decoration: none;
+	display: block;
+}
+
+.dropdown-content a:hover {
+	background-color: #f1f1f1;
+}
+
+/* Show the dropdown menu (use JS to add this class to the .dropdown-content when you click on the dropdown button) */
+.show {
+	display: block;
+}
+
+/* New Course Form Styles */
+/* Compact New Course Form Styles */
+.new-course-form-container {
+	margin: 15px auto;
+	padding: 10px;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	box-shadow: 0 0 6px rgba(0, 0, 0, 0.1);
+	width: 50%;
+}
+
+.new-course2-form-container {
+	display: none;
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	background-color: #fff;
+	/* White background for the form */
+	padding: 20px;
+	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+	/* Add shadow to the form */
+	z-index: 1000;
+	/* Place it above the overlay */
+}
+
+/* Show the form and overlay when the button is clicked */
+.show-form .overlay,
+.show-form .new-course2-form-container {
+	display: block;
+}
+
+.new-course-form-container h2 {
+	margin: 0 0 10px 0;
+	font-size: 1.2em;
+}
+
+.new-course-form-container label {
+	display: block;
+	margin-bottom: 4px;
+	font-size: 0.9em;
+	font-weight: normal;
+}
+
+.new-course-form-container input[type="text"],
+.new-course-form-container input[type="number"],
+.new-course-form-container select,
+.new-course-form-container textarea {
+	width: 100%;
+	padding: 5px;
+	margin: 2px 0 10px 0;
+	border: 1px solid #ccc;
+	border-radius: 3px;
+	font-size: 0.9em;
+}
+
+.new-course-form-container input[type="file"] {
+	margin: 2px 0 10px 0;
+	font-size: 0.9em;
+}
+
+.new-course-form-container input[type="submit"] {
+	background-color: #007bff;
+	color: white;
+	padding: 6px 12px;
+	border: none;
+	border-radius: 3px;
+	font-size: 0.9em;
+	cursor: pointer;
+	transition: background-color 0.3s ease;
+}
+
+.new-course-form-container input[type="submit"]:hover {
+	background-color: #0056b3;
+}
+
+/* Compact and Wide New Course Form */
+/* Compact and Wide New Course Form */
+.new-course-form-container {
+	margin: 10px auto;
+	padding: 10px;
+	width: 80%;
+}
+
+.new-course-form-container h2 {
+	font-size: 1.2em;
+	margin-bottom: 10px;
+}
+
+.new-course-form-container label {
+	font-size: 0.9em;
+}
+
+.form-row {
+	display: flex;
+	justify-content: space-between;
+	margin-bottom: 10px;
+}
+
+.form-group {
+	flex: 1;
+	margin: 0 5px;
+}
+
+.form-group input,
+.form-group select {
+	width: 100%;
+	font-size: 0.9em;
+	padding: 5px;
+	margin: 5px 0;
+}
+
+.new-course-form {
+	display: none;
+}
+
+.no-underline {
+	text-decoration: none;
+	color: white;
+	/* Set the text color to white */
+}
+
+admin-message,
+.student-message,
+.instructor-message {
+	padding: 10px;
+	margin: 5px;
+	border-radius: 5px;
+}
+
+.admin-message {
+	background-color: ivory;
+	text-align: left;
+	font-size: small;
+}
+
+.student-message {
+	background-color: ivory;
+	text-align: right;
+	font-size: small;
+}
+
+.instructor-message {
+	background-color: #ddf;
+}
+
+
+/* Admin styles */
+
+.admin-1l-button {
+	margin: 40px;
+	background-color: #007bff;
+	color: #fff;
+	border: none;
+	padding: 20px;
+	border-radius: 10px;
+	cursor: pointer;
+}
+
+.admin-1l-container {
+	flex: 1;
+	text-align: center;
+	border-left: 1px dashed #ccc;
+	border-right: 1px dashed #ccc;
+	padding: 20px;
+	/* Added these for a box around each course */
+	border: 1px solid #ccc;
+	border-radius: 8px;
+	margin: 20px;
+	box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+	height: 50px;
+}
+
+.admin-2l-container {
+	flex: 3;
+	text-align: center;
+	border-left: 1px dashed #ccc;
+	border-right: 1px dashed #ccc;
+	padding: 5px;
+	margin: 40px;
+	background: ivory;
+}
+
+.admin-2l-action {
+	background-color: dodgerblue;
+	text-align: justify;
+	font-size: x-large;
+	padding-left: 50px;
+	padding-right: 50px;
+	color: white;
+}
+
+
+
+.admin-2l-action-item {
+	background-color: ghostwhite;
+	text-align: right;
+	font-size: x-large;
+}
+
+.admin-2l-action-footer {
+	text-align: justify;
+	font-size: x-large;
+	color: black;
+	text-align: center;
+}
+
+.admin-2l-item {
+	background-color: ghostwhite;
+	text-align: justify;
+	font-size: x-large;
+}
+
+.admin-chat-container {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 5px;
+	border-top: 1px solid #ccc;
+}
+
+.admin-image-style {
+	width: 25px;
+	/* Adjust the width as needed */
+	height: 25px;
+	/* Adjust the height as needed */
+	vertical-align: middle;
+	/* Align the image vertically with text */
+}
+
+
+
+
+
+/* Instructor overlay styles */
+
+/* Overlay styles */
+
+.dashboard-admin-container {
+	display: flex;
+	justify-content: space-between;
+	flex-wrap: wrap;
+}
+
+
+/* Additional CSS for the "About Us" page */
+
+/* Wrapper styles */
+body {
+	background-color: #f9f9f9;
+	font-family: Arial, sans-serif;
+	line-height: 1.6;
+	margin: 0;
+	padding: 0;
+	color: #333;
+}
+
+/* Header styles */
+.header {
+	background: linear-gradient(to right, #ff416c, #ff4b2b);
+	color: #fff;
+	padding: 1rem;
+	text-align: center;
+	font-size: 1.2em;
+	letter-spacing: 1px;
+}
+
+.header h1 {
+	margin: 0;
+	font-size: 2.5em;
+	font-weight: bold;
+}
+
+/* Main content styles */
+.main {
+	max-width: 1200px;
+	margin: 0 auto;
+	padding: 20px;
+	background-color: #fff;
+	box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+	border-radius: 10px;
+}
+
+/* Section styles */
+.section {
+	margin-bottom: 40px;
+	padding: 20px;
+	border-radius: 5px;
+	background-color: #f4f4f4;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.section h2 {
+	font-size: 1.8em;
+	margin-bottom: 15px;
+	color: #333;
+}
+
+.section p {
+	font-size: 1em;
+	line-height: 1.6;
+	color: #555;
+}
+
+/* Team member styles */
+.team-member {
+	display: flex;
+	justify-content: left;
+	align-items: center;
+	margin-bottom: 40px;
+}
+
+.team-member-info {
+	text-align: center;
+}
+
+.team-member-image {
+	width: 150px;
+	height: 150px;
+	border-radius: 50%;
+	object-fit: cover;
+	margin-right: 20px;
+}
+
+.team-member h3 {
+	font-size: 1.5em;
+	margin: 10px 0;
+	color: #333;
+}
+
+.team-member p {
+	font-size: 1em;
+	color: #555;
+}
+
+/* Social media links */
+.team-member-links {
+	margin-top: 10px;
+}
+
+.team-member-links a {
+	color: #007bff;
+	font-size: 1.5em;
+	margin: 0 10px;
+	text-decoration: none;
+	transition: color 0.3s ease;
+}
+
+.team-member-links a:hover {
+	color: #0056b3;
+}
+
+/* Footer styles */
+.footer {
+	background-color: #333;
+	color: #fff;
+	text-align: center;
+	padding: 1rem;
+}
+
+.footer p {
+	margin: 0;
+}
+
+.university-gif {
+	max-width: 100%;
+	height: auto;
+	margin-top: 20px;
+	animation: bounce 2s ease infinite alternate;
+}
+
+@keyframes bounce {
+	0% {
+		transform: translateY(0);
+	}
+
+	100% {
+		transform: translateY(-10px);
+	}
+}
+
+.no-giphy-branding:hover::after {
+	content: " ";
+	display: none !important;
+}

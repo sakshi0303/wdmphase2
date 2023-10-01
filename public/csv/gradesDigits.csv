@@ -1,0 +1,14 @@
+Student_ID,Student_Name,Course_Code,Course_Name,Grade
+1,Alice,CSE101,Introduction to Programming,50
+1,Alice,MATH101,Calculus I,51
+1,Alice,PHY101,Physics I,20
+1,Alice,ENG101,English Composition,30
+2,Bob,CSE101,Introduction to Programming,40
+2,Bob,MATH101,Calculus I,50
+2,Bob,PHY101,Physics I,60
+2,Bob,ENG101,English Composition,60
+3,Charlie,CSE101,Introduction to Programming,80
+3,Charlie,MATH101,Calculus I,100
+3,Charlie,PHY101,Physics I,90
+3,Charlie,ENG101,English Composition,25
+4,Sakshi,WDM,Web designing,91

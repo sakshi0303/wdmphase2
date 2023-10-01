@@ -1,0 +1,21 @@
+Action,Component name,How
+click,button-login,click
+hover,menu-dropdown,hover
+click,link-home,click
+scroll,page-content,scroll
+click,button-submit,click
+click,link-about,click
+hover,menu-item,hover
+click,button-download,click
+hover,menu-link,hover
+click,button-learn-more,click
+scroll,page-content,scroll
+click,button-signup,click
+click,link-features,click
+hover,menu-icon,hover
+click,button-explore,click
+scroll,page-content,scroll
+click,button-contact-us,click
+hover,menu-tab,hover
+click,button-read-more,click
+scroll,page-content,scroll

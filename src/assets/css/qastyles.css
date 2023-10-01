@@ -1,0 +1,103 @@
+/* 
+Basic CSS for layout and styling   
+    Author: Sai Vineeth Akula,Mary Pranavi Allam-
+    UTA ID: 1002028631,1002077034
+    Group number: 1, WDM assignment, Phase 1
+    Date: September 25, 2023
+ */
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f0f0f0; /* Light background color */
+}
+
+.qa-dashboard-container {
+	display: flex;
+	flex-wrap: wrap;
+}
+
+#sidebar {
+    width: 250px; /* Increased sidebar width for better navigation */
+    background-color: #333;
+    color: #fff;
+    position: fixed;
+    height: 100%;
+    overflow-y: scroll; /* Scroll sidebar if content overflows */
+    box-shadow: 2px 0 4px rgba(0, 0, 0, 0.2); /* Add a subtle shadow */
+}
+
+#content {
+    margin-left: 250px; /* Adjusted margin for content */
+    padding: 20px;
+    height: 100%;
+}
+
+#top-right {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 10px;
+}
+
+/* Styling for navigation tabs */
+.nav {
+    padding: 10px;
+    text-align: center;
+}
+
+.nav a {
+    display: block;
+    color: #fff;
+    text-decoration: none;
+    padding: 10px;
+    margin: 10px 0;
+    transition: background-color 0.3s; /* Smooth background color transition */
+}
+
+.nav a:hover {
+    background-color: #555;
+}
+
+/* Styling for reports section */
+#reports {
+    background-color: #fff;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px; /* Add rounded corners */
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.1); /* Add a subtle box shadow */
+}
+
+/* Styling for visualizations */
+#chartContainer {
+    height: 300px;
+    width: 100%; /* Full width for responsiveness */
+    margin: 20px 0;
+}
+
+/* Styling for ID input and Generate button */
+#studentId {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    width: 200px;
+    margin-right: 10px;
+}
+
+#generateButton {
+    padding: 10px 20px;
+    background-color: #333;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s; /* Smooth background color transition */
+}
+
+#generateButton:hover {
+    background-color: #555;
+}
+
+ul.editable {
+    list-style-type: disc !important;
+}

@@ -1,0 +1,153 @@
+/* Reset some default styles
+Author: Harini Aluka,Kiran Mai Akaram-
+    UTA ID: 1002080841,1002115618
+    Group number: 1, WDM assignment, Phase 1
+    Date: September 25, 2023 */
+body, h1, h2, p {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    display: flex;
+    flex-direction: column;
+    
+}
+
+header {
+    background-color: #007acc;
+    color: white;
+    text-align: center;
+    padding: 20px 0;
+}
+
+nav ul {
+    list-style-type: none;
+    background: cadetblue;
+    width: 200px; /* Adjust the width of the sidebar */
+    position: fixed; /* Make the sidebar fixed on the left side */
+    height: 65%;
+    overflow-y: auto; /* Add scroll if needed */
+}
+
+nav ul li {
+    display: block;
+}
+
+nav ul li a {
+    display: block;
+    color: white;
+    text-align: left; /* Align the text to the left */
+    padding: 14px 16px;
+    text-decoration: none;
+    border-bottom: 1px solid #555; /* Add a border between links */
+}
+
+nav ul li a:hover {
+    background-color: #555;
+}
+
+main {
+    margin-left: 240px; /* Adjust margin to make space for the sidebar */
+    max-width: 800px;
+    padding: 20px;
+    /*background-color: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);*/
+    padding-left: 240px;
+    flex:1;
+
+    
+}
+
+
+
+/* Style the table */
+#Student table {
+    border-collapse: collapse;
+    width: 60%;
+    margin: 20px auto;
+}
+
+/* Style table headers */
+#Student th {
+    background-color: #333;
+    color: #fff;
+    padding: 10px;
+}
+
+/* Style table rows */
+#Student tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+/* Style table cells */
+#Student td {
+    padding: 8px;
+}
+
+/* Style the table borders */
+#Student table th td {
+    border: 1px solid #ccc;
+}
+
+/* Style the table */
+#instructor table {
+    border-collapse: collapse;
+    width: 60%;
+    margin: 20px auto;
+}
+
+/* Style table headers */
+#instructor th {
+    background-color: #333;
+    color: #fff;
+    padding: 10px;
+}
+
+/* Style table rows */
+#instructor tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+/* Style table cells */
+#instructor td {
+    padding: 8px;
+}
+
+/* Style the table borders */
+#instructor table th td {
+    border: 1px solid #ccc;
+}
+
+#help-content ul {
+    list-style-type: none;
+    margin-bottom: 20px;
+}
+
+#help-content ul li {
+    margin-bottom: 10px;
+}
+
+#help-content h3 {
+    font-size: 18px;
+    margin-top: 20px;
+}
+
+#help-content a {
+    text-decoration: none;
+    color: #0074cc;
+}
+
+#help-content a:hover {
+    text-decoration: underline;
+}
+
+footer {
+    text-align: center;
+    padding: 10px 0;
+    background-color: #333;
+    color: white;
+    /*margin-top: auto;*/
+}

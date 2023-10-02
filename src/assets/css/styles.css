@@ -1368,7 +1368,7 @@ body {
 /* Team member styles */
 .team-member {
 	display: flex;
-	justify-content: left;
+	justify-content: center;
 	align-items: center;
 	margin-bottom: 40px;
 }

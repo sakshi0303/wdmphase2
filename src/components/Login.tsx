@@ -108,23 +108,19 @@ function parseCSVData(csv: string): UserData[] {
       <Header />
       <div className="main-content">
         <div className="section-container">
-          {/* <form id="loginForm" className="auth-form">
-            <div><input type="email" name="email" placeholder="Email (ex: admin@gmail.com)" required /></div>
-            <div><input type="password" name="password" placeholder="Password (ex: admin)" required /></div>
-            <div><button onClick={validateLogin}>Login</button></div>
-            <div>
-              <a href="forgot-password.html">Forgot password?</a>
-              <p>Not a member? <a href="signup.html">Sign Up</a></p>
-            </div>
-          </form> */}
+          
 
           <form id="loginForm" className="auth-form" onSubmit={validateLogin}>
             <div><input type="email" name="email" placeholder="Email (ex: admin@gmail.com)" required /></div>
             <div><input type="password" name="password" placeholder="Password (ex: admin)" required autoComplete='' /></div>
             <div><button type="submit">Login</button></div>
             <div>
-              <a href="forgot-password.html">Forgot password?</a>
-              <p>Not a member? <a href="signup.html">Sign Up</a></p>
+            <a  onClick={() => {navigate('/ForgotPassword')}}>
+              Forgot password?</a>
+              <p>  Not a member? 
+              <a  onClick={() => {navigate('/signup')}}>
+              SignUp
+          </a></p>
             </div>
           </form>
         </div>

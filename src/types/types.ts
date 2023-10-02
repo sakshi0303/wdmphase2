@@ -19,3 +19,16 @@ export type UserData = {
     'Component name': string;
     How: string;
   }
+  export type LogEntry = {
+    Timestamp: string;
+    Message: string;
+  };
+  export type ChartDataType = {
+    labels: string[],
+    datasets: Array<{
+        data: number[],
+        backgroundColor: string[],
+        borderColor: string[],
+        borderWidth: number
+    }>
+};

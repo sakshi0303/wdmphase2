@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import Chart from "chart.js/auto";
 import { CategoryScale } from "chart.js";
-import LineChart from "./line_chart";
+import { LineChart } from "./line_chart";
+import { Header, Footer } from './HeaderFooter';
 
 Chart.register(CategoryScale);
 
@@ -43,6 +44,7 @@ const Telemetry: React.FC = () => {
   };
 
   const [chartDataState, setChartDataState] = useState(initialChartData);
+  const [telemetryDataState, setTelemetryDataState] = useState(sampleTelemetry);
 
   useEffect(() => {
     fetch('/csv/telemetry.csv')
@@ -53,6 +55,7 @@ const Telemetry: React.FC = () => {
           const [Action, ComponentName, How] = row.split(',');
           return { Action, ComponentName, How };
         });
+        setTelemetryDataState(telemetryData);
         const newChartData = {
           labels: Object.keys(processData(telemetryData)),
           datasets: [
@@ -69,9 +72,49 @@ const Telemetry: React.FC = () => {
       });
   }, []);
 
+  const tableStyle: React.CSSProperties = {
+    borderCollapse: 'collapse',
+    width: '80%',
+    margin: '20px auto',
+    border: '1px solid #ddd'
+};
+
+const tableHeaderStyle: React.CSSProperties = {
+    backgroundColor: '#f2f2f2',
+    color: 'black'
+};
+
+const tableCellStyle: React.CSSProperties = {
+    border: '1px solid #ddd',
+    padding: '8px'
+};
+
   return (
     <div className="App">
+      <Header />
       <LineChart chartData={chartDataState} title='UX actions' header='Telemetry' />
+
+      {/* Telemetry Data Table */}
+      <table style={tableStyle}>
+        <thead>
+          <tr style={tableHeaderStyle}>
+            <th style={tableCellStyle}>Action</th>
+            <th style={tableCellStyle}>Component Name</th>
+            <th style={tableCellStyle}>How</th>
+          </tr>
+        </thead>
+        <tbody>
+          {telemetryDataState.map((item, index) => (
+            <tr key={index}>
+              <td style={tableCellStyle}>{item.Action}</td>
+              <td style={tableCellStyle}>{item.ComponentName}</td>
+              <td style={tableCellStyle}>{item.How}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+
+      <Footer />
     </div>
   );
 };

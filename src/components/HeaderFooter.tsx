@@ -1,22 +1,25 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export const Header: React.FC = () => {
+  const navigate = useNavigate();
+  
   return (
     <div className="header">
       <div className="header-content">
         <div className="service-name">
-          <a href="index.html" className="header-button">
+          <a className="header-button" onClick={() => {navigate('/')}}>
             SkillXpert
           </a>
         </div>
         <div className="header-buttons">
-          <a href="aboutus.html" className="header-button">
+        <a className="header-button" onClick={() => {navigate('/aboutus')}}>
             About Us
           </a>
-          <a href="signup.html" className="header-button">
+          <a className="header-button" onClick={() => {navigate('/signup')}}>
             SignUp
           </a>
-          <a href="login.html" className="header-button">
+          <a className="header-button" onClick={() => {navigate('/login')}}>
             Login
           </a>
         </div>
@@ -26,14 +29,15 @@ export const Header: React.FC = () => {
 };
 
 export const Footer = () => {
+  const navigate = useNavigate();
     return (
       <div>
         {/* Footer Links */}
-        <div className="footer-links">
-          <a href="contact.html" className="footer-link">Contact</a>
-          <a href="aboutus.html" className="footer-link">About</a>
-          <a href="learn-more.html" className="footer-link">Learn More</a>
-          <a href="contact.html" className="footer-link">Report Issues</a>
+        <div className="footer-links">          
+          <a className="footer-link" onClick={() => {navigate('/contact')}}>Contact Us</a>
+          <a className="footer-link" onClick={() => {navigate('/aboutus')}}>About Us</a>
+          <a className="footer-link" onClick={() => {navigate('/learn-more')}}>Learn More</a>
+          <a className="footer-link" onClick={() => {navigate('/contact')}}>Report Issues</a>
         </div>
   
         {/* Footer */}

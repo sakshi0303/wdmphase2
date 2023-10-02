@@ -401,17 +401,7 @@ const AdminDashboard = () => {
                 }
               }
 
-              // // // Attach event listeners to edit buttons
-              // const editButtons = document.querySelectorAll('.edit-button');
-              // console.log('event lisyenercalled here!')
-              // editButtons.forEach(function (button) {
-              //   console.log(button.id)
-              //   button.addEventListener('click', function (this: HTMLButtonElement) {
-              //     const userId = this.getAttribute('data-id') ?? 'undefined';
-              //     console.log(`Clicked button with data-id: ${userId}`);
-              //     handleEditAndUpdate(userId);
-              //   });
-              // });
+              
 
 
             }
@@ -437,7 +427,7 @@ const AdminDashboard = () => {
             TELEMETRY
           </a>
 
-          <a href="operations.html" className="admin-1l-button">
+          <a  className="admin-1l-button" onClick={() => {navigate('/operations')}}>
             OPERATIONS
           </a>
 
@@ -454,22 +444,23 @@ const AdminDashboard = () => {
               <div className="instructor-2l-action-item">Quick Actions</div>
               <div>
                 <div className="instructor-2l-action-item">
-                  <button className="instructor-3l-action" onClick={() => window.location.href = 'student_dashboard.html'}>
+              
+                  <button className="instructor-3l-action" onClick={() => {navigate('/student-dashboard')}}>
                     View student dashboard
                   </button>
                 </div>
                 <div className="instructor-2l-action-item">
-                  <button className="instructor-3l-action" onClick={() => window.location.href = 'instructor_dashboard.html'}>
+                  <button className="instructor-3l-action" onClick={() => {navigate('/instructor-dashboard')}}>
                     View instructor dashboard
                   </button>
                 </div>
                 <div className="instructor-2l-action-item">
-                  <button className="instructor-3l-action" onClick={() => window.location.href = 'coordinator_dashboard.html'}>
+                  <button className="instructor-3l-action" onClick={() => {navigate('/coordinator-dashboard')}}>
                     View coordinator dashboard
                   </button>
                 </div>
                 <div className="instructor-2l-action-item">
-                  <button className="instructor-3l-action" onClick={() => window.location.href = 'qa_dashboard.html'}>
+                  <button className="instructor-3l-action" onClick={() => {navigate('/qa-dashboard')}}>
                     View qa dashboard
                   </button>
                 </div>

@@ -21,35 +21,21 @@ const InstructorDashboard = () => {
   const [examData, setExamData] = useState<string[][]>([]);
   const [isExamOverlayVisible, setIsExamOverlayVisible] = useState(false);
   const [name, setName] = useState<string>('');
-const [email, setEmail] = useState<string>('');
-const [utaId, setUtaId] = useState<string>('');
-const [education, setEducation] = useState<string>('');
-const [isCreatingCourse, setIsCreatingCourse] = useState(false);
-
-
-  
-  
+  const [email, setEmail] = useState<string>('');
+  const [utaId, setUtaId] = useState<string>('');
+  const [education, setEducation] = useState<string>('');
+  const [isCreatingCourse, setIsCreatingCourse] = useState(false);
 
 
   const currentUserProfile = getCurrentUserProfile()
 
-  //useEffect(() => {
-  //   if (Object.keys(users).length === 0) {
-  //     loadUserProfiles();
-  //   }
-  //   // load data    
-  //   fetchUserData();
-
-  //   // intervals
-  //   setInterval(checkForMessages, 1000);
-  // }, []);
   useEffect(() => {
     const examOverlayElement = document.getElementById("create-exam-overlay");
     if (examOverlayElement) {
-        examOverlayElement.style.display = isExamOverlayVisible ? "block" : "none";
+      examOverlayElement.style.display = isExamOverlayVisible ? "block" : "none";
     }
-}, [isExamOverlayVisible]);
-  
+  }, [isExamOverlayVisible]);
+
   useEffect(() => {
     const loadExamListAndDisplay = () => {
       fetch('assets/reports/csv/examlist.csv')
@@ -74,8 +60,14 @@ const [isCreatingCourse, setIsCreatingCourse] = useState(false);
     }
     loadData();
 
-    //const checkAuthInterval = setInterval(() => checkAuthorized(allowedRoles), 60000);
-    //const checkMessagesInterval = setInterval(checkMessagesForInstructor, 1000);
+    if (Object.keys(users).length === 0) {
+      loadUserProfiles();
+    }
+    // load data    
+    fetchUserData();
+
+    // const checkAuthInterval = setInterval(() => checkAuthorized(allowedRoles), 60000);
+    setInterval(checkForMessages, 1000);
 
     return () => {
       // clearInterval(checkAuthInterval);
@@ -89,290 +81,290 @@ const [isCreatingCourse, setIsCreatingCourse] = useState(false);
     }
   };
 
-  
- 
+
+
   async function loadExamListAndDisplay(): Promise<void> {
     try {
-        const response = await fetch('assets/reports/csv/examlist.csv');
-        const data = await response.text();
+      const response = await fetch('assets/reports/csv/examlist.csv');
+      const data = await response.text();
 
-        const rows = data.split('\n'); // Split data into rows
+      const rows = data.split('\n'); // Split data into rows
 
-        // Extract headers from the first row
-        const headers = rows[0].split(',');
+      // Extract headers from the first row
+      const headers = rows[0].split(',');
 
-        // Create a table element
-        const table = document.createElement('table');
-        table.className = 'csv-table'; // Add a class for styling
+      // Create a table element
+      const table = document.createElement('table');
+      table.className = 'csv-table'; // Add a class for styling
 
-        // Create a table row for the header
-        const headerRow = document.createElement('tr');
+      // Create a table row for the header
+      const headerRow = document.createElement('tr');
 
-        // Populate the header row with table headers (th)
-        headers.forEach(header => {
-            const headerCell = document.createElement('th');
-            headerCell.textContent = header;
-            headerRow.appendChild(headerCell);
-        });
+      // Populate the header row with table headers (th)
+      headers.forEach(header => {
+        const headerCell = document.createElement('th');
+        headerCell.textContent = header;
+        headerRow.appendChild(headerCell);
+      });
 
-        // Append the header row to the table
-        table.appendChild(headerRow);
+      // Append the header row to the table
+      table.appendChild(headerRow);
 
-        // Iterate through rows (excluding header)
-        for (let i = 1; i < rows.length; i++) {
-            const row = rows[i].split(',');
-            if (row.length === headers.length) {
-                // Create a table row for each entry
-                const dataRow = document.createElement('tr');
+      // Iterate through rows (excluding header)
+      for (let i = 1; i < rows.length; i++) {
+        const row = rows[i].split(',');
+        if (row.length === headers.length) {
+          // Create a table row for each entry
+          const dataRow = document.createElement('tr');
 
-                // Populate the data row with table data (td)
-                row.forEach(value => {
-                    const dataCell = document.createElement('td');
-                    dataCell.textContent = value;
-                    dataRow.appendChild(dataCell);
-                });
+          // Populate the data row with table data (td)
+          row.forEach(value => {
+            const dataCell = document.createElement('td');
+            dataCell.textContent = value;
+            dataRow.appendChild(dataCell);
+          });
 
-                // Add styling to data rows
-                dataRow.classList.add('data-row'); // Add a class for data rows
+          // Add styling to data rows
+          dataRow.classList.add('data-row'); // Add a class for data rows
 
-                // Append the data row to the table
-                table.appendChild(dataRow);
-            }
+          // Append the data row to the table
+          table.appendChild(dataRow);
         }
-
-        // Append the table to the container
-        const container = document.getElementById('exam-list-container');
-        if (container) {
-          container.innerHTML = ''; // Clear any previous content
-          container.appendChild(table);
       }
-       
-    } catch (error) {
-        console.error('Error reading CSV file:', error);
-    }
-}
 
-async function loadCourseListAndDisplay(): Promise<void> {
-  try {
+      // Append the table to the container
+      const container = document.getElementById('exam-list-container');
+      if (container) {
+        container.innerHTML = ''; // Clear any previous content
+        container.appendChild(table);
+      }
+
+    } catch (error) {
+      console.error('Error reading CSV file:', error);
+    }
+  }
+
+  async function loadCourseListAndDisplay(): Promise<void> {
+    try {
       const response = await fetch('assets/reports/csv/courses.csv');
       const data = await response.text();
-      
+
       const rows = data.split('\n');
-      
+
       const table: HTMLTableElement = document.createElement('table');
       table.className = 'csv-table';
-      
+
       const headers = rows[0].split(',');
       const headerRow: HTMLTableRowElement = document.createElement('tr');
-      
+
       headers.forEach(header => {
-          const headerCell: HTMLTableHeaderCellElement = document.createElement('th');
-          headerCell.textContent = header;
-          headerRow.appendChild(headerCell);
+        const headerCell: HTMLTableHeaderCellElement = document.createElement('th');
+        headerCell.textContent = header;
+        headerRow.appendChild(headerCell);
       });
-      
+
       table.appendChild(headerRow);
-      
+
       for (let i = 1; i < rows.length; i++) {
-          const row = rows[i].split(',');
-          if (row.length === headers.length) {
-              const dataRow: HTMLTableRowElement = document.createElement('tr');
-              
-              row.forEach((value, j) => { // <-- Note the added j here
-                const dataCell: HTMLTableCellElement = document.createElement('td');
-                if (j === 2 && !currentUserProfile.role.includes('admin')) {
-                    dataCell.textContent = currentUserProfile.name;
-                } else {
-                    dataCell.textContent = value;
-                }
-                dataRow.appendChild(dataCell);
-            });
-              
-              dataRow.classList.add('data-row');
-              table.appendChild(dataRow);
-          }
+        const row = rows[i].split(',');
+        if (row.length === headers.length) {
+          const dataRow: HTMLTableRowElement = document.createElement('tr');
+
+          row.forEach((value, j) => { // <-- Note the added j here
+            const dataCell: HTMLTableCellElement = document.createElement('td');
+            if (j === 2 && !currentUserProfile.role.includes('admin')) {
+              dataCell.textContent = currentUserProfile.name;
+            } else {
+              dataCell.textContent = value;
+            }
+            dataRow.appendChild(dataCell);
+          });
+
+          dataRow.classList.add('data-row');
+          table.appendChild(dataRow);
+        }
       }
-      
+
       const container = document.getElementById('course-list-container');
       if (container) {
-          container.innerHTML = ''; // Clear any previous content
-          container.appendChild(table);
+        container.innerHTML = ''; // Clear any previous content
+        container.appendChild(table);
       }
-  } catch (error) {
+    } catch (error) {
       console.error('Error reading CSV file:', error);
+    }
   }
-}
 
 
-async function loadPersonalInfo(): Promise<void> {
-  const filePath: string = 'assets/reports/instructor.txt';
-  const response: Response = await fetch(filePath);
-  const data: string = await response.text();
-  const lines: string[] = data.split('\n');
-  
-  const info: Record<string, string> = {};
-  lines.forEach(line => {
+  async function loadPersonalInfo(): Promise<void> {
+    const filePath: string = 'assets/reports/instructor.txt';
+    const response: Response = await fetch(filePath);
+    const data: string = await response.text();
+    const lines: string[] = data.split('\n');
+
+    const info: Record<string, string> = {};
+    lines.forEach(line => {
       if (line.includes(':')) {
-          const [key, value] = line.split(':');
-          info[key.trim()] = value.trim();
+        const [key, value] = line.split(':');
+        info[key.trim()] = value.trim();
       }
-  });
+    });
 
-  setName(info['Name'] || '');
-  setEmail(info['Email'] || '');
-  setUtaId(info['UtaId'] || '');
-  setEducation(info['Education'] || '');
+    setName(info['Name'] || '');
+    setEmail(info['Email'] || '');
+    setUtaId(info['UtaId'] || '');
+    setEducation(info['Education'] || '');
 
-  window.localStorage.setItem('instructorName', info['Name'] || '');
-}
+    window.localStorage.setItem('instructorName', info['Name'] || '');
+  }
 
-const ExamOverlay = ({ onClose }: { onClose: () => void }) => {
-  const [examName, setExamName] = useState<string>('');
-  const [examDate, setExamDate] = useState<string>('');
-  const [examDuration, setExamDuration] = useState<string>('');
+  const ExamOverlay = ({ onClose }: { onClose: () => void }) => {
+    const [examName, setExamName] = useState<string>('');
+    const [examDate, setExamDate] = useState<string>('');
+    const [examDuration, setExamDuration] = useState<string>('');
 
-  const handleSubmit = () => {
-    createExam(examName, examDate, examDuration);
+    const handleSubmit = () => {
+      createExam(examName, examDate, examDuration);
+    };
+
+    return (
+      <div className="overlay" id="create-exam-overlay" style={{ display: 'block' }}>
+        <div className="create-course-form-container">
+          <button className="create-course-close-btn" onClick={onClose}>
+            &times;
+          </button>
+          <h2>Create Exam</h2>
+          <form className="new-course-form-container" onSubmit={(e) => { e.preventDefault(); handleSubmit(); }}>
+            <div className="form-row">
+              <div className="form-group">
+                <label>Exam Name:</label>
+                <input type="text" placeholder="Enter exam name" value={examName} onChange={(e) => setExamName(e.target.value)} />
+              </div>
+              <div className="form-group">
+                <label>Date:</label>
+                <input type="date" value={examDate} onChange={(e) => setExamDate(e.target.value)} />
+              </div>
+            </div>
+
+            <div className="form-row">
+              <div className="form-group">
+                <label>Duration:</label>
+                <input type="text" placeholder="Enter duration (e.g., 2 hours)" value={examDuration} onChange={(e) => setExamDuration(e.target.value)} />
+              </div>
+            </div>
+
+            <input type="submit" value="Create" />
+          </form>
+        </div>
+      </div>
+    );
   };
 
-  return (
-    <div className="overlay" id="create-exam-overlay" style={{ display: 'block' }}>
-      <div className="create-course-form-container">
-        <button className="create-course-close-btn" onClick={onClose}>
-          &times;
-        </button>
-        <h2>Create Exam</h2>
-        <form className="new-course-form-container" onSubmit={(e) => { e.preventDefault(); handleSubmit(); }}>
-          <div className="form-row">
-            <div className="form-group">
-              <label>Exam Name:</label>
-              <input type="text" placeholder="Enter exam name" value={examName} onChange={(e) => setExamName(e.target.value)} />
-            </div>
-            <div className="form-group">
-              <label>Date:</label>
-              <input type="date" value={examDate} onChange={(e) => setExamDate(e.target.value)} />
-            </div>
-          </div>
-
-          <div className="form-row">
-            <div className="form-group">
-              <label>Duration:</label>
-              <input type="text" placeholder="Enter duration (e.g., 2 hours)" value={examDuration} onChange={(e) => setExamDuration(e.target.value)} />
-            </div>
-          </div>
-
-          <input type="submit" value="Create" />
-        </form>
-      </div>
-    </div>
-  );
-};
-
-const createCourse = (courseName: string,courseCategory: string,courseDuration: string,courseLevel: string) => {
-  console.log('line 345')
-  if (!courseName || !courseCategory || !courseDuration || !courseLevel) {
-    alert('Please fill out all required fields.');
-    return; // Exit the function without creating the course
-  }
-
-  alert('Course is created successfully and is under admin review.');
-  setIsCreatingCourse(false);
-  setIsExamOverlayVisible(false); // Close the overlay
-};
-
-const CourseCreationOverlay = ({ onClose }: { onClose: () => void }) => {
-  const [courseName, setCourseName] = useState<string>('');
-  const [courseCategory, setCourseCategory] = useState<string>('');
-  const [courseDuration, setCourseDuration] = useState<string>('');
-  const [courseLevel, setCourseLevel] = useState<string>('');
-
-  const handleSubmit = () => {
-    // Perform validation here
+  const createCourse = (courseName: string, courseCategory: string, courseDuration: string, courseLevel: string) => {
+    console.log('line 345')
     if (!courseName || !courseCategory || !courseDuration || !courseLevel) {
       alert('Please fill out all required fields.');
-      return; // Prevent form submission if validation fails
+      return; // Exit the function without creating the course
     }
 
-    // Check if courseDuration is numeric
-    if (!/^\d+$/.test(courseDuration)) {
-      alert('Duration must be a numeric value.');
-      return; // Prevent form submission if duration is not numeric
-    }
-
-    // Check if courseCategory is one of the allowed values
-    const allowedCategories = ['Programming', 'Advance DBMS', 'Machine Learning', 'Parallel Processing'];
-    if (!allowedCategories.includes(courseCategory)) {
-      alert('Invalid category selected.');
-      return; // Prevent form submission if category is not valid
-    }
-
-    // If validation passes, you can submit the form
-    alert('Form submitted successfully.');
-    // Add your form submission logic here
-
-    // Reset form fields (optional)
-    setCourseName('');
-    setCourseCategory('');
-    setCourseDuration('');
-    setCourseLevel('');
-
-    // Close the overlay
-    onClose();
+    alert('Course is created successfully and is under admin review.');
+    setIsCreatingCourse(false);
+    setIsExamOverlayVisible(false); // Close the overlay
   };
 
-  return (
-    <div className="overlay" id="create-course-overlay" style={{ display: 'block' }}>
-      <div className="create-course-form-container">
-        <button className="create-course-close-btn" onClick={onClose}>
-          &times;
-        </button>
-        <h2>Create Course</h2>
-        <form className="new-course-form-container" onSubmit={(e) => { e.preventDefault(); handleSubmit(); }}>
-          <div className="form-row">
-            <div className="form-group">
-              <label>Course Name:</label>
-              <input type="text" placeholder="Enter course name" value={courseName} onChange={(e) => setCourseName(e.target.value)} />
-            </div>
-            <div className="form-group">
-              <label>Category:</label>
-              <select value={courseCategory} onChange={(e) => setCourseCategory(e.target.value)}>
-                <option value="">Select category</option>
-                <option value="Programming">Programming</option>
-                <option value="Advance DBMS">Advance DBMS</option>
-                <option value="Machine Learning">Machine Learning</option>
-                <option value="Parallel Processing">Parallel Processing</option>
-              </select>
-            </div>
-          </div>
+  const CourseCreationOverlay = ({ onClose }: { onClose: () => void }) => {
+    const [courseName, setCourseName] = useState<string>('');
+    const [courseCategory, setCourseCategory] = useState<string>('');
+    const [courseDuration, setCourseDuration] = useState<string>('');
+    const [courseLevel, setCourseLevel] = useState<string>('');
 
-          <div className="form-row">
-            <div className="form-group">
-              <label>Duration in mins:</label>
-              <input type="text" placeholder="Enter duration (e.g., 2 months)" value={courseDuration} onChange={(e) => setCourseDuration(e.target.value)} />
-            </div>
-            <div className="form-group">
-              <label>Level:</label>
-              <select value={courseLevel} onChange={(e) => setCourseLevel(e.target.value)}>
-                <option value="">Select level</option>
-                <option value="Beginner">Beginner</option>
-                <option value="Intermediate">Intermediate</option>
-                <option value="Advanced">Advanced</option>
-              </select>
-            </div>
-          </div>
+    const handleSubmit = () => {
+      // Perform validation here
+      if (!courseName || !courseCategory || !courseDuration || !courseLevel) {
+        alert('Please fill out all required fields.');
+        return; // Prevent form submission if validation fails
+      }
 
-          <input type="submit" value="Create" />
-        </form>
+      // Check if courseDuration is numeric
+      if (!/^\d+$/.test(courseDuration)) {
+        alert('Duration must be a numeric value.');
+        return; // Prevent form submission if duration is not numeric
+      }
+
+      // Check if courseCategory is one of the allowed values
+      const allowedCategories = ['Programming', 'Advance DBMS', 'Machine Learning', 'Parallel Processing'];
+      if (!allowedCategories.includes(courseCategory)) {
+        alert('Invalid category selected.');
+        return; // Prevent form submission if category is not valid
+      }
+
+      // If validation passes, you can submit the form
+      alert('Form submitted successfully.');
+      // Add your form submission logic here
+
+      // Reset form fields (optional)
+      setCourseName('');
+      setCourseCategory('');
+      setCourseDuration('');
+      setCourseLevel('');
+
+      // Close the overlay
+      onClose();
+    };
+
+    return (
+      <div className="overlay" id="create-course-overlay" style={{ display: 'block' }}>
+        <div className="create-course-form-container">
+          <button className="create-course-close-btn" onClick={onClose}>
+            &times;
+          </button>
+          <h2>Create Course</h2>
+          <form className="new-course-form-container" onSubmit={(e) => { e.preventDefault(); handleSubmit(); }}>
+            <div className="form-row">
+              <div className="form-group">
+                <label>Course Name:</label>
+                <input type="text" placeholder="Enter course name" value={courseName} onChange={(e) => setCourseName(e.target.value)} />
+              </div>
+              <div className="form-group">
+                <label>Category:</label>
+                <select value={courseCategory} onChange={(e) => setCourseCategory(e.target.value)}>
+                  <option value="">Select category</option>
+                  <option value="Programming">Programming</option>
+                  <option value="Advance DBMS">Advance DBMS</option>
+                  <option value="Machine Learning">Machine Learning</option>
+                  <option value="Parallel Processing">Parallel Processing</option>
+                </select>
+              </div>
+            </div>
+
+            <div className="form-row">
+              <div className="form-group">
+                <label>Duration in mins:</label>
+                <input type="text" placeholder="Enter duration (e.g., 2 months)" value={courseDuration} onChange={(e) => setCourseDuration(e.target.value)} />
+              </div>
+              <div className="form-group">
+                <label>Level:</label>
+                <select value={courseLevel} onChange={(e) => setCourseLevel(e.target.value)}>
+                  <option value="">Select level</option>
+                  <option value="Beginner">Beginner</option>
+                  <option value="Intermediate">Intermediate</option>
+                  <option value="Advanced">Advanced</option>
+                </select>
+              </div>
+            </div>
+
+            <input type="submit" value="Create" />
+          </form>
+        </div>
       </div>
-    </div>
-  );
-};
+    );
+  };
 
 
 
 
 
-const createExam = (examName: string, examDate: string, examDuration: string) => {
+  const createExam = (examName: string, examDate: string, examDuration: string) => {
     if (!examName || !examDate || !examDuration) {
       alert("Please fill out all required fields.");
       return;
@@ -380,9 +372,9 @@ const createExam = (examName: string, examDate: string, examDuration: string) =>
 
     alert("Exam is created successfully and is under admin review.");
     setIsExamOverlayVisible(false);
-};
+  };
 
- 
+
 
   // chat functions
   const checkForMessages = () => {
@@ -392,14 +384,11 @@ const createExam = (examName: string, examDate: string, examDuration: string) =>
     if (message) {
       const messageType = message.startsWith("instructor:") ? "instructor-message" : "student-message";
 
-      setMessages((prevMessages) => [
-        ...prevMessages,
-        {
-          id: Date.now(), // timestamp
-          type: messageType,
-          text: message,
-        },
-      ]);
+      const chatBox = document.querySelector('.chat-box');
+      const messageDiv = document.createElement('div');
+      messageDiv.className = messageType;
+      messageDiv.textContent = message;
+      chatBox?.appendChild(messageDiv);
 
       console.log('checkForMessages', message)
 
@@ -433,6 +422,8 @@ const createExam = (examName: string, examDate: string, examDuration: string) =>
       openChatForm()
         .then((formData) => {
           const typedFormData = formData as { id: string };
+          console.log('instructor', formData)
+          console.log(JSON.stringify(users))
           if (users[typedFormData.id]) {
             const data = {
               id: users[typedFormData.id].id,
@@ -580,6 +571,9 @@ const createExam = (examName: string, examDate: string, examDuration: string) =>
 
     // Send the message to the given user id
     window.localStorage.setItem(`messageFor_${instructorData.id}`, `(instructor)   ${currentUserProfile.name}: ${userInput}`); // Include student name
+
+    // send message to admin
+    window.localStorage.setItem(`messageFor_0`, `(instructor)   ${currentUserProfile.name}: ${userInput}`);
 
     // Clear user input
     (document.getElementById('userInput') as HTMLInputElement).value = '';
@@ -754,7 +748,7 @@ const createExam = (examName: string, examDate: string, examDuration: string) =>
                 }
               }
 
-        
+
             }
           )
 
@@ -773,20 +767,20 @@ const createExam = (examName: string, examDate: string, examDuration: string) =>
 
       <div className="container">
         <div className="dashboard-container">
-          <span id="instructorName">{/* Your instructor name here */}</span> 
-          
+          <span id="instructorName">{/* Your instructor name here */}</span>
+
           <a className="instructor-1l-button" onClick={() => setIsExamOverlayVisible(true)}>CREATE EXAM</a>
           {isExamOverlayVisible && <ExamOverlay onClose={() => setIsExamOverlayVisible(false)} />}
 
           <a className="instructor-1l-button" onClick={() => navigate('/widgetWithChart')}>STUDENT PROGRESS</a>
-          
+
           <a className="instructor-1l-button" onClick={() => setIsCreatingCourse(true)}>CREATE COURSE</a>
           {isCreatingCourse && <CourseCreationOverlay onClose={() => setIsCreatingCourse(false)} />}
-          
-          
 
 
-          
+
+
+
           {/* <a className="instructor-1l-button" onClick={() => {displayStudentFeedbackForm()}}>
           FEEDBACK TO STUDENTS
           </a>  */}
@@ -800,23 +794,23 @@ const createExam = (examName: string, examDate: string, examDuration: string) =>
               <div className="instructor-2l-action-item">Quick Actions</div>
               <div>
                 <div className="instructor-2l-action-item">
-              
-                  <button className="instructor-3l-action" onClick={() => {navigate('/student-dashboard')}}>
+
+                  <button className="instructor-3l-action" onClick={() => { navigate('/student-dashboard') }}>
                     View student dashboard
                   </button>
                 </div>
                 <div className="instructor-2l-action-item">
-                  <button className="instructor-3l-action" onClick={() => {navigate('/instructor-dashboard')}}>
+                  <button className="instructor-3l-action" onClick={() => { navigate('/instructor-dashboard') }}>
                     View instructor dashboard
                   </button>
                 </div>
                 <div className="instructor-2l-action-item">
-                  <button className="instructor-3l-action" onClick={() => {navigate('/coordinator-dashboard')}}>
+                  <button className="instructor-3l-action" onClick={() => { navigate('/coordinator-dashboard') }}>
                     View coordinator dashboard
                   </button>
                 </div>
                 <div className="instructor-2l-action-item">
-                  <button className="instructor-3l-action" onClick={() => {navigate('/qa-dashboard')}}>
+                  <button className="instructor-3l-action" onClick={() => { navigate('/qa-dashboard') }}>
                     View qa dashboard
                   </button>
                 </div>

@@ -38,27 +38,24 @@ const AdminDashboard = () => {
     if (message.startsWith("instructor:")) return "instructor-message";
     if (message.startsWith("qa:")) return "qa-message";
     if (message.startsWith("coordinator:")) return "coordinator-message";
-    
+
     return "unknown-message";  // default fallback if none of the prefixes match
   }
   // chat functions
   const checkForMessages = () => {
     // Check if there is a message for the student
-    
+
     const message = window.localStorage.getItem(`messageFor_${currentUserProfile.id}`);
 
     if (message) {
       //const messageType = determineMessageType(message);
       const messageType = message.startsWith("admin:") ? "admin-message" : "student-message";
 
-      setMessages((prevMessages) => [
-        ...prevMessages,
-        {
-          id: Date.now(), // timestamp
-          type: messageType,
-          text: message,
-        },
-      ]);
+      const chatBox = document.querySelector('.chat-box');
+      const messageDiv = document.createElement('div');
+      messageDiv.className = messageType;
+      messageDiv.textContent = message;
+      chatBox?.appendChild(messageDiv);
 
       console.log('checkForMessages', message)
 
@@ -264,7 +261,6 @@ const AdminDashboard = () => {
     const emailCell = document.querySelector(`#user-email-${userId}`) as HTMLElement | null;
     const buttonCell = document.querySelector(`#button-${userId}`) as HTMLElement | null;
 
-    console.log(`handle update `);
 
     if (!buttonCell) {
       console.error(`Button with ID "button-${userId}" not found.`);
@@ -273,7 +269,6 @@ const AdminDashboard = () => {
 
 
     if (buttonCell.textContent === 'Save') {
-      console.log(`handle update 271`);
       // Save action here (you can implement your save logic)
       // Validate fields here (e.g., check if inputs are not empty)
       const nameInput = nameCell?.querySelector('input') as HTMLInputElement;
@@ -281,8 +276,7 @@ const AdminDashboard = () => {
       const emailInput = emailCell?.querySelector('input') as HTMLInputElement;
 
       if (!nameInput || !roleSelect || !emailInput) {
-        console.error(`Input fields not found for user row with ID ${userId}.`);
-        console.log(`handle update 280`);
+        console.error(`Input fields not found for user row with ID ${userId}.`);      
         return;
       }
 
@@ -305,8 +299,7 @@ const AdminDashboard = () => {
     } else {
       // Edit action here
       if (idCell && nameCell && roleCell && emailCell) {
-        // Create input fields for editing
-        console.log(`handle update 304`);
+        // Create input fields for editing        
         const editNameInput = document.createElement('input');
         editNameInput.type = 'text';
         editNameInput.value = nameCell.textContent || '';
@@ -348,13 +341,10 @@ const AdminDashboard = () => {
   useEffect(() => {
     const editButtons = document.querySelectorAll('.edit-button');
 
-    editButtons.forEach(function (button) {
-      console.log(button.id);
-      if (!button.hasAttribute('click-listener')) {
-        console.log(button.id);
+    editButtons.forEach(function (button) {      
+      if (!button.hasAttribute('click-listener')) {      
         button.addEventListener('click', function (this: HTMLButtonElement) {
-          const userId = this.getAttribute('data-id') ?? 'undefined';
-          console.log(`Clicked button with data-id: ${userId}`);
+          const userId = this.getAttribute('data-id') ?? 'undefined';      
           handleEditAndUpdate(userId);
           this.setAttribute('click-listener', 'T');
         });
@@ -412,7 +402,7 @@ const AdminDashboard = () => {
                 }
               }
 
-              
+
 
 
             }
@@ -433,12 +423,12 @@ const AdminDashboard = () => {
 
       <div className="container">
         <div className="dashboard-container">
-          <span id="adminName">{/* Your admin name here */}</span>          
-          <a className="admin-1l-button" onClick={() => {navigate('/telemetry')}}>
+          <span id="adminName">{/* Your admin name here */}</span>
+          <a className="admin-1l-button" onClick={() => { navigate('/telemetry') }}>
             TELEMETRY
           </a>
 
-          <a  className="admin-1l-button" onClick={() => {navigate('/operations')}}>
+          <a className="admin-1l-button" onClick={() => { navigate('/operations') }}>
             OPERATIONS
           </a>
 
@@ -455,23 +445,23 @@ const AdminDashboard = () => {
               <div className="instructor-2l-action-item">Quick Actions</div>
               <div>
                 <div className="instructor-2l-action-item">
-              
-                  <button className="instructor-3l-action" onClick={() => {navigate('/student-dashboard')}}>
+
+                  <button className="instructor-3l-action" onClick={() => { navigate('/student-dashboard') }}>
                     View student dashboard
                   </button>
                 </div>
                 <div className="instructor-2l-action-item">
-                  <button className="instructor-3l-action" onClick={() => {navigate('/instructor-dashboard')}}>
+                  <button className="instructor-3l-action" onClick={() => { navigate('/instructor-dashboard') }}>
                     View instructor dashboard
                   </button>
                 </div>
                 <div className="instructor-2l-action-item">
-                  <button className="instructor-3l-action" onClick={() => {navigate('/coordinator-dashboard')}}>
+                  <button className="instructor-3l-action" onClick={() => { navigate('/coordinator-dashboard') }}>
                     View coordinator dashboard
                   </button>
                 </div>
                 <div className="instructor-2l-action-item">
-                  <button className="instructor-3l-action" onClick={() => {navigate('/qa-dashboard')}}>
+                  <button className="instructor-3l-action" onClick={() => { navigate('/qa-dashboard') }}>
                     View qa dashboard
                   </button>
                 </div>

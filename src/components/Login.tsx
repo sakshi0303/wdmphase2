@@ -105,7 +105,7 @@ function parseCSVData(csv: string): UserData[] {
 
   return (
     <div className="container">
-      <Header />
+      <Header login={true}/>
       <div className="main-content">
         <div className="section-container">
           

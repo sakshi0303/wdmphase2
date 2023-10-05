@@ -7,7 +7,7 @@ import { Footer, Header } from './HeaderFooter';
 const HomePage: React.FC = () => {
     return (
         <div>
-            <Header/>
+            <Header login={true}/>
 
             <div className="container">
                 <div className="main-content">

@@ -13,7 +13,8 @@ const AboutUs: React.FC = () => {
     }
 
     return (
-        <><Header />
+        <>
+            <Header login={true}></Header>
             
             <main>
                 <section className="hero">

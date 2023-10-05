@@ -1,27 +1,37 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
-export const Header: React.FC = () => {
+export interface HeaderProps {
+  login?: boolean
+}
+
+export const Header: React.FC<HeaderProps> = (props) => {
   const navigate = useNavigate();
-  
+
   return (
     <div className="header">
       <div className="header-content">
         <div className="service-name">
-          <a className="header-button" onClick={() => {navigate('/')}}>
+          <a className="header-button" onClick={() => { navigate('/') }}>
             SkillXpert
           </a>
         </div>
         <div className="header-buttons">
-        <a className="header-button" onClick={() => {navigate('/aboutus')}}>
+          <a className="header-button" onClick={() => { navigate('/aboutus') }}>
             About Us
           </a>
-          <a className="header-button" onClick={() => {navigate('/signup')}}>
+          <a className="header-button" onClick={() => { navigate('/signup') }}>
             SignUp
           </a>
-          <a className="header-button" onClick={() => {navigate('/login')}}>
-            Login
-          </a>
+          {props?.login ?
+            (<a className="header-button" onClick={() => { navigate('/login') }}> Login</a>):
+            (<a className="header-button" onClick={() => { 
+              sessionStorage.removeItem('identity');
+              navigate('/login');
+
+            }}> Logout</a>)
+          }
+
         </div>
       </div>
     </div>
@@ -30,22 +40,22 @@ export const Header: React.FC = () => {
 
 export const Footer = () => {
   const navigate = useNavigate();
-    return (
-      <div>
-        {/* Footer Links */}
-        <div className="footer-links">          
-          <a className="footer-link" onClick={() => {navigate('/contact')}}>Contact Us</a>
-          <a className="footer-link" onClick={() => {navigate('/aboutus')}}>About Us</a>
-          <a className="footer-link" onClick={() => {navigate('/learn-more')}}>Learn More</a>
-          <a className="footer-link" onClick={() => {navigate('/contact')}}>Report Issues</a>
-        </div>
-  
-        {/* Footer */}
-        <div className="footer">
-          <p>2023 Masters in Computer Science. All rights reserved.</p>
-        </div>
+  return (
+    <div>
+      {/* Footer Links */}
+      <div className="footer-links">
+        <a className="footer-link" onClick={() => { navigate('/contact') }}>Contact Us</a>
+        <a className="footer-link" onClick={() => { navigate('/aboutus') }}>About Us</a>
+        <a className="footer-link" onClick={() => { navigate('/learn-more') }}>Learn More</a>
+        <a className="footer-link" onClick={() => { navigate('/contact') }}>Report Issues</a>
       </div>
-    );
-  };
+
+      {/* Footer */}
+      <div className="footer">
+        <p>2023 Masters in Computer Science. All rights reserved.</p>
+      </div>
+    </div>
+  );
+};
 
 

@@ -32,12 +32,23 @@ const AdminDashboard = () => {
     setInterval(checkForMessages, 1000);
   }, []);
 
+  const determineMessageType = (message: string): string => {
+    if (message.startsWith("admin:")) return "admin-message";
+    if (message.startsWith("student:")) return "student-message";
+    if (message.startsWith("instructor:")) return "instructor-message";
+    if (message.startsWith("qa:")) return "qa-message";
+    if (message.startsWith("coordinator:")) return "coordinator-message";
+    
+    return "unknown-message";  // default fallback if none of the prefixes match
+  }
   // chat functions
   const checkForMessages = () => {
     // Check if there is a message for the student
+    
     const message = window.localStorage.getItem(`messageFor_${currentUserProfile.id}`);
 
     if (message) {
+      //const messageType = determineMessageType(message);
       const messageType = message.startsWith("admin:") ? "admin-message" : "student-message";
 
       setMessages((prevMessages) => [

@@ -6,6 +6,7 @@ import { Message, UserData } from '../types/types'
 import { getCurrentUserProfile } from '../utils/auth';
 import { KeyboardEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { getSentiment as invokeGetSentimentAPI } from '../services/openai';
 
 type UserMap = { [key: string]: UserData };
 
@@ -276,7 +277,7 @@ const AdminDashboard = () => {
       const emailInput = emailCell?.querySelector('input') as HTMLInputElement;
 
       if (!nameInput || !roleSelect || !emailInput) {
-        console.error(`Input fields not found for user row with ID ${userId}.`);      
+        console.error(`Input fields not found for user row with ID ${userId}.`);
         return;
       }
 
@@ -341,10 +342,10 @@ const AdminDashboard = () => {
   useEffect(() => {
     const editButtons = document.querySelectorAll('.edit-button');
 
-    editButtons.forEach(function (button) {      
-      if (!button.hasAttribute('click-listener')) {      
+    editButtons.forEach(function (button) {
+      if (!button.hasAttribute('click-listener')) {
         button.addEventListener('click', function (this: HTMLButtonElement) {
-          const userId = this.getAttribute('data-id') ?? 'undefined';      
+          const userId = this.getAttribute('data-id') ?? 'undefined';
           handleEditAndUpdate(userId);
           this.setAttribute('click-listener', 'T');
         });
@@ -417,6 +418,17 @@ const AdminDashboard = () => {
     }
   }
 
+  // open ai components
+  const [text, setText] = useState('');
+  const [sentiment, setSentiment] = useState('');
+
+  async function handleSentimentButtonClick() {
+    invokeGetSentimentAPI(text).then( response => {
+      console.log('invokeGetSentimentAPI', response)
+      setSentiment(response ?? 'unexpected-response')
+     })
+  }
+
   return (
     <div className="container">
       <Header />
@@ -435,6 +447,21 @@ const AdminDashboard = () => {
           <a className="admin-1l-button" onClick={() => alert('Coming soon!')}>
             TICKETING
           </a>
+          <div>
+            <input
+              type="text"
+              placeholder="Enter text here"
+              value={text}
+              onChange={(e) => setText(e.target.value)}
+            />
+            <button onClick={handleSentimentButtonClick}>Analyze Sentiment</button>
+
+            {sentiment !== null && (
+              <div>
+                <p>Sentiment: {sentiment}</p>
+              </div>
+            )}
+          </div>
         </div>
 
         <hr />

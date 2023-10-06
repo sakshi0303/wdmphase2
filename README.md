@@ -1,3 +1,11 @@
+## Special feature
+1. at the end of course student will give feedback to instructor via feedback button which displays a form
+2. the feedback will be stored in aws s3 cloud (for now use storage / csv file)
+   - offline analysis of data by running openAI sentinment analysis on it
+3. admin dashboard will then display professors overall rating based on sentiment analysis
+   - 5 rating bar chart based on professors score
+
+
 install 
 -npx create-react-app my-app --template typescript
 -npm install react-router-dom
@@ -8,11 +16,14 @@ install
 -rm -rf node_modules
 -#React Router v6
 -npm install react-router-dom@latest
--npm install papaparse chart.js <!---for papaparse and chart.js/auto -->
+-npm install papaparse chart.js <!---for papaparse and chart.js/auto --> 
 -npm install @types/papaparse @types/chart.js
 npm install react-scripts@latest
 npm install -g npm@latest
 npm update
+
+#### open ai
+npm install axios --save --force
 
 --rm -rf node_modules      
 --clear

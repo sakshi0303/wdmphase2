@@ -13,6 +13,7 @@ import Team from './components/team';
 import SignUp from './components/signup';
 import HomePage from './components/HomePage';
 import ForgotPassword from './components/ForgotPassword';
+import StudentProgress from './components/studentprogress';
 
 const AppRouter = () => {
   return (
@@ -32,8 +33,7 @@ const AppRouter = () => {
         <Route path="/team" element={<Team />} />
         <Route path="/signup" element={<SignUp/>} />
         <Route path="/ForgotPassword" element={<ForgotPassword/>} />
-        
-
+        <Route path="/studentprogress" element={<StudentProgress/>} />
         {/* Add more routes for other pages as needed */}
       </Routes>
     </Router>

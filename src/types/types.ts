@@ -8,6 +8,14 @@ export type UserData = {
     // Add any other properties you have in your CSV data
   };
 
+  export type StudentData = {
+    Student_Name:string;
+    Email:string;
+    Course:string;
+    Course_Name:string;
+    Current_Grade: number;
+  };
+
   export type Message = {
     id: number;
     type: string;

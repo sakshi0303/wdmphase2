@@ -7,6 +7,7 @@ import { getCurrentUserProfile } from '../utils/auth';
 import { KeyboardEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+
 type UserMap = { [key: string]: UserData };
 
 // this is the main export of this page
@@ -25,6 +26,10 @@ const InstructorDashboard = () => {
   const [utaId, setUtaId] = useState<string>('');
   const [education, setEducation] = useState<string>('');
   const [isCreatingCourse, setIsCreatingCourse] = useState(false);
+  const [students, setStudents] = useState<string[][]>([]);
+  const [isFeedbackOverlayVisible, setIsFeedbackOverlayVisible] = useState(true);
+
+  const [feedbacks, setFeedbacks] = useState({});
 
 
   const currentUserProfile = getCurrentUserProfile()
@@ -49,6 +54,21 @@ const InstructorDashboard = () => {
     };
 
     loadExamListAndDisplay();
+  }, []);
+
+  useEffect(() => {
+    async function loadStudents() {
+      try {
+        const response = await fetch('/csv/students.csv');
+        const data = await response.text();
+        const rows = data.split('\n');
+        const studentsData = rows.map(row => row.split(','));
+        setStudents(studentsData);
+      } catch (error) {
+        console.error('Error reading students CSV file:', error);
+      }
+    }
+    loadStudents();
   }, []);
 
   useEffect(() => {
@@ -79,6 +99,105 @@ const InstructorDashboard = () => {
     if (e.target instanceof HTMLElement && e.target.classList.contains('instructor-1l-button') && e.target.textContent === 'CREATE EXAM') {
       setIsExamOverlayVisible(true);
     }
+  };
+
+  const ExamOverlay = ({ onClose }: { onClose: () => void }) => {
+    const [examName, setExamName] = useState<string>('');
+    const [examDate, setExamDate] = useState<string>('');
+    const [examDuration, setExamDuration] = useState<string>('');
+
+    const handleSubmit = () => {
+      createExam(examName, examDate, examDuration);
+    };
+
+    return (
+      <div className="overlay" id="create-exam-overlay" style={{ display: 'block' }}>
+        <div className="create-course-form-container">
+          <button className="create-course-close-btn" onClick={onClose}>
+            &times;
+          </button>
+          <h2>Create Exam</h2>
+          <form className="new-course-form-container" onSubmit={(e) => { e.preventDefault(); handleSubmit(); }}>
+            <div className="form-row">
+              <div className="form-group">
+                <label>Exam Name:</label>
+                <input type="text" placeholder="Enter exam name" value={examName} onChange={(e) => setExamName(e.target.value)} />
+              </div>
+              <div className="form-group">
+                <label>Date:</label>
+                <input type="date" value={examDate} onChange={(e) => setExamDate(e.target.value)} />
+              </div>
+            </div>
+
+            <div className="form-row">
+              <div className="form-group">
+                <label>Duration:</label>
+                <input type="text" placeholder="Enter duration (e.g., 2 hours)" value={examDuration} onChange={(e) => setExamDuration(e.target.value)} />
+              </div>
+            </div>
+
+            <input type="submit" value="Create" />
+          </form>
+        </div>
+      </div>
+    );
+  };
+
+
+  const FeedbackOverlay = ({ onClose }: { onClose: () => void }) => {
+    const [feedbacks, setFeedbacks] = useState<{ [key: string]: string }>({});
+  const [isFeedbackOverlayVisible, setIsFeedbackOverlayVisible] = useState(true);
+
+
+    const handleSubmit = () => {
+      
+      // Validate feedback
+      for (const key in feedbacks) {
+        if (!feedbacks[key].trim()) {
+          alert("All fields are mandatory.");
+          return;
+        }
+      }
+      alert("Your feedback is sent to admin for review.");
+       
+      setIsFeedbackOverlayVisible(false);
+      onClose();
+
+    };
+
+    return (
+      <div className="overlay" id="create-feedback-overlay" style={{ display: 'block' }}>
+        <div className="create-feedback-form-container">
+          <button className="create-feedback-close-btn" onClick={onClose}>
+            &times;
+          </button>
+          <h2>Feedback to Students</h2>
+          <table>
+            <thead>
+              <tr>
+                <th>Student Name</th>
+                <th>Feedback</th>
+              </tr>
+            </thead>
+            <tbody>
+              {students.map((student, index) => (
+                <tr key={index}>
+                  <td>{student[1]}</td>
+                  <td>
+                    <input
+                      type="text"
+                      value={feedbacks[student[0]] || ''}
+                      onChange={(e) => setFeedbacks({ ...feedbacks, [student[0]]: e.target.value })}
+                    />
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          <button onClick={handleSubmit}>Submit Feedback</button>
+        </div>
+      </div>
+    );
   };
 
 
@@ -218,48 +337,7 @@ const InstructorDashboard = () => {
     window.localStorage.setItem('instructorName', info['Name'] || '');
   }
 
-  const ExamOverlay = ({ onClose }: { onClose: () => void }) => {
-    const [examName, setExamName] = useState<string>('');
-    const [examDate, setExamDate] = useState<string>('');
-    const [examDuration, setExamDuration] = useState<string>('');
-
-    const handleSubmit = () => {
-      createExam(examName, examDate, examDuration);
-    };
-
-    return (
-      <div className="overlay" id="create-exam-overlay" style={{ display: 'block' }}>
-        <div className="create-course-form-container">
-          <button className="create-course-close-btn" onClick={onClose}>
-            &times;
-          </button>
-          <h2>Create Exam</h2>
-          <form className="new-course-form-container" onSubmit={(e) => { e.preventDefault(); handleSubmit(); }}>
-            <div className="form-row">
-              <div className="form-group">
-                <label>Exam Name:</label>
-                <input type="text" placeholder="Enter exam name" value={examName} onChange={(e) => setExamName(e.target.value)} />
-              </div>
-              <div className="form-group">
-                <label>Date:</label>
-                <input type="date" value={examDate} onChange={(e) => setExamDate(e.target.value)} />
-              </div>
-            </div>
-
-            <div className="form-row">
-              <div className="form-group">
-                <label>Duration:</label>
-                <input type="text" placeholder="Enter duration (e.g., 2 hours)" value={examDuration} onChange={(e) => setExamDuration(e.target.value)} />
-              </div>
-            </div>
-
-            <input type="submit" value="Create" />
-          </form>
-        </div>
-      </div>
-    );
-  };
-
+  
   const createCourse = (courseName: string, courseCategory: string, courseDuration: string, courseLevel: string) => {
     console.log('line 345')
     if (!courseName || !courseCategory || !courseDuration || !courseLevel) {
@@ -772,13 +850,15 @@ const InstructorDashboard = () => {
           <a className="instructor-1l-button" onClick={() => setIsExamOverlayVisible(true)}>CREATE EXAM</a>
           {isExamOverlayVisible && <ExamOverlay onClose={() => setIsExamOverlayVisible(false)} />}
 
-          <a className="instructor-1l-button" onClick={() => navigate('/widgetWithChart')}>STUDENT PROGRESS</a>
+          <a className="instructor-1l-button" onClick={() => navigate('/studentprogress')}>STUDENT PROGRESS</a>
 
           <a className="instructor-1l-button" onClick={() => setIsCreatingCourse(true)}>CREATE COURSE</a>
           {isCreatingCourse && <CourseCreationOverlay onClose={() => setIsCreatingCourse(false)} />}
 
-
-
+          <a className="instructor-1l-button" onClick={() => setIsFeedbackOverlayVisible(true)}>
+            FEEDBACK TO STUDENTS
+          </a>
+          {isFeedbackOverlayVisible && <FeedbackOverlay onClose={() => setIsFeedbackOverlayVisible(false)} />}
 
 
           {/* <a className="instructor-1l-button" onClick={() => {displayStudentFeedbackForm()}}>

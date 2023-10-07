@@ -1,6 +1,8 @@
 // auth.ts
 
 import { UserData } from "../types/types";
+import { useNavigate } from 'react-router-dom';
+
 
 // Define user roles
 export const USER_ROLES: string[] = ['student', 'instructor', 'admin', 'coordinator', 'qa'];
@@ -20,7 +22,9 @@ export function getCurrentUserProfile(): UserData {
         id: user.id,
         name: user.name,
         role: user.role,
-        email: user.email
+        email: user.email,
+        password: user.password,
+        uuid: user.uuid
     };
 }
 
@@ -33,19 +37,19 @@ export function logout(): void {
     window.location.href = 'login.html';
 }
 
-export function checkAuthorized(): void {
+export function checkAuthorized(allowed_user_roles: string[], navigate: ReturnType<typeof useNavigate>): void {
     const storedUser = sessionStorage.getItem('identity') ?? 'unknown';
 
     if (storedUser === 'unknown') {
-        window.location.href = 'error.html';
+        navigate('/error'); 
     }
 
     const user = JSON.parse(storedUser);
     const userRole = user.role;
 
-    if (!isAuthorized(userRole, USER_ROLES)) {
+    if (!isAuthorized(userRole, allowed_user_roles)) {
         console.log('auth method called!');
-        window.location.href = 'error.html';
+        navigate('/error'); // Navigate to the error page
     }
 }
 

@@ -1,0 +1,5 @@
+studentEmail,instructorEmail,feedbackText
+student1@example.com,instructor1@example.com,"Great instructor!"
+student2@example.com,instructor2@example.com,"Could improve on explanations."
+student3@example.com,instructor1@example.com,"Very helpful in class."
+student4@example.com,instructor3@example.com,"Lectures were too long."

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 export interface HeaderProps {
@@ -24,13 +24,18 @@ export const Header: React.FC<HeaderProps> = (props) => {
             SignUp
           </a>
           {props?.login ?
-            (<a className="header-button" onClick={() => { navigate('/login') }}> Login</a>):
-            (<a className="header-button" onClick={() => { 
+            (<a className="header-button" onClick={() => { navigate('/login') }}> Login</a>) :
+            (<a className="header-button" onClick={() => {
               sessionStorage.removeItem('identity');
               navigate('/login');
 
             }}> Logout</a>)
           }
+          <a href="#" className="header-dropdown" id="profileButton">
+            <div className="header-button" style={{ background: 'navy', color: 'white' }} id="userInitial">
+              A
+            </div>
+          </a>
 
         </div>
       </div>
@@ -44,10 +49,10 @@ export const Footer = () => {
     <div>
       {/* Footer Links */}
       <div className="footer-links">
-        <a className="footer-link" onClick={() => { navigate('/contact') }}>Contact Us</a>
+        <a className="footer-link" onClick={() => { navigate('/contactus') }}>Contact Us</a>
         <a className="footer-link" onClick={() => { navigate('/aboutus') }}>About Us</a>
-        <a className="footer-link" onClick={() => { navigate('/learn-more') }}>Learn More</a>
-        <a className="footer-link" onClick={() => { navigate('/contact') }}>Report Issues</a>
+        <a className="footer-link" onClick={() => { navigate('/learnmore') }}>Learn More</a>
+        <a className="footer-link" onClick={() => { navigate('/contactus') }}>Report Issues</a>
       </div>
 
       {/* Footer */}

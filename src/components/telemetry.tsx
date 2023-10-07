@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Chart from "chart.js/auto";
 import { CategoryScale } from "chart.js";
-import { LineChart } from "./line_chart";
+import { LineChart } from "./chart";
 import { Header, Footer } from './HeaderFooter';
 
 Chart.register(CategoryScale);

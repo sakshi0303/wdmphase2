@@ -14,6 +14,11 @@ import SignUp from './components/signup';
 import HomePage from './components/HomePage';
 import ForgotPassword from './components/ForgotPassword';
 import StudentProgress from './components/studentprogress';
+import FeedbackViewer from './components/FeedbackReport';
+import FeedbackPieChartViewer from './components/FeedbackPieChart';
+import Error from './components/error';
+import ContactUs from './components/contactus';
+import LearnMore from './components/learnmore';
 
 const AppRouter = () => {
   return (
@@ -29,11 +34,17 @@ const AppRouter = () => {
         <Route path="/student-dashboard" element={<StudentDashboard />} />
         <Route path="/coordinator-dashboard" element={<CoordinatorDashboard />} />
         <Route path="/operations" element={<Operations />} />
+        <Route path="/feedback" element={<FeedbackViewer />} />
+        <Route path="/feedback/pie" element={<FeedbackPieChartViewer />} />
         <Route path="/aboutus" element={<AboutUs />} />
         <Route path="/team" element={<Team />} />
         <Route path="/signup" element={<SignUp/>} />
         <Route path="/ForgotPassword" element={<ForgotPassword/>} />
         <Route path="/studentprogress" element={<StudentProgress/>} />
+        <Route path="/error" element={<Error/>} />
+        <Route path="/contactus" element={<ContactUs/>} />
+        <Route path="/learnmore" element={<LearnMore/>} />
+        
         {/* Add more routes for other pages as needed */}
       </Routes>
     </Router>

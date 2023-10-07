@@ -6,6 +6,14 @@
    - 5 rating bar chart based on professors score
 
 
+### next steps
+1. right now the values are randomly selector for pie chart
+2. call open ai and determine the right value
+3. set it and replace the random function
+
+student -> feedback -> stored in file -> admin dashboard shows feedback in dashboards
+
+
 install 
 -npx create-react-app my-app --template typescript
 -npm install react-router-dom
@@ -24,6 +32,10 @@ npm update
 
 #### open ai
 npm install axios --save --force
+npm install openai@^4.0.0 --save --force
+
+npm install query-string --force --save
+
 
 --rm -rf node_modules      
 --clear

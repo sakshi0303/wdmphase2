@@ -24,7 +24,55 @@ const HomePage: React.FC = () => {
                         <div className="overlay"></div>
                     </div>
 
-                    {/* ... other parts of the component, including the section containers ... */}
+                    <div className="section-container">
+        <div className="section-title">Core Academic Principles</div>
+
+        <div className="section-item">
+          <strong>Educational Excellence:</strong>
+          We aim to offer an education that is unparalleled in quality, with a focus on holistic student development.
+        </div>
+        <div className="section-item">
+          <strong>Pioneering Research:</strong>
+          Our program champions research at the forefront of technological innovation, pushing boundaries.
+        </div>
+        <div className="section-item">
+          <strong>Iterative Growth:</strong>
+          Our adaptive and evolving program design is based on constant feedback and performance metrics.
+        </div>
+        <div className="section-item">
+          <strong>Industry Aligned Learning:</strong>
+          The program is designed to align with industry needs, making the acquired skills immediately applicable
+          professionally.
+        </div>
+        <div className="section-item">
+          <strong>Comprehensive Personal Development:</strong>
+          We aim to offer an education that is unparalleled in quality, with a focus on holistic student development.
+        </div>
+      </div>
+
+      <div className="section-container">
+      <div className="section-title">Student Success Metrics</div>
+      <div className="section-item">
+        <strong>Progress Monitoring:</strong>
+        Continuous tracking of academic performance allows for timely interventions to aid student success.
+      </div>
+      <div className="section-item">
+        <strong>Insight-Driven Learning:</strong>
+        Data analytics tools help us tailor teaching methods and curriculum based on student performance insights.
+      </div>
+      <div className="section-item">
+        <strong>Iterative Growth:</strong>
+        Our adaptive and evolving program design is based on constant feedback and performance metrics.
+      </div>
+      <div className="section-item">
+        <strong>Competitive Spirit:</strong>
+        Healthy competition among peers fosters a stimulating learning environment and real-world readiness.
+      </div>
+      <div className="section-item">
+        <strong>Readiness for Success:</strong>
+        Our comprehensive approach equips each student for success, both in exams and their subsequent careers.
+      </div>
+    </div>
 
                 </div>
             </div>

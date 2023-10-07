@@ -1,7 +1,7 @@
 import '../assets/css/styles.css'; // Assuming the path to your styles.css
 import { ChartDataType } from '../types/types';
 import React, { useEffect, useState } from 'react';
-import { BarChart } from "./line_chart";
+import { BarChart } from "./chart";
 import { Header, Footer } from './HeaderFooter';
 import { LogEntry } from '../types/types'
 
@@ -71,6 +71,7 @@ const Operations: React.FC = () => {
     <div className="App">
       
       <Header />
+      
         <div>
           <BarChart chartData={chartData} title="Operational Metrics" header="Operational Metrics" />
 

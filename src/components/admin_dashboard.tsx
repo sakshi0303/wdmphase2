@@ -2,13 +2,11 @@
 import { useCallback, useEffect, useState } from 'react';
 import '../assets/css/styles.css';
 import { Header, Footer } from './HeaderFooter';
-import { Message, UserData } from '../types/types'
-import { getCurrentUserProfile } from '../utils/auth';
+import { Message, UserMap } from '../types/types'
+import { checkAuthorized, getCurrentUserProfile, userProfile } from '../utils/auth';
 import { KeyboardEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getSentiment as invokeGetSentimentAPI } from '../services/openai';
-
-type UserMap = { [key: string]: UserData };
 
 // this is the main export of this page
 // all stateful activity happens here
@@ -21,16 +19,23 @@ const AdminDashboard = () => {
   const navigate = useNavigate();
 
   const currentUserProfile = getCurrentUserProfile()
+  const allowedRoles: string[] = ["admin"];
+  const checkWithRoles = () => {
+    checkAuthorized(allowedRoles,navigate);
+  };
 
   useEffect(() => {
+    checkAuthorized(allowedRoles,navigate);
     if (Object.keys(users).length === 0) {
       loadUserProfiles();
     }
     // load data    
     fetchUserData();
+    userProfile(currentUserProfile.name)
 
     // intervals
     setInterval(checkForMessages, 1000);
+    setInterval(checkWithRoles, 1000);
   }, []);
 
   const determineMessageType = (message: string): string => {
@@ -354,7 +359,6 @@ const AdminDashboard = () => {
   }, [handleEditAndUpdate]);
 
   function loadUserProfiles(): void {
-
     try {
       setLoading(true);
       // Read the CSV file
@@ -402,10 +406,6 @@ const AdminDashboard = () => {
                   tableBody.appendChild(row);
                 }
               }
-
-
-
-
             }
           )
 
@@ -442,6 +442,10 @@ const AdminDashboard = () => {
 
           <a className="admin-1l-button" onClick={() => { navigate('/operations') }}>
             OPERATIONS
+          </a>
+
+          <a className="admin-1l-button" onClick={() => { navigate('/feedback') }}>
+            FEEDBACK REPORT
           </a>
 
           <a className="admin-1l-button" onClick={() => alert('Coming soon!')}>

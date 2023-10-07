@@ -2,17 +2,13 @@
 import { useCallback, useEffect, useState } from 'react';
 import '../assets/css/styles.css';
 import { Header, Footer } from './HeaderFooter';
-import { Message, UserData } from '../types/types'
-import { getCurrentUserProfile } from '../utils/auth';
+import { Message, UserData, UserMap } from '../types/types'
+
+import { checkAuthorized, getCurrentUserProfile, userProfile } from '../utils/auth';
 import { KeyboardEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
+import PersonalInfoOverlay from './personalInfo';
 
-
-type UserMap = { [key: string]: UserData };
-
-// this is the main export of this page
-// all stateful activity happens here
-// if you want to reference a stateful value inside a function, define it under instructorDashboard
 const InstructorDashboard = () => {
 
   const [messages, setMessages] = useState<Message[]>([]);
@@ -27,12 +23,29 @@ const InstructorDashboard = () => {
   const [education, setEducation] = useState<string>('');
   const [isCreatingCourse, setIsCreatingCourse] = useState(false);
   const [students, setStudents] = useState<string[][]>([]);
-  const [isFeedbackOverlayVisible, setIsFeedbackOverlayVisible] = useState(true);
+  const [isFeedbackOverlayVisible, setIsFeedbackOverlayVisible] = useState(false);
+  const [courseData, setCourseData] = useState<string[][]>([]);
+
 
   const [feedbacks, setFeedbacks] = useState({});
 
+  const [isPersonalInfoOverlayVisible, setIsPersonalInfoOverlayVisible] = useState(false);
+
+  // Define a function to toggle the visibility of the PersonalInfoOverlay
+  const handleTogglePersonalInfoOverlay = () => {
+    setIsPersonalInfoOverlayVisible(!isPersonalInfoOverlayVisible);
+  };
+
 
   const currentUserProfile = getCurrentUserProfile()
+
+  // auth
+  const allowedRoles: string[] = ["instructor", "admin"];
+  const checkWithRoles = () => {
+    
+    checkAuthorized(allowedRoles,navigate);
+    
+  };
 
   useEffect(() => {
     const examOverlayElement = document.getElementById("create-exam-overlay");
@@ -40,21 +53,6 @@ const InstructorDashboard = () => {
       examOverlayElement.style.display = isExamOverlayVisible ? "block" : "none";
     }
   }, [isExamOverlayVisible]);
-
-  useEffect(() => {
-    const loadExamListAndDisplay = () => {
-      fetch('assets/reports/csv/examlist.csv')
-        .then(response => response.text())
-        .then(data => {
-          const rows = data.split('\n');
-          const formattedData = rows.map(row => row.split(','));
-          setExamData(formattedData);
-        })
-        .catch(error => console.error('Error reading CSV file:', error));
-    };
-
-    loadExamListAndDisplay();
-  }, []);
 
   useEffect(() => {
     async function loadStudents() {
@@ -68,17 +66,22 @@ const InstructorDashboard = () => {
         console.error('Error reading students CSV file:', error);
       }
     }
+
     loadStudents();
   }, []);
 
   useEffect(() => {
+
+    checkAuthorized(allowedRoles,navigate);
+
     async function loadData() {
       await loadPersonalInfo();
-      await loadExamListAndDisplay();
-      await loadCourseListAndDisplay();
-      //userProfile(currentUserProfile.name);
+      await loadAndDisplayExamData();
+      await loadAndDisplayCourseData();
+      userProfile(currentUserProfile.name);
     }
     loadData();
+    userProfile(currentUserProfile.name)
 
     if (Object.keys(users).length === 0) {
       loadUserProfiles();
@@ -86,20 +89,73 @@ const InstructorDashboard = () => {
     // load data    
     fetchUserData();
 
-    // const checkAuthInterval = setInterval(() => checkAuthorized(allowedRoles), 60000);
     setInterval(checkForMessages, 1000);
 
-    return () => {
-      // clearInterval(checkAuthInterval);
-      // clearInterval(checkMessagesInterval);
-    };
+    setInterval(checkWithRoles, 1000);
+
   }, []);
 
-  const handleDashboardClick = (e: React.MouseEvent) => {
-    if (e.target instanceof HTMLElement && e.target.classList.contains('instructor-1l-button') && e.target.textContent === 'CREATE EXAM') {
-      setIsExamOverlayVisible(true);
+  const loadAndDisplayExamData = async () => {
+    try {
+      const response = await fetch('/csv/examlist.csv'); // Update the path
+      const data = await response.text();
+
+      // Split CSV data into rows
+      const rows = data.split('\n');
+
+      // Extract headers from the first row
+      const headers = rows[0].split(',');
+
+      // Create an array to hold the table rows
+      const tableRows = [];
+
+      // Iterate through rows (excluding header)
+      for (let i = 1; i < rows.length; i++) {
+        const row = rows[i].split(',');
+        if (row.length === headers.length) {
+          tableRows.push(row);
+        }
+      }
+
+      // Update the state with the exam data
+      setExamData(tableRows);
+    } catch (error) {
+      console.error('Error reading CSV file:', error);
     }
   };
+
+  const loadAndDisplayCourseData = async () => {
+    try {
+      const response = await fetch('/csv/courses.csv');
+      const data = await response.text();
+
+      // Split CSV data into rows
+      const rows = data.split('\n');
+
+      // Extract headers from the first row
+      const headers = rows[0].split(',');
+
+      // Create an array to hold the table rows
+      const tableRows = [];
+
+      // Iterate through rows (excluding header)
+      for (let i = 1; i < rows.length; i++) {
+        const row = rows[i].split(',');
+        if (row.length === headers.length) {
+          tableRows.push(row);
+        }
+      }
+
+      // Update the state with the course data
+      setCourseData(tableRows);
+    } catch (error) {
+      console.error('Error reading CSV file:', error);
+    }
+  };
+
+
+
+
 
   const ExamOverlay = ({ onClose }: { onClose: () => void }) => {
     const [examName, setExamName] = useState<string>('');
@@ -146,11 +202,9 @@ const InstructorDashboard = () => {
 
   const FeedbackOverlay = ({ onClose }: { onClose: () => void }) => {
     const [feedbacks, setFeedbacks] = useState<{ [key: string]: string }>({});
-  const [isFeedbackOverlayVisible, setIsFeedbackOverlayVisible] = useState(true);
-
 
     const handleSubmit = () => {
-      
+
       // Validate feedback
       for (const key in feedbacks) {
         if (!feedbacks[key].trim()) {
@@ -159,7 +213,7 @@ const InstructorDashboard = () => {
         }
       }
       alert("Your feedback is sent to admin for review.");
-       
+
       setIsFeedbackOverlayVisible(false);
       onClose();
 
@@ -202,66 +256,6 @@ const InstructorDashboard = () => {
 
 
 
-  async function loadExamListAndDisplay(): Promise<void> {
-    try {
-      const response = await fetch('assets/reports/csv/examlist.csv');
-      const data = await response.text();
-
-      const rows = data.split('\n'); // Split data into rows
-
-      // Extract headers from the first row
-      const headers = rows[0].split(',');
-
-      // Create a table element
-      const table = document.createElement('table');
-      table.className = 'csv-table'; // Add a class for styling
-
-      // Create a table row for the header
-      const headerRow = document.createElement('tr');
-
-      // Populate the header row with table headers (th)
-      headers.forEach(header => {
-        const headerCell = document.createElement('th');
-        headerCell.textContent = header;
-        headerRow.appendChild(headerCell);
-      });
-
-      // Append the header row to the table
-      table.appendChild(headerRow);
-
-      // Iterate through rows (excluding header)
-      for (let i = 1; i < rows.length; i++) {
-        const row = rows[i].split(',');
-        if (row.length === headers.length) {
-          // Create a table row for each entry
-          const dataRow = document.createElement('tr');
-
-          // Populate the data row with table data (td)
-          row.forEach(value => {
-            const dataCell = document.createElement('td');
-            dataCell.textContent = value;
-            dataRow.appendChild(dataCell);
-          });
-
-          // Add styling to data rows
-          dataRow.classList.add('data-row'); // Add a class for data rows
-
-          // Append the data row to the table
-          table.appendChild(dataRow);
-        }
-      }
-
-      // Append the table to the container
-      const container = document.getElementById('exam-list-container');
-      if (container) {
-        container.innerHTML = ''; // Clear any previous content
-        container.appendChild(table);
-      }
-
-    } catch (error) {
-      console.error('Error reading CSV file:', error);
-    }
-  }
 
   async function loadCourseListAndDisplay(): Promise<void> {
     try {
@@ -314,7 +308,6 @@ const InstructorDashboard = () => {
     }
   }
 
-
   async function loadPersonalInfo(): Promise<void> {
     const filePath: string = 'assets/reports/instructor.txt';
     const response: Response = await fetch(filePath);
@@ -337,18 +330,7 @@ const InstructorDashboard = () => {
     window.localStorage.setItem('instructorName', info['Name'] || '');
   }
 
-  
-  const createCourse = (courseName: string, courseCategory: string, courseDuration: string, courseLevel: string) => {
-    console.log('line 345')
-    if (!courseName || !courseCategory || !courseDuration || !courseLevel) {
-      alert('Please fill out all required fields.');
-      return; // Exit the function without creating the course
-    }
 
-    alert('Course is created successfully and is under admin review.');
-    setIsCreatingCourse(false);
-    setIsExamOverlayVisible(false); // Close the overlay
-  };
 
   const CourseCreationOverlay = ({ onClose }: { onClose: () => void }) => {
     const [courseName, setCourseName] = useState<string>('');
@@ -665,10 +647,6 @@ const InstructorDashboard = () => {
     }
   }
 
-  const handleEditButtonClick = (userId: string) => {
-    handleEditAndUpdate(userId);
-  };
-
   function handleEditAndUpdate(userId: string): void {
     console.log(`handle update2`);
 
@@ -859,11 +837,6 @@ const InstructorDashboard = () => {
             FEEDBACK TO STUDENTS
           </a>
           {isFeedbackOverlayVisible && <FeedbackOverlay onClose={() => setIsFeedbackOverlayVisible(false)} />}
-
-
-          {/* <a className="instructor-1l-button" onClick={() => {displayStudentFeedbackForm()}}>
-          FEEDBACK TO STUDENTS
-          </a>  */}
         </div>
 
         <hr />
@@ -874,28 +847,23 @@ const InstructorDashboard = () => {
               <div className="instructor-2l-action-item">Quick Actions</div>
               <div>
                 <div className="instructor-2l-action-item">
-
-                  <button className="instructor-3l-action" onClick={() => { navigate('/student-dashboard') }}>
-                    View student dashboard
-                  </button>
+                  <button onClick={handleTogglePersonalInfoOverlay} className="instructor-3l-action">Update Personal Info</button>
                 </div>
                 <div className="instructor-2l-action-item">
-                  <button className="instructor-3l-action" onClick={() => { navigate('/instructor-dashboard') }}>
-                    View instructor dashboard
-                  </button>
-                </div>
-                <div className="instructor-2l-action-item">
-                  <button className="instructor-3l-action" onClick={() => { navigate('/coordinator-dashboard') }}>
-                    View coordinator dashboard
-                  </button>
-                </div>
-                <div className="instructor-2l-action-item">
-                  <button className="instructor-3l-action" onClick={() => { navigate('/qa-dashboard') }}>
-                    View qa dashboard
-                  </button>
+                  <button className="instructor-3l-action">Announcement</button>
                 </div>
               </div>
             </div>
+
+            {/* Conditionally render the PersonalInfoOverlay */}
+            {isPersonalInfoOverlayVisible && (
+              <PersonalInfoOverlay
+                userData={currentUserProfile}
+                shouldDisplay={isPersonalInfoOverlayVisible}
+                onSave={(userData: UserData) => { console.log(`saved user profile: ${userData}`) }}
+                onToggle={setIsPersonalInfoOverlayVisible} // Pass the state setter function              
+              />
+            )}
 
             <div className="instructor-2l-container">
               <div className="chat-container">
@@ -913,26 +881,64 @@ const InstructorDashboard = () => {
           </div>
 
           <div>
+
             <div className="instructor-2l-container">
-              <div id="user-profile-section">
-                <h2>Manage User Profiles</h2>
+              <div id="exam-list-container">
+                <h2>Exam View</h2>
                 <table id="user-profile-table">
                   <thead>
                     <tr>
-                      <th>ID</th>
-                      <th>Name</th>
-                      <th>Email</th>
-                      <th>Role</th>
-                      <th>Actions</th>
+                      <th>InstructorID</th>
+                      <th>InstructorEmail</th>
+                      <th>ExamID</th>
+                      <th>ExamName</th>
+                      <th>ExamDate</th>
+                      <th>ExamDuration(mins)</th>
+                      <th>DeptNo</th>
                     </tr>
                   </thead>
-                  <tbody id="user-profile-table-body">
-                    {/* User profiles will be inserted here */}
+                  <tbody id="exam-view-table-body">
+                    {examData.map((row, index) => (
+                      <tr key={index}>
+                        {row.map((cell, cellIndex) => (
+                          <td key={cellIndex}>{cell}</td>
+                        ))}
+                      </tr>
+                    ))}
                   </tbody>
                 </table>
               </div>
             </div>
+            </div>
+            <div>
+
+            <div className="instructor-2l-container">
+              <div id="exam-list-container">
+                <h2>Course View</h2>
+                <table id="user-profile-table" className="csv-table">
+                  <thead>
+                    <tr>
+                      <th>Course Code</th>
+                      <th>Course Name</th>
+                      <th>Instructor</th>
+                    </tr>
+                  </thead>
+                  <tbody id="exam-view-table-body">
+                    {courseData.map((row, index) => (
+                      <tr key={index}>
+                        {row.map((cell, cellIndex) => (
+                          <td key={cellIndex}>{cell}</td>
+                        ))}
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+
           </div>
+
         </div>
       </div>
       <Footer />

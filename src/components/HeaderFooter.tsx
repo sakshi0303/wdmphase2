@@ -1,42 +1,59 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { getCurrentUserProfile } from '../utils/auth';
 
 export interface HeaderProps {
-  login?: boolean
+  login?: boolean;
 }
 
 export const Header: React.FC<HeaderProps> = (props) => {
   const navigate = useNavigate();
+  const userId = sessionStorage.getItem('identity');
+  const userData = getCurrentUserProfile()
 
   return (
     <div className="header">
       <div className="header-content">
         <div className="service-name">
-          <a className="header-button" onClick={() => { navigate('/') }}>
+          <a className="header-button" onClick={() => navigate('/')}>
             SkillXpert
           </a>
         </div>
         <div className="header-buttons">
-          <a className="header-button" onClick={() => { navigate('/aboutus') }}>
+          <a className="header-button" onClick={() => navigate('/aboutus')}>
             About Us
           </a>
-          <a className="header-button" onClick={() => { navigate('/signup') }}>
+          <a className="header-button" onClick={() => navigate('/signup')}>
             SignUp
           </a>
-          {props?.login ?
-            (<a className="header-button" onClick={() => { navigate('/login') }}> Login</a>) :
-            (<a className="header-button" onClick={() => {
-              sessionStorage.removeItem('identity');
-              navigate('/login');
-
-            }}> Logout</a>)
+          {userId ? (
+            <a
+              className="header-button"
+              onClick={() => {
+                sessionStorage.removeItem('identity');
+                navigate('/login');
+              }}
+            >
+              Logout
+            </a>
+          ) :
+            (
+              <a className="header-button" onClick={() => navigate('/login')}>
+                Login
+              </a>
+            )
           }
-          <a href="#" className="header-dropdown" id="profileButton">
-            <div className="header-button" style={{ background: 'navy', color: 'white' }} id="userInitial">
-              A
-            </div>
-          </a>
-
+          {userId && ( // Conditionally render the profile button if userId is present
+            <a href="#" className="header-dropdown" id="profileButton">
+              <div
+                className="header-button"
+                style={{ background: 'navy', color: 'white' }}
+                id="userInitial"
+              >
+                {userData.name}
+              </div>
+            </a>
+          )}
         </div>
       </div>
     </div>

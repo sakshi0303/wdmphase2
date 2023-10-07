@@ -1,7 +1,7 @@
 
 import { useCallback, useEffect, useState } from 'react';
 import '../assets/css/styles.css';
-import { Header, Footer } from './HeaderFooter';
+import { Header, Footer } from '../components/HeaderFooter';
 import { Message, UserMap } from '../types/types'
 import { checkAuthorized, getCurrentUserProfile, userProfile } from '../utils/auth';
 import { KeyboardEvent } from 'react';
@@ -13,19 +13,21 @@ import { getSentiment as invokeGetSentimentAPI } from '../services/openai';
 // if you want to reference a stateful value inside a function, define it under AdminDashboard
 const AdminDashboard = () => {
 
-  const [messages, setMessages] = useState<Message[]>([]);
   const [users, setUsers] = useState<UserMap>({});
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const currentUserProfile = getCurrentUserProfile()
   const allowedRoles: string[] = ["admin"];
-  const checkWithRoles = () => {
-    checkAuthorized(allowedRoles,navigate);
+  const checkWithRoles = () => {    
+    const isAuthorized = checkAuthorized(allowedRoles);
+    if (!isAuthorized) {
+      navigate('/error')
+    }    
   };
 
   useEffect(() => {
-    checkAuthorized(allowedRoles,navigate);
+    checkWithRoles();
     if (Object.keys(users).length === 0) {
       loadUserProfiles();
     }
@@ -35,18 +37,12 @@ const AdminDashboard = () => {
 
     // intervals
     setInterval(checkForMessages, 1000);
-    setInterval(checkWithRoles, 1000);
+    const intervalId = setInterval(checkWithRoles, 1000);
+    return () => {
+      clearInterval(intervalId);
+    };
   }, []);
 
-  const determineMessageType = (message: string): string => {
-    if (message.startsWith("admin:")) return "admin-message";
-    if (message.startsWith("student:")) return "student-message";
-    if (message.startsWith("instructor:")) return "instructor-message";
-    if (message.startsWith("qa:")) return "qa-message";
-    if (message.startsWith("coordinator:")) return "coordinator-message";
-
-    return "unknown-message";  // default fallback if none of the prefixes match
-  }
   // chat functions
   const checkForMessages = () => {
     // Check if there is a message for the student
@@ -425,7 +421,7 @@ const AdminDashboard = () => {
   async function handleSentimentButtonClick() {
     invokeGetSentimentAPI(text).then( response => {
       console.log('invokeGetSentimentAPI', response)
-      setSentiment(response ?? 'unexpected-response')
+      setSentiment(response)
      })
   }
 

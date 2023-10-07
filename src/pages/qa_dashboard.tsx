@@ -1,7 +1,7 @@
 
 import React from 'react';
 import '../assets/css/styles.css';
-import { Header, Footer } from './HeaderFooter';
+import { Header, Footer } from '../components/HeaderFooter';
 import {UserData} from '../types/types'
 
 

@@ -2,7 +2,7 @@
 
 import React from 'react';
 import '../assets/css/styles.css';
-import { Footer, Header } from './HeaderFooter';
+import { Footer, Header } from '../components/HeaderFooter';
 
 const HomePage: React.FC = () => {
     return (

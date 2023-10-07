@@ -1,12 +1,6 @@
 Student_Name,Email,Course,Course_Name,Current_Grade
-Alice,alice@gmail.com,CSE101,Introduction to Programming,90
-Charlie,charlie@gmail.com,CSE101,Introduction to Programming,75
-David,david@gmail.com,CSE101,Introduction to Programming,88
-Eve,eve@gmail.com,CSE101,Introduction to Programming,92
-Frank,frank@gmail.com,CSE101,Introduction to Programming,78
-Grace,grace@gmail.com,CSE101,Introduction to Programming,87
+Alice,alice@gmail.com,CSE101,Introduction to Programming,70
+David,david@gmail.com,CSE101,Introduction to Programming,90
+Grace,grace@gmail.com,CSE101,Introduction to Programming,40
 Henry,henry@gmail.com,CSE101,Introduction to Programming,82
-Isabel,isabel@gmail.com,CSE101,Introduction to Programming,95
-Jack,jack@gmail.com,CSE101,Introduction to Programming,70
-Kate,kate@gmail.com,CSE101,Introduction to Programming,88
 Liam,liam@gmail.com,CSE101,Introduction to Programming,89

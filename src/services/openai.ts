@@ -1,7 +1,7 @@
 import { OpenAI } from 'openai'
 
 const openAI = new OpenAI({
-  apiKey: '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',
+  apiKey: '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',
   dangerouslyAllowBrowser: true
 })
 
@@ -13,7 +13,7 @@ const openAI = new OpenAI({
 
 // Word Cloud: Create word clouds for each sentiment category. The size of each word in the word cloud corresponds to its frequency in the feedback. This can provide insights into common positive or negative keywords used by students.
 
-export async function getSentiment(prompt: string): Promise<string | null> {
+export async function getSentiment(prompt: string): Promise<'Positive' | 'Negative' | 'Neutral'> {
   try {
     // Define a sentiment analysis prompt
     const sentimentAnalysisPrompt = "Please classify the sentiment expressed in the following sentence as positive, neutral, or negative. More information should be provided on the mood and tone: ";
@@ -32,13 +32,13 @@ export async function getSentiment(prompt: string): Promise<string | null> {
 
   } catch (error) {
     console.error('An error occurred:', error);
-    return null;
+    return 'Neutral';
   }
 }
 
-function parseResponse(response: any): string {
+function parseResponse(response: any): 'Positive' | 'Negative' | 'Neutral' {
   const sentiment = JSON.stringify(response['choices'][0]['text'])
-  console.log(sentiment)
+  // console.log(sentiment)
 
   if (sentiment.includes('Positive')) {
     return 'Positive'

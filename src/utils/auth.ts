@@ -1,7 +1,6 @@
 // auth.ts
 
 import { UserData } from "../types/types";
-import { useNavigate } from 'react-router-dom';
 
 
 // Define user roles
@@ -28,20 +27,11 @@ export function getCurrentUserProfile(): UserData {
     };
 }
 
-// Function to log the user out
-export function logout(): void {
-    // Remove the 'identity' key from session storage
-    sessionStorage.removeItem('identity');
-
-    // Redirect the user to the login page
-    window.location.href = 'login.html';
-}
-
-export function checkAuthorized(allowed_user_roles: string[], navigate: ReturnType<typeof useNavigate>): void {
+export function checkAuthorized(allowed_user_roles: string[]): boolean {
     const storedUser = sessionStorage.getItem('identity') ?? 'unknown';
 
     if (storedUser === 'unknown') {
-        navigate('/error'); 
+        return false
     }
 
     const user = JSON.parse(storedUser);
@@ -49,8 +39,9 @@ export function checkAuthorized(allowed_user_roles: string[], navigate: ReturnTy
 
     if (!isAuthorized(userRole, allowed_user_roles)) {
         console.log('auth method called!');
-        navigate('/error'); // Navigate to the error page
+        return false
     }
+    return true
 }
 
 export function userProfile(name: string): void {

@@ -1,12 +1,12 @@
 
 import React, { useEffect, useState } from 'react';
 import '../assets/css/styles.css';
-import { Header, Footer } from './HeaderFooter';
+import { Header, Footer } from '../components/HeaderFooter';
 import { UserData, UserMap } from '../types/types'
 import { checkAuthorized, getCurrentUserProfile, userProfile } from '../utils/auth';
 import { useNavigate } from 'react-router-dom';
-import PersonalInfoOverlay from './personalInfo';
-import FeedbackOverlay from './feedback';
+import PersonalInfoOverlay from '../components/personalInfo';
+import FeedbackOverlay from '../components/feedback';
 
 
 
@@ -31,12 +31,15 @@ const StudentDashboard = () => {
 
   // auth
   const allowedRoles: string[] = ["student", "admin"];
-  const checkWithRoles = () => {
-    checkAuthorized(allowedRoles,navigate);
+  const checkWithRoles = () => {    
+    const isAuthorized = checkAuthorized(allowedRoles);
+    if (!isAuthorized) {
+      navigate('/error')
+    }    
   };
 
   useEffect(() => {
-    checkAuthorized(allowedRoles,navigate);
+    checkWithRoles();
 
     if (Object.keys(users).length === 0) {
       loadUserProfiles();
@@ -47,7 +50,10 @@ const StudentDashboard = () => {
 
     // intervals
     setInterval(checkForMessages, 1000);
-    setInterval(checkWithRoles, 1000);
+    const intervalId = setInterval(checkWithRoles, 1000);
+    return () => {
+      clearInterval(intervalId);
+    };
   }, []);
 
 

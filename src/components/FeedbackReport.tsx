@@ -10,13 +10,18 @@ type FeedbackData = {
   feedbackText: string;
 };
 
+const barColors = [
+  '#add8e6', // Light blue
+  '#a0d6b4', // Pale green
+  '#e4bad4', // Soft lavender
+  '#e3eaa7', // Pastel lime
+  // Add more colors as needed
+];
+
 const FeedbackViewer: React.FC = () => {
   const [feedbackData, setFeedbackData] = useState<Array<FeedbackData>>([]);
   const [searchTerm, setSearchTerm] = useState<string>('');
-  const [distribution, setDistribution] = useState<{ A: number; B: number; C: number }>({ A: 0, B: 0, C: 0 });
   const [instructorScores, setInstructorScores] = useState<{ [key: string]: number }>({});
-  const [showPieChart, setShowPieChart] = useState(false);
-  const [selectedInstructorEmail, setSelectedInstructorEmail] = useState<string | null>(null);
   const navigate = useNavigate();
 
   // Define a function to filter unique values in an array
@@ -46,28 +51,21 @@ const FeedbackViewer: React.FC = () => {
           return { studentEmail, instructorEmail, feedbackText };
         });
 
-        // Calculate the distribution of random values and update the state
-        const newDistribution = { A: 0, B: 0, C: 0 };
-        parsedFeedback.forEach(() => {
-          const randomValue = Math.floor(Math.random() * 3); // Random value 0, 1, or 2
-          if (randomValue === 0) newDistribution.A++;
-          else if (randomValue === 1) newDistribution.B++;
-          else if (randomValue === 2) newDistribution.C++;
-        });
-        setDistribution(newDistribution);
-
-        // Generate random scores for instructors and update the state
-        const instructorEmails = parsedFeedback.map(feedback => feedback.instructorEmail);
-        const uniqueInstructorEmails = getUniqueValues(instructorEmails);
-        const instructorScoreData: { [key: string]: number } = {};
-
+        // Initialize instructor scores with a default count of 0 for all instructors
+        const uniqueInstructorEmails = getUniqueValues(parsedFeedback.map(feedback => feedback.instructorEmail));
+        const instructorScores: { [key: string]: number } = {};
         uniqueInstructorEmails.forEach(email => {
-          const randomScore = Math.floor(Math.random() * 101); // Random score between 0 and 100
-          instructorScoreData[email] = randomScore;
+          instructorScores[email] = 0;
         });
 
-        setInstructorScores(instructorScoreData);
+        // Calculate instructor scores based on the count of feedback
+        parsedFeedback.forEach((feedback) => {
+          const { instructorEmail } = feedback;
+          // Increment the score (feedback count) for the instructor
+          instructorScores[instructorEmail]++;
+        });
 
+        setInstructorScores(instructorScores);
         setFeedbackData(parsedFeedback);
       });
   }, []);
@@ -77,6 +75,7 @@ const FeedbackViewer: React.FC = () => {
       <Header />
 
       <div className="instructor-2l-container" id='feedback-viewer-logs-container'>
+        <div>
         <input
           type="text"
           placeholder="Search feedback..."
@@ -92,15 +91,19 @@ const FeedbackViewer: React.FC = () => {
             datasets: [
               {
                 data: Object.values(instructorScores), // Random scores as data
-                backgroundColor: '#4287f5', // Define bar color as needed
+                backgroundColor: barColors.slice(0, Object.keys(instructorScores).length),
               },
             ],
           }}
-          title="Instructor Scores"
-          header="Instructor Scores Distribution"
+          title=" "
+          header="Semantic Analysis for Evaluating Instructor Performance  "
           onBarClick={handleBarClick} // Pass the click handler to the BarChart component
         />
-
+        </div>
+        
+        <div>
+        <div> '</div>
+        <div> '</div>
         <table className="csv-table">
           <thead>
             <tr>
@@ -125,6 +128,7 @@ const FeedbackViewer: React.FC = () => {
               ))}
           </tbody>
         </table>
+        </div>
         <Footer />
       </div>
     </div>

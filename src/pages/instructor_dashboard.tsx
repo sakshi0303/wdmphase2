@@ -1,13 +1,14 @@
 
 import { useCallback, useEffect, useState } from 'react';
 import '../assets/css/styles.css';
-import { Header, Footer } from './HeaderFooter';
+import { Header, Footer } from '../components/HeaderFooter';
 import { Message, UserData, UserMap } from '../types/types'
+import Papa from 'papaparse'; 
 
 import { checkAuthorized, getCurrentUserProfile, userProfile } from '../utils/auth';
 import { KeyboardEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
-import PersonalInfoOverlay from './personalInfo';
+import PersonalInfoOverlay from '../components/personalInfo';
 
 const InstructorDashboard = () => {
 
@@ -41,10 +42,11 @@ const InstructorDashboard = () => {
 
   // auth
   const allowedRoles: string[] = ["instructor", "admin"];
-  const checkWithRoles = () => {
-    
-    checkAuthorized(allowedRoles,navigate);
-    
+  const checkWithRoles = () => {    
+    const isAuthorized = checkAuthorized(allowedRoles);
+    if (!isAuthorized) {
+      navigate('/error')
+    }    
   };
 
   useEffect(() => {
@@ -72,7 +74,7 @@ const InstructorDashboard = () => {
 
   useEffect(() => {
 
-    checkAuthorized(allowedRoles,navigate);
+    checkWithRoles()
 
     async function loadData() {
       await loadPersonalInfo();
@@ -91,7 +93,10 @@ const InstructorDashboard = () => {
 
     setInterval(checkForMessages, 1000);
 
-    setInterval(checkWithRoles, 1000);
+    const intervalId = setInterval(checkWithRoles, 1000);
+    return () => {
+      clearInterval(intervalId);
+    };
 
   }, []);
 
@@ -188,7 +193,7 @@ const InstructorDashboard = () => {
             <div className="form-row">
               <div className="form-group">
                 <label>Duration:</label>
-                <input type="text" placeholder="Enter duration (e.g., 2 hours)" value={examDuration} onChange={(e) => setExamDuration(e.target.value)} />
+                <input type="text" placeholder="Enter duration in mins" value={examDuration} onChange={(e) => setExamDuration(e.target.value)} />
               </div>
             </div>
 
@@ -200,59 +205,81 @@ const InstructorDashboard = () => {
   };
 
 
-  const FeedbackOverlay = ({ onClose }: { onClose: () => void }) => {
-    const [feedbacks, setFeedbacks] = useState<{ [key: string]: string }>({});
+const FeedbackOverlay = ({ onClose }: { onClose: () => void }) => {
+  const [feedbacks, setFeedbacks] = useState<{ [key: string]: string }>({});
+  const [isFeedbackOverlayVisible, setIsFeedbackOverlayVisible] = useState(true);
+  const [students, setStudents] = useState<{ id: string; name: string }[]>([]);
 
-    const handleSubmit = () => {
+  useEffect(() => {
+    // Fetch the students.csv file
+    fetch('/csv/students.csv')
+      .then((response) => response.text())
+      .then((fileText) => {
+        const lines = fileText.split('\n').slice(1); // Skip the first line
+        const studentData = lines.map((line) => {
+          const [name] = line.split(','); // Extract student name
+          return { id: name, name };
+        });
+        setStudents(studentData);
+      })
+      .catch((error) => {
+        console.error('Error fetching or reading the file:', error);
+      });
+  }, []);
 
-      // Validate feedback
-      for (const key in feedbacks) {
-        if (!feedbacks[key].trim()) {
-          alert("All fields are mandatory.");
-          return;
-        }
+  const handleSubmit = () => {
+    // Validate feedback
+    for (const key in students) {
+      if (!feedbacks[students[key].id] || feedbacks[students[key].id].trim() === '') {
+        alert('All feedback fields are mandatory.');
+        return;
       }
-      alert("Your feedback is sent to admin for review.");
+    }
+    alert('Your feedback is sent to admin for review.');
 
-      setIsFeedbackOverlayVisible(false);
-      onClose();
-
-    };
-
-    return (
-      <div className="overlay" id="create-feedback-overlay" style={{ display: 'block' }}>
-        <div className="create-feedback-form-container">
-          <button className="create-feedback-close-btn" onClick={onClose}>
-            &times;
-          </button>
-          <h2>Feedback to Students</h2>
-          <table>
-            <thead>
-              <tr>
-                <th>Student Name</th>
-                <th>Feedback</th>
-              </tr>
-            </thead>
-            <tbody>
-              {students.map((student, index) => (
-                <tr key={index}>
-                  <td>{student[1]}</td>
-                  <td>
-                    <input
-                      type="text"
-                      value={feedbacks[student[0]] || ''}
-                      onChange={(e) => setFeedbacks({ ...feedbacks, [student[0]]: e.target.value })}
-                    />
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-          <button onClick={handleSubmit}>Submit Feedback</button>
-        </div>
-      </div>
-    );
+    setIsFeedbackOverlayVisible(false);
+    onClose();
   };
+
+  return (
+    <div className="overlay" id="create-feedback-overlay" style={{ display: isFeedbackOverlayVisible ? 'block' : 'none' }}>
+      <div className="create-feedback-form-container">
+        <button className="create-feedback-close-btn" onClick={onClose}>
+          &times;
+        </button>
+        <h2>Feedback to Students</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Student Name</th>
+              <th>Feedback</th>
+            </tr>
+          </thead>
+          <tbody>
+            {students.map((student, index) => (
+              <tr key={index}>
+                <td>{student.name}</td>
+                <td>
+                  <input
+                    type="text"
+                    value={feedbacks[student.id] || ''}
+                    onChange={(e) => setFeedbacks({ ...feedbacks, [student.id]: e.target.value })}
+                  />
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+        <button onClick={handleSubmit}>Submit Feedback</button>
+      </div>
+    </div>
+  );
+};
+
+  
+  
+
+  
 
 
 
@@ -330,6 +357,7 @@ const InstructorDashboard = () => {
     window.localStorage.setItem('instructorName', info['Name'] || '');
   }
 
+  
 
 
   const CourseCreationOverlay = ({ onClose }: { onClose: () => void }) => {
@@ -358,8 +386,9 @@ const InstructorDashboard = () => {
         return; // Prevent form submission if category is not valid
       }
 
+
       // If validation passes, you can submit the form
-      alert('Form submitted successfully.');
+      alert('Course is created successfully and is under admin review..');
       // Add your form submission logic here
 
       // Reset form fields (optional)
@@ -424,15 +453,24 @@ const InstructorDashboard = () => {
 
 
 
-  const createExam = (examName: string, examDate: string, examDuration: string) => {
+  const createExam = (examName: string, examDate: string, examDuration: string): void => {
     if (!examName || !examDate || !examDuration) {
       alert("Please fill out all required fields.");
       return;
     }
+    
+    if (!isNumeric(examDuration)) {
+        alert('Exam duration must be in mins.');
+        return;
+    }
 
     alert("Exam is created successfully and is under admin review.");
     setIsExamOverlayVisible(false);
-  };
+};
+
+const isNumeric = (value: string): boolean => {
+  return !isNaN(Number(value));
+};
 
 
 

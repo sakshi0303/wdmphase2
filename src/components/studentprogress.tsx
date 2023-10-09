@@ -4,9 +4,7 @@ import '../assets/css/styles.css';
 import { Header, Footer } from './HeaderFooter';
 import { StudentData, ChartDataType } from '../types/types';
 import { LineChart } from './chart';
-// Assuming checkAuthorized is not used anymore since it was commented out.
-// If you still need it, you can uncomment the import:
-// import { checkAuthorized } from '../utils/auth';
+
 
 const StudentProgress: React.FC = () => {
     const [chartData, setChartData] = useState<ChartDataType | null>(null);

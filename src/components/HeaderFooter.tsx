@@ -1,10 +1,30 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getCurrentUserProfile } from '../utils/auth';
+import {UserData} from '../types/types'
 
 export interface HeaderProps {
   login?: boolean;
 }
+
+function displayDashboard(userData: UserData): React.ReactNode {
+  switch (userData.role) {
+    case 'admin':
+      return <div>Admin Dashboard</div>;
+    case 'student':
+      return <div>Student Dashboard</div>;
+    case 'instructor':
+      return <div>Instructor Dashboard</div>;
+    case 'coordinator':
+      return <div>Coordinator Dashboard</div>;
+    case 'qa':
+      return <div>QA Dashboard</div>;
+    default:
+      return <div>Invalid Role</div>;
+  }
+}
+
+
 
 export const Header: React.FC<HeaderProps> = (props) => {
   const navigate = useNavigate();
@@ -18,6 +38,14 @@ export const Header: React.FC<HeaderProps> = (props) => {
           <a className="header-button" onClick={() => navigate('/')}>
             SkillXpert
           </a>
+          
+        </div>
+        <div>
+        {userId && userData && userData.role ? (
+          <div className="dashboard-content">
+            {displayDashboard(userData)}
+          </div>
+        ) : null}
         </div>
         <div className="header-buttons">
           <a className="header-button" onClick={() => navigate('/aboutus')}>
@@ -51,6 +79,7 @@ export const Header: React.FC<HeaderProps> = (props) => {
                 id="userInitial"
               >
                 {userData.name}
+                
               </div>
             </a>
           )}

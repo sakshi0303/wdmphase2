@@ -49,34 +49,6 @@ function parseResponse(response: any): 'Positive' | 'Negative' | 'Neutral' {
 }
 
 
-// export async function getSentiment(prompt: string): Promise<string | null> {
-//   try {
-//     // Go to https://platform.openai.com/account/api-keys
-//     // Replace 'YOUR_API_KEY' with your actual OpenAI API key.
-//     const apiKey = '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';
-//     const endpoint = 'https://api.openai.com/v1/engines/davinci/calculate-sentiment';
-
-//     const response = await axios.post(endpoint, { prompt }, {
-//       headers: {
-//         'Authorization': `Bearer ${apiKey}`,
-//         'Content-Type': 'application/json',
-//       },
-//     });
-
-//     if (response.status === 200) {
-//       const sentiment = response.data.sentiment;
-//       return sentiment;
-//     } else {
-//       console.error(`API request failed with status code ${response.status}`);
-//       return null;
-//     }
-//   } catch (error) {
-//     console.error('An error occurred:', error);
-//     return null;
-//   }
-// }
-
-
 // TEST CASE:
 
 // async function main() {

@@ -100,7 +100,7 @@ const FeedbackPieChartViewer: React.FC = () => {
                   },
                 ],
               }}
-              title="Semantic Analysis of Student Feedback on Instructor"
+              title={`Semantic Analysis of Student Feedback for Instructor Email ID:${label}`}
               header=""
             />
             

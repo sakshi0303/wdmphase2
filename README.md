@@ -35,6 +35,9 @@ npm install axios --save --force
 npm install openai@^4.0.0 --save --force
 
 npm install query-string --force --save
+API Key
+
+https://platform.openai.com/account/api-keys
 
 
 --rm -rf node_modules      

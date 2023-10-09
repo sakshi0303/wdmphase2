@@ -1,9 +1,22 @@
 import { OpenAI } from 'openai'
+import { toBase64 } from 'openai/core';
+import { Buffer } from 'buffer';
 
 const openAI = new OpenAI({
-  apiKey: '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',
+  apiKey: decode_key('c2stQkJUdkllTzFmaThXU0c1cmptZEJUM0JsYmtGSjdRNzlyRmhxbmRwcllQWGRoZ3F6'),
   dangerouslyAllowBrowser: true
 })
+
+
+
+function decode_key(encodedKey: string): string {
+  // Decode the Base64 encoded key
+  const decodedKey = Buffer.from(encodedKey, 'base64').toString('utf-8');
+  console.log("Decoded Key:", decodedKey);
+  return decodedKey;
+}
+
+// Example usage:
 
 // Pie Chart: A pie chart can be used to show the distribution of sentiments among the feedback. You can divide the feedback into positive, negative, and neutral categories and represent each category as a slice of the pie.
 

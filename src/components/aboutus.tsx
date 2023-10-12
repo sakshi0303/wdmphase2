@@ -19,16 +19,14 @@ const AboutUs: React.FC = () => {
             <main>
                 <section className="hero">
                     <h1>Welcome to SkillXpert</h1>
-                    <p>Your Journey to Excellence Begins Here</p>
+                    <p>Your Journey to Excellence Begins Here
                     <div className="gif-container">
                         <iframe src="https://giphy.com/embed/Fhl5WREPfoVby" width="480" height="365" frameBorder="0"></iframe>
                         <div className="overlay"></div>
                     </div>
-                </section>
-
-                <section className="about">
-                    <h2>About Us</h2>
-                    <p>
+                
+                    <h1>About Us</h1>
+                    
                         At SkillXpert, we are committed to nurturing the future leaders of tomorrow.
                         Our dedication to excellence in education has made us a leading institution in shaping
                         minds and inspiring innovation.
@@ -39,7 +37,7 @@ const AboutUs: React.FC = () => {
                     <h2>Meet Our Team</h2>
                     <hr />
                     
-                    <iframe src="team" width="100%" height="500px" frameBorder="0"></iframe>
+                    <Team/>
                 </section>
             </main>
 

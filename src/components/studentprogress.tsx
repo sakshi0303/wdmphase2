@@ -18,7 +18,8 @@ const StudentProgress: React.FC = () => {
     }, []);
 
     const loadStudentGraph = () => {
-        Papa.parse("/csv/students.csv", {
+        
+        Papa.parse(process.env.PUBLIC_URL + '/csv/students.csv', {
             download: true,
             header: true,
             dynamicTyping: true,
@@ -47,28 +48,29 @@ const StudentProgress: React.FC = () => {
             {chartData && <LineChart chartData={chartData} title="Student Grades" header="Grade Analysis" />}
             {/* Render the table */}
             <div className="instructor-2l-container" id="student-list-container">
-            <table className='csv-table'>
-                <thead>
-                    <tr>
-                        <th>Student Name</th>
-                        <th>Email</th>
-                        <th>Course</th>
-                        <th>Course Name</th>
-                        <th>Current Grade</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {studentData && studentData.map(student => (
-                        <tr key={student.Email}>
-                            <td>{student.Student_Name}</td>
-                            <td>{student.Email}</td>
-                            <td>{student.Course}</td>
-                            <td>{student.Course_Name}</td>
-                            <td>{student.Current_Grade}</td>
+
+                <table className='csv-table'>
+                    <thead>
+                        <tr>
+                            <th>Student Name</th>
+                            <th>Email</th>
+                            <th>Course</th>
+                            <th>Course Name</th>
+                            <th>Current Grade</th>
                         </tr>
-                    ))}
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        {studentData && studentData.map((student, index) => (
+                            <tr key={index}>
+                                <td>{student.Student_Name}</td>
+                                <td>{student.Email}</td>
+                                <td>{student.Course}</td>
+                                <td>{student.Course_Name}</td>
+                                <td>{student.Current_Grade}</td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
             </div>
             <Footer />
         </div>

@@ -47,7 +47,7 @@ const Telemetry: React.FC = () => {
   const [telemetryDataState, setTelemetryDataState] = useState(sampleTelemetry);
 
   useEffect(() => {
-    fetch('/csv/telemetry.csv')
+    fetch(process.env.PUBLIC_URL + '/csv/telemetry.csv')
       .then(response => response.text())
       .then(data => {
         const rows = data.split('\n');

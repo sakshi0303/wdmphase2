@@ -17,7 +17,7 @@ const Login = () => {
 
       if (emailInput && passwordInput) {
         // Fetch user data from an external CSV file
-        const response = await fetch('/csv/users.csv');
+        const response = await fetch(process.env.PUBLIC_URL + '/csv/users.csv');
 
 
         if (response.ok) {

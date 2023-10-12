@@ -1,5 +1,5 @@
 
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import '../assets/css/styles.css';
 import { Header, Footer } from '../components/HeaderFooter';
 import { Message, UserMap } from '../types/types'
@@ -68,7 +68,7 @@ const AdminDashboard = () => {
 
   async function fetchUserData() {
     try {
-      const response = await fetch('/csv/users.csv');
+      const response = await fetch(process.env.PUBLIC_URL + '/csv/users.csv');
       const csvData = await response.text();
       const rows = csvData.split('\n');
       const usersData: UserMap = {};
@@ -250,12 +250,9 @@ const AdminDashboard = () => {
     }
   }
 
-  const handleEditButtonClick = (userId: string) => {
-    handleEditAndUpdate(userId);
-  };
+ 
 
   function handleEditAndUpdate(userId: string): void {
-    console.log(`handle update2`);
 
     const idCell = document.querySelector(`#user-id-${userId}`) as HTMLElement | null;
     const nameCell = document.querySelector(`#user-name-${userId}`) as HTMLElement | null;
@@ -358,7 +355,7 @@ const AdminDashboard = () => {
     try {
       setLoading(true);
       // Read the CSV file
-      const filePath = '/csv/users.csv';
+      const filePath = process.env.PUBLIC_URL + '/csv/users.csv';
 
       if (Object.keys(users).length !== 0) {
         console.log('already  full')
@@ -430,39 +427,29 @@ const AdminDashboard = () => {
       <Header />
 
       <div className="container">
-        <div className="dashboard-container">
+       
           <span id="adminName">{/* Your admin name here */}</span>
-          <a className="admin-1l-button" onClick={() => { navigate('/telemetry') }}>
-            TELEMETRY
-          </a>
+          <button className="admin-1l-button" onClick={() => navigate('/telemetry')} type="button">TELEMETRY</button>
+          <button className="admin-1l-button" onClick={() => navigate('/operations')} type="button"> OPERATIONS</button>
+          <button className="admin-1l-button" onClick={() => navigate('/feedback')} type="button"> INSTRUCTOR FEEDBACK REPORT</button>
 
-          <a className="admin-1l-button" onClick={() => { navigate('/operations') }}>
-            OPERATIONS
-          </a>
+          <button className="admin-1l-button" onClick={() =>  alert('Coming soon!')} type="button"> TICKETING</button>
 
-          <a className="admin-1l-button" onClick={() => { navigate('/feedback') }}>
-            FEEDBACK REPORT
-          </a>
-
-          <a className="admin-1l-button" onClick={() => alert('Coming soon!')}>
-            TICKETING
-          </a>
-          <div>
+          
             <input
               type="text"
               placeholder="Enter text here"
               value={text}
               onChange={(e) => setText(e.target.value)}
+              style={{ width: '200px', height: '30px' }}
             />
-            <button onClick={handleSentimentButtonClick}>Analyze Sentiment</button>
+            <button className="admin-1l-button" onClick={handleSentimentButtonClick}>Analyze Sentiment</button>
 
             {sentiment !== null && (
-              <div>
+              
                 <p>Sentiment: {sentiment}</p>
-              </div>
+            
             )}
-          </div>
-        </div>
 
         <hr />
 

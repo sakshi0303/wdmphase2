@@ -266,8 +266,9 @@ body {
 
 .gif-container {
 	flex: 1;
-	max-width: 1000px;
+	max-width: 10000px;
 	position: relative;
+	align-items: center;
 	/* Important: set to relative */
 }
 

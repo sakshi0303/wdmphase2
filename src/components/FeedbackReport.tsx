@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { PieChart, BarChart } from './chart'; // Import the BarChart and PieChart components
+import { BarChart } from './chart'; // Import the BarChart and PieChart components
 import { Footer, Header } from './HeaderFooter';
 import { useNavigate } from 'react-router-dom';
 
@@ -42,7 +42,7 @@ const FeedbackViewer: React.FC = () => {
 
   useEffect(() => {
     // Fetch student feedback data from a CSV file
-    fetch('/csv/feedbackToInstructor.csv') // Adjust the file path as needed
+    fetch(process.env.PUBLIC_URL + '/csv/feedbackToInstructor.csv') // Adjust the file path as needed
       .then(response => response.text())
       .then(data => {
         const rows = data.split('\n').slice(1);

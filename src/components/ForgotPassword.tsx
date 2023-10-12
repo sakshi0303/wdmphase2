@@ -7,14 +7,14 @@ import { useNavigate } from 'react-router-dom';
 
 const ForgotPassword: React.FC = () => {
     const navigate = useNavigate();
-    const handleLogout = () => {
-        // This should contain the logic for the logout functionality.
-        // For now, it's just a placeholder.
-    };
+    // const handleLogout = () => {
+    //     // This should contain the logic for the logout functionality.
+    //     // For now, it's just a placeholder.
+    // };
 
     return (
         <div>
-            <Header/>
+            <Header />
 
             <div className="container">
                 <div className="main-content">
@@ -23,15 +23,20 @@ const ForgotPassword: React.FC = () => {
                         <form id="forgotPasswordForm" className="auth-form">
                             <input type="email" name="email" placeholder="Email" required />
                             <input type="submit" value="Reset Password" />
-                            <p> Remember your password? <a onClick={() => {navigate('/login')}}>
-              Login</a></p>
-                           
+                            <p>
+                                Remember your password?{' '}
+                                <button onClick={() => navigate('/login')} type="button">
+                                    Login
+                                </button>
+                            </p>
+                            
+
                         </form>
                     </div>
                 </div>
             </div>
 
-            <Footer/>
+            <Footer />
         </div>
     );
 }

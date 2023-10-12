@@ -20,7 +20,7 @@ const Operations: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState<string>('');
 
   useEffect(() => {
-    fetch('/csv/logs.csv')
+    fetch(process.env.PUBLIC_URL + '/csv/logs.csv')
       .then(response => response.text())
       .then(data => {
         const rows = data.split('\n').slice(1);

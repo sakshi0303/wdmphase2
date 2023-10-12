@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getCurrentUserProfile } from '../utils/auth';
-import {UserData} from '../types/types'
+import { UserData } from '../types/types'
 
 export interface HeaderProps {
   login?: boolean;
@@ -35,53 +35,51 @@ export const Header: React.FC<HeaderProps> = (props) => {
     <div className="header">
       <div className="header-content">
         <div className="service-name">
-          <a className="header-button" onClick={() => navigate('/')}>
+
+          <button className="header-button" onClick={() => navigate('/')} type="button">
             SkillXpert
-          </a>
-          
+          </button>
+
         </div>
         <div>
-        {userId && userData && userData.role ? (
-          <div className="dashboard-content">
-            {displayDashboard(userData)}
-          </div>
-        ) : null}
+          {userId && userData && userData.role ? (
+            <div className="dashboard-content">
+              {displayDashboard(userData)}
+            </div>
+          ) : null}
         </div>
         <div className="header-buttons">
-          <a className="header-button" onClick={() => navigate('/aboutus')}>
+          <button className="header-button" onClick={() => navigate('/aboutus')} type="button">
             About Us
-          </a>
-          <a className="header-button" onClick={() => navigate('/signup')}>
+          </button>
+          <button className="header-button" onClick={() => navigate('/signup')} type="button">
             SignUp
-          </a>
+          </button>
           {userId ? (
-            <a
-              className="header-button"
-              onClick={() => {
-                sessionStorage.removeItem('identity');
-                navigate('/login');
-              }}
-            >
-              Logout
-            </a>
+            <button
+            className="header-button"
+            onClick={() => {
+              sessionStorage.removeItem('identity');
+              navigate('/login');
+            }}
+            type="button"
+          >
+            Logout
+          </button>
           ) :
             (
-              <a className="header-button" onClick={() => navigate('/login')}>
-                Login
-              </a>
+              <button className="header-button" onClick={() => navigate('/login')} type="button">Login</button>
             )
           }
           {userId && ( // Conditionally render the profile button if userId is present
-            <a href="#" className="header-dropdown" id="profileButton">
-              <div
-                className="header-button"
-                style={{ background: 'navy', color: 'white' }}
-                id="userInitial"
-              >
-                {userData.name}
-                
-              </div>
-            </a>
+          
+          <button
+          className="header-dropdown"
+          id="profileButton"
+          style={{ background: 'navy', color: 'white' }}
+        >
+          {userData.name}
+        </button>
           )}
         </div>
       </div>
@@ -95,10 +93,19 @@ export const Footer = () => {
     <div>
       {/* Footer Links */}
       <div className="footer-links">
-        <a className="footer-link" onClick={() => { navigate('/contactus') }}>Contact Us</a>
-        <a className="footer-link" onClick={() => { navigate('/aboutus') }}>About Us</a>
-        <a className="footer-link" onClick={() => { navigate('/learnmore') }}>Learn More</a>
-        <a className="footer-link" onClick={() => { navigate('/contactus') }}>Report Issues</a>
+      <button onClick={() => navigate('/contactus')} type="button">
+      Contact Us
+          </button>
+          <button  onClick={() => navigate('/aboutus')} type="button">
+          About Us
+          </button>
+          <button  onClick={() => navigate('/learnmore')} type="button">
+          Learn More
+          </button>
+          <button  onClick={() => navigate('/contactus')} type="button">
+          Report Issues
+          </button>
+        
       </div>
 
       {/* Footer */}

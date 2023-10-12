@@ -25,7 +25,7 @@ const Login = () => {
         sessionStorage.removeItem('identity');
         setUserData({});
 
-        const response = await fetch('/csv/users.csv');
+        const response = await fetch(process.env.PUBLIC_URL + '/csv/users.csv');
        
   
         if (response.ok) {

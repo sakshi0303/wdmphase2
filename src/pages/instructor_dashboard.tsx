@@ -59,7 +59,7 @@ const InstructorDashboard = () => {
   useEffect(() => {
     async function loadStudents() {
       try {
-        const response = await fetch('/csv/students.csv');
+        const response = await fetch(process.env.PUBLIC_URL + '/csv/students.csv');
         const data = await response.text();
         const rows = data.split('\n');
         const studentsData = rows.map(row => row.split(','));
@@ -102,7 +102,7 @@ const InstructorDashboard = () => {
 
   const loadAndDisplayExamData = async () => {
     try {
-      const response = await fetch('/csv/examlist.csv'); // Update the path
+      const response = await fetch(process.env.PUBLIC_URL + '/csv/examlist.csv'); // Update the path
       const data = await response.text();
 
       // Split CSV data into rows
@@ -131,7 +131,7 @@ const InstructorDashboard = () => {
 
   const loadAndDisplayCourseData = async () => {
     try {
-      const response = await fetch('/csv/courses.csv');
+      const response = await fetch(process.env.PUBLIC_URL + '/csv/courses.csv');
       const data = await response.text();
 
       // Split CSV data into rows
@@ -212,7 +212,7 @@ const FeedbackOverlay = ({ onClose }: { onClose: () => void }) => {
 
   useEffect(() => {
     // Fetch the students.csv file
-    fetch('/csv/students.csv')
+    fetch(process.env.PUBLIC_URL + '/csv/students.csv')
       .then((response) => response.text())
       .then((fileText) => {
         const lines = fileText.split('\n').slice(1); // Skip the first line
@@ -497,7 +497,7 @@ const isNumeric = (value: string): boolean => {
 
   async function fetchUserData() {
     try {
-      const response = await fetch('/csv/users.csv');
+      const response = await fetch(process.env.PUBLIC_URL + '/csv/users.csv');
       const csvData = await response.text();
       const rows = csvData.split('\n');
       const usersData: UserMap = {};
@@ -797,7 +797,7 @@ const isNumeric = (value: string): boolean => {
     try {
       setLoading(true);
       // Read the CSV file
-      const filePath = '/csv/users.csv';
+      const filePath = process.env.PUBLIC_URL + '/csv/users.csv';
 
       if (Object.keys(users).length !== 0) {
         console.log('already  full')

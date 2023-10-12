@@ -16,6 +16,9 @@ student -> feedback -> stored in file -> admin dashboard shows feedback in dashb
 
 install 
 -npx create-react-app my-app --template typescript
+--npm run build
+--npm start run
+--npm install --save @babel/plugin-proposal-private-property-in-object
 -npm install react-router-dom
 -npm install --save @types/react-router-dom
 -npm outdated
@@ -37,6 +40,20 @@ npm install openai@^4.0.0 --save --force
 npm install query-string --force --save
 API Key
 
+key: xasdasdasd
+
+
+python script to:
+
+function encode(key):
+   print(key)
+   return encoded key
+
+
+
+function decodeBase64(input):
+  return output
+
 https://platform.openai.com/account/api-keys
 
 
@@ -49,6 +66,7 @@ https://platform.openai.com/account/api-keys
 --sudo npm install -g typescript@latest
 --npm install chartjs-plugin-annotation --legacy-peer-deps
 --npm start
+--npm run build to crete a build
 --npm install @types/papaparse
 
 # Getting Started with Create React App

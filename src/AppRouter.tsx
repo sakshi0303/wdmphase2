@@ -22,7 +22,7 @@ import LearnMore from './components/learnmore';
 
 const AppRouter = () => {
   return (
-    <Router>
+    <Router basename="/assignment3">
       <Routes>
       <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<Login />} />

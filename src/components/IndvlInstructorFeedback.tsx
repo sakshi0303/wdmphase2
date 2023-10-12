@@ -34,7 +34,7 @@ const FeedbackPieChartViewer: React.FC = () => {
 
   useEffect(() => {
     // Fetch student feedback data from a CSV file
-    fetch('/csv/feedbackToInstructor.csv') // Adjust the file path as needed
+    fetch(process.env.PUBLIC_URL + '/csv/feedbackToInstructor.csv') // Adjust the file path as needed
       .then((response) => response.text())
       .then((data) => {
         const rows = data.split('\n').slice(1);

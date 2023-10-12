@@ -63,7 +63,7 @@ const StudentDashboard = () => {
     try {
       setLoading(true);
       // Read the CSV file
-      const filePath = '/csv/users.csv';
+      const filePath = process.env.PUBLIC_URL + '/csv/users.csv';
 
       if (Object.keys(users).length !== 0) {
         console.log('already  full')
@@ -122,7 +122,7 @@ const StudentDashboard = () => {
 
   async function fetchUserData() {
     try {
-      const response = await fetch('/csv/users.csv');
+      const response = await fetch(process.env.PUBLIC_URL + '/csv/users.csv');
       const csvData = await response.text();
       const rows = csvData.split('\n');
       const usersData: UserMap = {};

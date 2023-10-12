@@ -15,7 +15,7 @@ const HomePage: React.FC = () => {
                         <h2>Our Program</h2>
                         <p>Masters in Computer Science program is meticulously designed to offer a holistic and future-ready education.
                             We are not just fostering the next generation of computer scientists; we are shaping the pioneers and leaders
-                            of tomorrow's digital world.</p>
+                            of tomorrow's digital world.More On: <a href="https://blogthemedotblog.wordpress.com/home/">WordPress Blogs</a></p>
                     </div>
 
                     <div className="gif-container">

@@ -1,23 +1,15 @@
 import { OpenAI } from 'openai'
-//import { toBase64 } from 'openai/core';
-//import { Buffer } from 'buffer';
 
+/**
+ * openAI ensures you dont commit this in github
+ * key: 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
+ */
 const openAI = new OpenAI({
-  apiKey: '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',
+  apiKey: 'xx',
   dangerouslyAllowBrowser: true
 })
 
-
-// deprecated
-// function decode_key(encodedKey: string): string {
-//   // Decode the Base64 encoded key
-//   const decodedKey = Buffer.from(encodedKey, 'base64').toString('utf-8');
-//   console.log("Decoded Key:", decodedKey);
-//   return decodedKey;
-// }
-
 // Example usage:
-
 // Pie Chart: A pie chart can be used to show the distribution of sentiments among the feedback. You can divide the feedback into positive, negative, and neutral categories and represent each category as a slice of the pie.
 // Bar Chart: A bar chart can display the number or percentage of feedback in each sentiment category. You can have three bars corresponding to positive, negative, and neutral sentiments.
 // Stacked Bar Chart: Similar to a bar chart, a stacked bar chart can show the sentiment distribution over time or by instructor. Each bar represents a group of feedback, and the segments within each bar show the proportion of positive, negative, and neutral feedback.

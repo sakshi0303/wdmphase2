@@ -432,7 +432,6 @@ const AdminDashboard = () => {
           <button className="admin-1l-button" onClick={() => navigate('/telemetry')} type="button">TELEMETRY</button>
           <button className="admin-1l-button" onClick={() => navigate('/operations')} type="button"> OPERATIONS</button>
           <button className="admin-1l-button" onClick={() => navigate('/feedback')} type="button"> INSTRUCTOR FEEDBACK REPORT</button>
-
           <button className="admin-1l-button" onClick={() =>  alert('Coming soon!')} type="button"> TICKETING</button>
 
           

@@ -5,6 +5,7 @@ import { Header, Footer } from '../components/HeaderFooter';
 import { UserData, UserMap } from '../types/types'
 import { checkAuthorized, getCurrentUserProfile, userProfile } from '../utils/auth';
 import { useNavigate } from 'react-router-dom';
+import { KeyboardEvent } from 'react';
 import PersonalInfoOverlay from '../components/personalInfo';
 import FeedbackOverlay from '../components/feedback';
 
@@ -13,7 +14,6 @@ import FeedbackOverlay from '../components/feedback';
 const StudentDashboard = () => {
 
   const [users, setUsers] = useState<UserMap>({});
-  const [loading, setLoading] = useState(false);
   const [isPersonalInfoOverlayVisible, setIsPersonalInfoOverlayVisible] = useState(false);
   const [isFeedbackOverlayVisible, setIsFeedbackOverlayVisible] = useState(false);
 
@@ -31,14 +31,98 @@ const StudentDashboard = () => {
 
   // auth
   const allowedRoles: string[] = ["student", "admin"];
-  const checkWithRoles = () => {    
-    const isAuthorized = checkAuthorized(allowedRoles);
-    if (!isAuthorized) {
-      navigate('/error')
-    }    
-  };
 
   useEffect(() => {
+
+    const checkWithRoles = () => {
+      const isAuthorized = checkAuthorized(allowedRoles);
+      if (!isAuthorized) {
+        navigate('/error')
+      }
+    };
+
+
+    // chat
+    function checkForMessages(): void {
+      // Check if there is a message for the student
+
+      const message = window.localStorage.getItem(`messageFor_${currentUserProfile.id}`);
+
+      if (message) {
+        //const messageType = determineMessageType(message);
+        const messageType = message.startsWith("admin:") ? "admin-message" : "student-message";
+
+        const chatBox = document.querySelector('.chat-box');
+        const messageDiv = document.createElement('div');
+        messageDiv.className = messageType;
+        messageDiv.textContent = message;
+        chatBox?.appendChild(messageDiv);
+
+        console.log('checkForMessages', message)
+
+        // Clear the message from local storage
+        window.localStorage.removeItem(`messageFor_${currentUserProfile.id}`);
+      }
+    };
+
+    // user profile functions
+    function loadUserProfiles(): void {
+      try {
+        // Read the CSV file
+        const filePath = process.env.PUBLIC_URL + '/csv/users.csv';
+
+        if (Object.keys(users).length !== 0) {
+          console.log('already  full')
+          return
+        }
+        console.log('loading user profiles')
+
+        fetch(filePath).then(
+          (response) => {
+            response.text().then(
+              (csvData) => {
+                const rows = csvData.split('\n');
+
+                const tableBody = document.getElementById('user-profile-table-body');
+
+                // Add a class for styling to the user profile table
+                const table = document.getElementById('user-profile-table');
+                if (table) {
+                  table.classList.add('csv-table');
+                }
+
+                for (let i = 1; i < rows.length; i++) {
+                  const [id, name, role, email] = rows[i].split(',');
+                  const row = document.createElement('tr');
+
+                  // Generate unique IDs for each <td> element based on the user ID (id)
+                  row.innerHTML = `
+                  <td id="user-id-${id}">${id}</td>
+                  <td id="user-name-${id}">${name}</td>
+                  <td id="user-email-${id}">${email}</td>
+                  <td id="user-role-${id}">${role}</td>                    
+                  <td>
+                      <button id="button-${id}" class="edit-button" data-id="${id}">Edit</button>
+                  </td>
+                  `;
+
+                  // Add a class for styling to the data row
+                  row.classList.add('data-row');
+
+                  if (tableBody) {
+                    tableBody.appendChild(row);
+                  }
+                }
+              }
+            )
+
+          }
+        )
+      } catch (error) {
+        console.error('Error loading user profiles:', error);
+      }
+    }
+
     checkWithRoles();
 
     if (Object.keys(users).length === 0) {
@@ -54,70 +138,9 @@ const StudentDashboard = () => {
     return () => {
       clearInterval(intervalId);
     };
-  }, []);
+  }, [allowedRoles, users, currentUserProfile.id, currentUserProfile.name, navigate]);
 
 
-  // user profile functions
-
-  function loadUserProfiles(): void {
-    try {
-      setLoading(true);
-      // Read the CSV file
-      const filePath = process.env.PUBLIC_URL + '/csv/users.csv';
-
-      if (Object.keys(users).length !== 0) {
-        console.log('already  full')
-        return
-      }
-      console.log('loading user profiles')
-
-      fetch(filePath).then(
-        (response) => {
-          response.text().then(
-            (csvData) => {
-              const rows = csvData.split('\n');
-
-              const tableBody = document.getElementById('user-profile-table-body');
-
-              // Add a class for styling to the user profile table
-              const table = document.getElementById('user-profile-table');
-              if (table) {
-                table.classList.add('csv-table');
-              }
-
-              for (let i = 1; i < rows.length; i++) {
-                const [id, name, role, email] = rows[i].split(',');
-                const row = document.createElement('tr');
-
-                // Generate unique IDs for each <td> element based on the user ID (id)
-                row.innerHTML = `
-                  <td id="user-id-${id}">${id}</td>
-                  <td id="user-name-${id}">${name}</td>
-                  <td id="user-email-${id}">${email}</td>
-                  <td id="user-role-${id}">${role}</td>                    
-                  <td>
-                      <button id="button-${id}" class="edit-button" data-id="${id}">Edit</button>
-                  </td>
-                  `;
-
-                // Add a class for styling to the data row
-                row.classList.add('data-row');
-
-                if (tableBody) {
-                  tableBody.appendChild(row);
-                }
-              }
-            }
-          )
-
-        }
-      )
-      setLoading(false);
-    } catch (error) {
-      console.error('Error loading user profiles:', error);
-      setLoading(false)
-    }
-  }
 
 
   async function fetchUserData() {
@@ -138,30 +161,6 @@ const StudentDashboard = () => {
       console.error('Error fetching user data:', error);
     }
   }
-
-  // chat functions
-
-  const checkForMessages = () => {
-    // Check if there is a message for the student
-
-    const message = window.localStorage.getItem(`messageFor_${currentUserProfile.id}`);
-
-    if (message) {
-      //const messageType = determineMessageType(message);
-      const messageType = message.startsWith("admin:") ? "admin-message" : "student-message";
-
-      const chatBox = document.querySelector('.chat-box');
-      const messageDiv = document.createElement('div');
-      messageDiv.className = messageType;
-      messageDiv.textContent = message;
-      chatBox?.appendChild(messageDiv);
-
-      console.log('checkForMessages', message)
-
-      // Clear the message from local storage
-      window.localStorage.removeItem(`messageFor_${currentUserProfile.id}`);
-    }
-  };
 
   async function startChatWithUser(): Promise<void> {
     try {
@@ -327,6 +326,7 @@ const StudentDashboard = () => {
   }
 
   // manage users
+  // TODO: use this later
   function handleKeyDown(event: KeyboardEvent): void {
     if (event.key === 'Enter') {
       event.preventDefault(); // Prevent default 'Enter' behavior
@@ -346,36 +346,36 @@ const StudentDashboard = () => {
             <h3>CSE 6060</h3>
             <h4>Operating System</h4>
             <hr />
-            <a href="#">Assessment</a>
-            <a href="#">Analytics</a>
-            <a href="#">Report</a>
+            <button type="button">Assessment</button><br/>
+            <button type="button">Analytics</button><br/>
+            <button type="button">Report</button><br/>
           </div>
 
           <div className="course-container">
             <h3>CSE 5091</h3>
             <h4>Computer Vision</h4>
             <hr />
-            <a href="#">Assessment</a>
-            <a href="#">Analytics</a>
-            <a href="#">Report</a>
+            <button type="button">Assessment</button><br/>
+            <button type="button">Analytics</button><br/>
+            <button type="button">Report</button><br/>
           </div>
 
           <div className="course-container">
             <h3>CSE 6098</h3>
             <h4>System Design</h4>
             <hr />
-            <a href="#">Assessment</a>
-            <a href="#">Analytics</a>
-            <a href="#">Report</a>
+            <button type="button">Assessment</button><br/>
+            <button type="button">Analytics</button><br/>
+            <button type="button">Report</button><br/>
           </div>
 
           <div className="course-container">
             <h3>CSE 5072</h3>
             <h4>Machine Learning</h4>
             <hr />
-            <a href="#">Assessment</a>
-            <a href="#">Analytics</a>
-            <a href="#">Report</a>
+            <button type="button">Assessment</button><br/>
+            <button type="button">Analytics</button><br/>
+            <button type="button">Report</button><br/>
           </div>
         </div>
 
@@ -413,7 +413,7 @@ const StudentDashboard = () => {
               <FeedbackOverlay
                 shouldDisplay={isFeedbackOverlayVisible}
                 onToggle={setIsFeedbackOverlayVisible} // Pass the state setter function    
-                feedbackReceiver='instructor'          
+                feedbackReceiver='instructor'
               />
             )}
 
@@ -427,7 +427,7 @@ const StudentDashboard = () => {
                   <div id="instructorMessages"></div>
                 </div>
                 <div className="chat-input-container" style={{ display: 'none' }}>
-                  <input type="text" id="userInput" className="chat-input" placeholder="Type your message here..." onKeyDown={() => { console.log('handleKeyDown') }} />
+                  <input type="text" id="userInput" className="chat-input" placeholder="Type your message here..." onKeyDown={handleKeyDown} />
                   <button className="chat-button" onClick={sendMessage}>Send</button>
                 </div>
               </div>

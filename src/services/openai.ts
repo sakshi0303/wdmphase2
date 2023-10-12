@@ -3,7 +3,7 @@ import { OpenAI } from 'openai'
 //import { Buffer } from 'buffer';
 
 const openAI = new OpenAI({
-  apiKey: 'xx',
+  apiKey: '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',
   dangerouslyAllowBrowser: true
 })
 

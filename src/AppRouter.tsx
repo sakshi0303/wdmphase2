@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'; // Update the import
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import AdminDashboard from './pages/admin_dashboard';
 import StudentDashboard from './pages/student_dashboard';
 import InstructorDashboard from './pages/instructor_dashboard';
@@ -20,30 +20,35 @@ import Error from './components/error';
 import ContactUs from './components/contactus';
 import LearnMore from './components/learnmore';
 
+
+
 const AppRouter = () => {
   return (
     <Router basename="/assignment3">
       <Routes>
-      <Route path="/" element={<HomePage />} />
+        <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<Login />} />
         <Route path="/admin-dashboard" element={<AdminDashboard />} />
-        <Route path="/telemetry" element={<Telemetry />} />        
+        <Route path="/telemetry" element={<Telemetry />} />
         <Route path="/coordinator-dashboard" element={<CoordinatorDashboard />} />
-        <Route path="/instructor-dashboard" element={<InstructorDashboard/>} />
+        <Route path="/instructor-dashboard" element={<InstructorDashboard />} />
         <Route path="/qa-dashboard" element={<QADashboard />} />
         <Route path="/student-dashboard" element={<StudentDashboard />} />
-        <Route path="/coordinator-dashboard" element={<CoordinatorDashboard />} />
         <Route path="/operations" element={<Operations />} />
         <Route path="/feedback" element={<FeedbackViewer />} />
         <Route path="/feedback/pie" element={<FeedbackPieChartViewer />} />
         <Route path="/aboutus" element={<AboutUs />} />
         <Route path="/team" element={<Team />} />
-        <Route path="/signup" element={<SignUp/>} />
-        <Route path="/ForgotPassword" element={<ForgotPassword/>} />
-        <Route path="/studentprogress" element={<StudentProgress/>} />
-        <Route path="/error" element={<Error/>} />
-        <Route path="/contactus" element={<ContactUs/>} />
-        <Route path="/learnmore" element={<LearnMore/>} />
+        <Route path="/signup" element={<SignUp />} />
+        <Route path="/ForgotPassword" element={<ForgotPassword />} />
+        <Route path="/studentprogress" element={<StudentProgress />} />
+        <Route path="/error" element={<Error />} />
+        <Route path="/contactus" element={<ContactUs />} />
+        <Route path="/learnmore" element={<LearnMore />} />
+     
+       
+        
+
         
         {/* Add more routes for other pages as needed */}
       </Routes>

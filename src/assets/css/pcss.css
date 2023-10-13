@@ -28,7 +28,7 @@ nav ul {
     background: cadetblue;
     width: 200px; /* Adjust the width of the sidebar */
     position: fixed; /* Make the sidebar fixed on the left side */
-    height: 65%;
+    height: 40%;
     overflow-y: auto; /* Add scroll if needed */
 }
 
@@ -50,9 +50,9 @@ nav ul li a:hover {
 }
 
 main {
-    margin-left: 240px; /* Adjust margin to make space for the sidebar */
-    max-width: 800px;
-    padding: 20px;
+    /*margin-left: 240px;  Adjust margin to make space for the sidebar 
+    max-width: 800px;*/
+    padding: 10px;
     /*background-color: white;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);*/
     padding-left: 240px;
@@ -66,7 +66,7 @@ main {
 /* Style the table */
 #Student table {
     border-collapse: collapse;
-    width: 60%;
+    width: 100%;
     margin: 20px auto;
 }
 
@@ -95,7 +95,7 @@ main {
 /* Style the table */
 #instructor table {
     border-collapse: collapse;
-    width: 60%;
+    width: 100%;
     margin: 20px auto;
 }
 

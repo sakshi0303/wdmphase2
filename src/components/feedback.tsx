@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 
 type FeedbackOverlayProps = {
     shouldDisplay: boolean; // Prop to control the display
@@ -11,20 +11,19 @@ function FeedbackOverlay({ shouldDisplay, onToggle, feedbackReceiver }: Feedback
     const [feedback, setFeedback] = useState('');
 
     // Function to handle closing the overlay
-    const handleClose = () => {
+    const handleClose = useCallback(() => {
         onToggle(false); // Inform the parent component to hide the overlay
-    };
-
-    // Function to handle opening the overlay
-    const handleOpen = () => {
-        onToggle(true); // Inform the parent component to show the overlay
-    };
+    }, [onToggle]);
 
     // Use an effect to call the onToggle prop when the component mounts and unmounts
     useEffect(() => {
+        const handleOpen = () => {
+            onToggle(true); // Inform the parent component to show the overlay
+        };
+
         handleOpen(); // Initially open the overlay when mounted
-        return () => handleClose(); // Close the overlay when unmounted
-    }, [onToggle]);
+        return handleClose; // Close the overlay when unmounted
+    }, [onToggle, handleClose]);
 
     // Function to handle form submission
     const handleSubmit = (event: React.FormEvent) => {
@@ -36,7 +35,7 @@ function FeedbackOverlay({ shouldDisplay, onToggle, feedbackReceiver }: Feedback
             alert('Feedback submitted successfully');
             setEmail('');
             setFeedback('');
-            handleClose()
+            handleClose();
         } else {
             // Form is invalid, show an error message
             alert('Please fill in all fields');
@@ -81,7 +80,6 @@ function FeedbackOverlay({ shouldDisplay, onToggle, feedbackReceiver }: Feedback
                     </button>
                 </form>
             </div>
-
         </div>
     );
 }

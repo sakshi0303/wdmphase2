@@ -1,10 +1,9 @@
-
 import React, { useEffect, useState } from 'react';
-import { Routes, Link, Outlet, Route } from 'react-router-dom';
+import { Link} from 'react-router-dom';
 
 import '../assets/css/pcss.css';
 import { Header, Footer } from '../components/HeaderFooter';
-import { UserData, UserMap } from '../types/types';
+import { UserMap } from '../types/types';
 import { checkAuthorized, getCurrentUserProfile, userProfile } from '../utils/auth';
 import { useNavigate } from 'react-router-dom';
 import { KeyboardEvent } from 'react';
@@ -16,8 +15,6 @@ const CoordinatorDashboard = () => {
   const [selectedComponent, setSelectedComponent] = useState('CoordinatorDashboard');
 
   const [users, setUsers] = useState<UserMap>({});
-  const [isPersonalInfoOverlayVisible, setIsPersonalInfoOverlayVisible] = useState(false);
-  const [isFeedbackOverlayVisible, setIsFeedbackOverlayVisible] = useState(false);
 
 
   // Define a function to render the selected component
@@ -220,21 +217,21 @@ const CoordinatorDashboard = () => {
   // Define a function to render the content for PCFAQs
   const renderPCFAQs = () => {
     return (
-      <div>
+      <div style={{ textAlign: 'left' }}>
 
         <section id="FAQ">
           <h2>Frequently Asked Questions</h2>
-          <p>1. How do I reset my password?</p>
+          <p>  1. How do I reset my password?</p>
           <p> * To reset your password, click on the "Forgot Password" link on the login page. Follow the instructions
-            sent to your registered email to create a new password.</p>
-          <p>2. How can I add a new instructor to the program?</p>
+            sent to your registered email to create a new password.</p><br/>
+          <p>  2. How can I add a new instructor to the program?</p>
           <p> * To add a new instructor, navigate to the "Instructors" section on the dashboard. Click the "Add
             Instructor" button and fill out the required information. Don't forget to assign courses or
-            responsibilities as needed.</p>
-          <p>3. Can I export student performance reports for a specific time frame?</p>
+            responsibilities as needed.</p><br/>
+          <p>  3. Can I export student performance reports for a specific time frame?</p>
           <p> * Yes, you can export student performance reports for a specific time frame. Visit the "Reports"
             section, select the desired date range, and click the "Export" button to generate a report in a
-            downloadable format.</p>
+            downloadable format.</p><br/>
         </section>
       </div>
     );
@@ -262,22 +259,17 @@ const CoordinatorDashboard = () => {
   };
 
 
-  const handleTogglePersonalInfoOverlay = () => {
-    setIsPersonalInfoOverlayVisible(!isPersonalInfoOverlayVisible);
-  };
-
-  const handleToggleFeedbackOverlay = () => {
-    setIsFeedbackOverlayVisible(!isFeedbackOverlayVisible);
-  };
+ 
 
   const navigate = useNavigate();
 
   const currentUserProfile = getCurrentUserProfile();
 
   // auth
-  const allowedRoles: string[] = ["coordinator", "admin"];
+  
 
   useEffect(() => {
+    const allowedRoles: string[] = ["coordinator", "admin"];
     const checkWithRoles = () => {
       const isAuthorized = checkAuthorized(allowedRoles);
       if (!isAuthorized) {
@@ -317,7 +309,7 @@ const CoordinatorDashboard = () => {
     return () => {
       clearInterval(intervalId);
     };
-  }, [allowedRoles, users, currentUserProfile.id, currentUserProfile.name, navigate]);
+}, [users, currentUserProfile.id, currentUserProfile.name, navigate]);
 
   async function fetchUserData() {
     try {

@@ -265,14 +265,26 @@ body {
 }
 
 .gif-container {
-	flex: 1;
-	max-width: 10000px;
+	display: flex; /* Use flexbox to create two columns */
+	justify-content: space-between; /* Add space between the two columns */
+	max-width: 1000px;
 	position: relative;
-	align-items: center;
 	/* Important: set to relative */
-}
-
-.overlay {
+  }
+  
+  .iframe-wrapper {
+	flex: 1; /* Each iframe takes half of the container's width */
+	margin-right: 10px; /* Add spacing between iframes */
+	overflow: hidden; /* Hide overflow content */
+  }
+  
+  iframe {
+	width: 100%;
+	height: auto;
+	display: block;
+  }
+  
+  .overlay {
 	position: absolute;
 	/* Important: set to absolute */
 	top: 0;
@@ -283,8 +295,8 @@ body {
 	/* Transparent */
 	z-index: 10;
 	/* Higher than iframe */
-}
-
+  }
+  
 .table-container {
 	flex: 1;
 	max-width: 500px;
@@ -1401,14 +1413,15 @@ body {
 
 /* Team member styles */
 .team-member {
+	text-align: left;
 	display: flex;
-	justify-content: center;
-	align-items: center;
+	justify-content: left;
+	align-items: left;
 	margin-bottom: 40px;
 }
 
 .team-member-info {
-	text-align: center;
+	text-align: left;
 }
 
 .team-member-image {
@@ -1479,4 +1492,7 @@ body {
 .no-giphy-branding:hover::after {
 	content: " ";
 	display: none !important;
+}
+.content-container {
+    text-align: left;
 }

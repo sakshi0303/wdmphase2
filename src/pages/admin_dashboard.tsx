@@ -1,29 +1,28 @@
-
 import { useEffect, useState } from 'react';
 import '../assets/css/styles.css';
 import { Header, Footer } from '../components/HeaderFooter';
-import { Message, UserMap } from '../types/types'
+import { UserMap } from '../types/types'
 import { checkAuthorized, getCurrentUserProfile, userProfile } from '../utils/auth';
 import { KeyboardEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getSentiment as invokeGetSentimentAPI } from '../services/openai';
 
-// this is the main export of this page
-// all stateful activity happens here
-// if you want to reference a stateful value inside a function, define it under AdminDashboard
+// This is the main export of this page
+// All stateful activity happens here
+// If you want to reference a stateful value inside a function, define it under AdminDashboard
 const AdminDashboard = () => {
 
   const [users, setUsers] = useState<UserMap>({});
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  const currentUserProfile = getCurrentUserProfile()
+  const currentUserProfile = getCurrentUserProfile();
   const allowedRoles: string[] = ["admin"];
-  const checkWithRoles = () => {    
+  const checkWithRoles = () => {
     const isAuthorized = checkAuthorized(allowedRoles);
     if (!isAuthorized) {
-      navigate('/error')
-    }    
+      navigate('/error');
+    }
   };
 
   useEffect(() => {
@@ -31,11 +30,11 @@ const AdminDashboard = () => {
     if (Object.keys(users).length === 0) {
       loadUserProfiles();
     }
-    // load data    
+    // Load data
     fetchUserData();
-    userProfile(currentUserProfile.name)
+    userProfile(currentUserProfile.name);
 
-    // intervals
+    // Intervals
     setInterval(checkForMessages, 1000);
     const intervalId = setInterval(checkWithRoles, 1000);
     return () => {
@@ -43,14 +42,12 @@ const AdminDashboard = () => {
     };
   }, []);
 
-  // chat functions
+  // Chat functions
   const checkForMessages = () => {
     // Check if there is a message for the student
-
     const message = window.localStorage.getItem(`messageFor_${currentUserProfile.id}`);
 
     if (message) {
-      //const messageType = determineMessageType(message);
       const messageType = message.startsWith("admin:") ? "admin-message" : "student-message";
 
       const chatBox = document.querySelector('.chat-box');
@@ -59,7 +56,7 @@ const AdminDashboard = () => {
       messageDiv.textContent = message;
       chatBox?.appendChild(messageDiv);
 
-      console.log('checkForMessages', message)
+      console.log('checkForMessages', message);
 
       // Clear the message from local storage
       window.localStorage.removeItem(`messageFor_${currentUserProfile.id}`);
@@ -87,7 +84,6 @@ const AdminDashboard = () => {
 
   async function startChatWithUser(): Promise<void> {
     try {
-
       openChatForm()
         .then((formData) => {
           const typedFormData = formData as { id: string };
@@ -129,7 +125,6 @@ const AdminDashboard = () => {
       formContainer.style.background = "floralwhite";
 
       // Add styles to create a background overlay
-      // formContainer.style.backgroundColor = "rgba(0, 0, 0, 0.5)";
       formContainer.style.width = "300px";
       formContainer.style.padding = "40px";
       formContainer.style.borderRadius = "5px";
@@ -242,15 +237,13 @@ const AdminDashboard = () => {
     (document.getElementById('userInput') as HTMLInputElement).value = '';
   }
 
-  // manage users
+  // Manage users
   function handleKeyDown(event: KeyboardEvent): void {
     if (event.key === 'Enter') {
       event.preventDefault(); // Prevent default 'Enter' behavior
       sendMessage(); // Trigger the sendMessage function
     }
   }
-
- 
 
   function handleEditAndUpdate(userId: string): void {
 
@@ -260,12 +253,10 @@ const AdminDashboard = () => {
     const emailCell = document.querySelector(`#user-email-${userId}`) as HTMLElement | null;
     const buttonCell = document.querySelector(`#button-${userId}`) as HTMLElement | null;
 
-
     if (!buttonCell) {
       console.error(`Button with ID "button-${userId}" not found.`);
       return;
     }
-
 
     if (buttonCell.textContent === 'Save') {
       // Save action here (you can implement your save logic)
@@ -411,15 +402,15 @@ const AdminDashboard = () => {
     }
   }
 
-  // open ai components
+  // Open AI components
   const [text, setText] = useState('');
   const [sentiment, setSentiment] = useState('');
 
   async function handleSentimentButtonClick() {
-    invokeGetSentimentAPI(text).then( response => {
+    invokeGetSentimentAPI(text).then(response => {
       console.log('invokeGetSentimentAPI', response)
       setSentiment(response)
-     })
+    })
   }
 
   return (
@@ -432,23 +423,20 @@ const AdminDashboard = () => {
           <button className="admin-1l-button" onClick={() => navigate('/telemetry')} type="button">TELEMETRY</button>
           <button className="admin-1l-button" onClick={() => navigate('/operations')} type="button"> OPERATIONS</button>
           <button className="admin-1l-button" onClick={() => navigate('/feedback')} type="button"> INSTRUCTOR FEEDBACK REPORT</button>
-          <button className="admin-1l-button" onClick={() =>  alert('Coming soon!')} type="button"> TICKETING</button>
+          <button className="admin-1l-button" onClick={() => alert('Coming soon!')} type="button"> TICKETING</button>
 
-          
-            <input
-              type="text"
-              placeholder="Enter text here"
-              value={text}
-              onChange={(e) => setText(e.target.value)}
-              style={{ width: '200px', height: '30px' }}
-            />
-            <button className="admin-1l-button" onClick={handleSentimentButtonClick}>Analyze Sentiment</button>
+          <input
+            type="text"
+            placeholder="Enter text here"
+            value={text}
+            onChange={(e) => setText(e.target.value)}
+            style={{ width: '200px', height: '30px' }}
+          />
+          <button className="admin-1l-button" onClick={handleSentimentButtonClick}>Analyze Sentiment</button>
 
-            {sentiment !== null && (
-              
-                <p>Sentiment: {sentiment}</p>
-            
-            )}
+          {sentiment !== null && (
+            <p>Sentiment: {sentiment}</p>
+          )}
 
         <hr />
 
@@ -458,7 +446,6 @@ const AdminDashboard = () => {
               <div className="instructor-2l-action-item">Quick Actions</div>
               <div>
                 <div className="instructor-2l-action-item">
-
                   <button className="instructor-3l-action" onClick={() => { navigate('/student-dashboard') }}>
                     View student dashboard
                   </button>
@@ -525,5 +512,3 @@ const AdminDashboard = () => {
 };
 
 export default AdminDashboard;
-
-

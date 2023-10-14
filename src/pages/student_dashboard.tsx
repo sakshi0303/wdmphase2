@@ -1,5 +1,5 @@
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import '../assets/css/styles.css';
 import { Header, Footer } from '../components/HeaderFooter';
 import { UserData, UserMap } from '../types/types'
@@ -30,7 +30,8 @@ const StudentDashboard = () => {
   const currentUserProfile = getCurrentUserProfile()
 
   // auth
-  const allowedRoles: string[] = ["student", "admin"];
+  const allowedRoles = useMemo(() => ["student", "admin"], []);
+  
 
   useEffect(() => {
 

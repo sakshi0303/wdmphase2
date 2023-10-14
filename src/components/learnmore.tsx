@@ -1,10 +1,10 @@
 import React from 'react';
 import '../assets/css/styles.css';
-import { useNavigate } from 'react-router-dom';
+
 import { Header, Footer } from './HeaderFooter';
 
 const LearnMore: React.FC = () => {
-  const navigate = useNavigate();
+  
 
   return (
     <div>

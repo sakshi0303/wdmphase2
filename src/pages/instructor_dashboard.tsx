@@ -1,9 +1,9 @@
 
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import '../assets/css/styles.css';
 import { Header, Footer } from '../components/HeaderFooter';
-import { Message, UserData, UserMap } from '../types/types'
-import Papa from 'papaparse'; 
+import { UserData, UserMap } from '../types/types'
+
 
 import { checkAuthorized, getCurrentUserProfile, userProfile } from '../utils/auth';
 import { KeyboardEvent } from 'react';
@@ -12,9 +12,8 @@ import PersonalInfoOverlay from '../components/personalInfo';
 
 const InstructorDashboard = () => {
 
-  const [messages, setMessages] = useState<Message[]>([]);
+  
   const [users, setUsers] = useState<UserMap>({});
-  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const [examData, setExamData] = useState<string[][]>([]);
   const [isExamOverlayVisible, setIsExamOverlayVisible] = useState(false);
@@ -28,7 +27,7 @@ const InstructorDashboard = () => {
   const [courseData, setCourseData] = useState<string[][]>([]);
 
 
-  const [feedbacks, setFeedbacks] = useState({});
+  
 
   const [isPersonalInfoOverlayVisible, setIsPersonalInfoOverlayVisible] = useState(false);
 
@@ -284,56 +283,7 @@ const FeedbackOverlay = ({ onClose }: { onClose: () => void }) => {
 
 
 
-  async function loadCourseListAndDisplay(): Promise<void> {
-    try {
-      const response = await fetch('assets/reports/csv/courses.csv');
-      const data = await response.text();
-
-      const rows = data.split('\n');
-
-      const table: HTMLTableElement = document.createElement('table');
-      table.className = 'csv-table';
-
-      const headers = rows[0].split(',');
-      const headerRow: HTMLTableRowElement = document.createElement('tr');
-
-      headers.forEach(header => {
-        const headerCell: HTMLTableHeaderCellElement = document.createElement('th');
-        headerCell.textContent = header;
-        headerRow.appendChild(headerCell);
-      });
-
-      table.appendChild(headerRow);
-
-      for (let i = 1; i < rows.length; i++) {
-        const row = rows[i].split(',');
-        if (row.length === headers.length) {
-          const dataRow: HTMLTableRowElement = document.createElement('tr');
-
-          row.forEach((value, j) => { // <-- Note the added j here
-            const dataCell: HTMLTableCellElement = document.createElement('td');
-            if (j === 2 && !currentUserProfile.role.includes('admin')) {
-              dataCell.textContent = currentUserProfile.name;
-            } else {
-              dataCell.textContent = value;
-            }
-            dataRow.appendChild(dataCell);
-          });
-
-          dataRow.classList.add('data-row');
-          table.appendChild(dataRow);
-        }
-      }
-
-      const container = document.getElementById('course-list-container');
-      if (container) {
-        container.innerHTML = ''; // Clear any previous content
-        container.appendChild(table);
-      }
-    } catch (error) {
-      console.error('Error reading CSV file:', error);
-    }
-  }
+  
 
   async function loadPersonalInfo(): Promise<void> {
     const filePath: string = 'assets/reports/instructor.txt';
@@ -703,7 +653,7 @@ const isNumeric = (value: string): boolean => {
 
 
     if (buttonCell.textContent === 'Save') {
-      console.log(`handle update 271`);
+     
       // Save action here (you can implement your save logic)
       // Validate fields here (e.g., check if inputs are not empty)
       const nameInput = nameCell?.querySelector('input') as HTMLInputElement;
@@ -712,7 +662,7 @@ const isNumeric = (value: string): boolean => {
 
       if (!nameInput || !roleSelect || !emailInput) {
         console.error(`Input fields not found for user row with ID ${userId}.`);
-        console.log(`handle update 280`);
+        
         return;
       }
 
@@ -795,7 +745,6 @@ const isNumeric = (value: string): boolean => {
   function loadUserProfiles(): void {
 
     try {
-      setLoading(true);
       // Read the CSV file
       const filePath = process.env.PUBLIC_URL + '/csv/users.csv';
 
@@ -848,10 +797,8 @@ const isNumeric = (value: string): boolean => {
 
         }
       )
-      setLoading(false);
     } catch (error) {
-      console.error('Error loading user profiles:', error);
-      setLoading(false)
+      console.error('Error loading user profiles:', error);      
     }
   }
 

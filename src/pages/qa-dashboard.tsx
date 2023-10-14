@@ -1,16 +1,12 @@
 
-import React, { useEffect, useRef, useState } from 'react';
-import { Routes, Link, Outlet, Route } from 'react-router-dom';
-
-
+import React, { useEffect, useMemo, useState } from 'react';
 import '../assets/css/qastyles.css';
-
 import { Header, Footer } from '../components/HeaderFooter';
-import { UserData, UserMap } from '../types/types';
+import { UserMap } from '../types/types';
 import { checkAuthorized, getCurrentUserProfile, userProfile } from '../utils/auth';
 import { useNavigate } from 'react-router-dom';
 import { KeyboardEvent } from 'react';
-import { BarChart } from '../components/chart';
+
 import ReportsComponent from '../components/reports';
 
 // ... (import statements)
@@ -23,8 +19,7 @@ const QADashboard = () => {
 
 
   const [users, setUsers] = useState<UserMap>({});
-  const [isPersonalInfoOverlayVisible, setIsPersonalInfoOverlayVisible] = useState(false);
-  const [isFeedbackOverlayVisible, setIsFeedbackOverlayVisible] = useState(false);
+
 
   // Define your state variables for QA-related data here
 
@@ -39,7 +34,7 @@ const QADashboard = () => {
         }));
       }
     });
-  }, []);
+  }, [editableElementIds]);
 
   const handleEditClick = () => {
     setIsEditing((prevState) => !prevState);
@@ -181,26 +176,29 @@ const QADashboard = () => {
   const renderRecommendations = () => {
     return (
       <div className="qa-dashboard-container">
-        <div id="content">
-          <h2>Welcome to Quality Assurance Dashboard - Recommendations</h2>
-          <div id="recommendations">
-            <label htmlFor="recommendationId">Enter ID:</label>
-            <input type="text" id="recommendationId" />
-            <button id="generateButton">Generate</button>
-          </div>
-        </div>
-      </div>
+  <div id="content">
+    <h2>Welcome to Quality Assurance Dashboard - Recommendations</h2>
+    <div id="recommendations">
+      <h3>Quality Assurance Recommendations:</h3>
+      <ul>
+        <li>Regularly review and update training materials to ensure accuracy and relevance.</li>
+        <li>Conduct thorough quality checks on all training programs before deployment.</li>
+        <li>Implement a feedback mechanism for learners to report issues and provide suggestions.</li>
+        <li>Monitor learner progress and provide additional support to those who are struggling.</li>
+        <li>Collaborate with instructors and program coordinators to address any instructional issues.</li>
+        <li>Stay updated with industry best practices and incorporate them into training programs.</li>
+      </ul>
+      <label htmlFor="recommendationId">Enter ID:</label>
+      <input type="text" id="recommendationId" />
+      <button id="generateButton">Generate</button>
+    </div>
+  </div>
+</div>
     );
   };
 
 
-  const handleTogglePersonalInfoOverlay = () => {
-    setIsPersonalInfoOverlayVisible(!isPersonalInfoOverlayVisible);
-  };
-
-  const handleToggleFeedbackOverlay = () => {
-    setIsFeedbackOverlayVisible(!isFeedbackOverlayVisible);
-  };
+ 
 
   const navigate = useNavigate();
 
@@ -208,7 +206,7 @@ const QADashboard = () => {
 
   // auth
 
-  const allowedRoles: string[] = ["qa", "admin"];
+  const allowedRoles = useMemo(() => ["student", "admin"], []);
 
   useEffect(() => {
     const checkWithRoles = () => {
@@ -459,8 +457,10 @@ const QADashboard = () => {
         <main>
           {renderSelectedComponent()}
         </main>
+        
       </div>
       <Footer />
+      
     </div>
   );
 }

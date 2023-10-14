@@ -2,11 +2,11 @@ import React from 'react';
 import '../assets/css/styles.css';
 import { Header, Footer } from '../components/HeaderFooter';
 import { useNavigate } from 'react-router-dom';
-import { UserData } from '../types/types'
-
+import { UserData } from '../types/types';
 
 const Login = () => {
   const navigate = useNavigate();
+
   // Function to validate user login
   async function validateLogin(event: React.FormEvent): Promise<void> {
     event.preventDefault(); // Prevent the default form submission behavior
@@ -19,10 +19,8 @@ const Login = () => {
         // Fetch user data from an external CSV file
         const response = await fetch(process.env.PUBLIC_URL + '/csv/users.csv');
 
-
         if (response.ok) {
           const csvData = await response.text();
-
 
           // Parse CSV data into an array of objects
           const userData: UserData[] = parseCSVData(csvData);
@@ -31,7 +29,7 @@ const Login = () => {
           const matchingUser = userData.find((user) => user.email === emailInput.value && user.password === passwordInput.value);
 
           if (matchingUser) {
-            window.sessionStorage.setItem('identity', JSON.stringify(matchingUser))
+            window.sessionStorage.setItem('identity', JSON.stringify(matchingUser));
             // Redirect or perform login action
             switch (matchingUser.role) {
               case 'admin':
@@ -52,11 +50,9 @@ const Login = () => {
               default:
                 console.log('Unknown role');
             }
-
-            //return; // Exit the function if login is successful
           } else {
             // If no matching user found
-            alert("Login failed. Invalid credentials")
+            alert("Login failed. Invalid credentials");
             console.log('Login failed. Invalid credentials');
           }
         } else {
@@ -98,7 +94,6 @@ const Login = () => {
     return userData;
   }
 
-
   return (
     <div className="container">
       <Header login={true} />
@@ -109,12 +104,40 @@ const Login = () => {
             <div><input type="password" name="password" placeholder="Password (ex: admin)" required autoComplete='' /></div>
             <div><button type="submit">Login</button></div>
             <div>
-              <a onClick={() => { navigate('/ForgotPassword') }}>
-                Forgot password?</a>
+              <button
+                type="button"
+                onClick={() => { navigate('/ForgotPassword') }}
+                aria-label="Forgot Password"
+                style={{
+                  background: 'none',
+                  border: 'none',
+                  padding: '0',
+                  font: 'inherit',
+                  cursor: 'pointer',
+                  textDecoration: 'underline',
+                  color: 'blue',
+                }}
+              >
+                Forgot password?
+              </button>
               <p>  Not a member?
-                <a onClick={() => { navigate('/signup') }}>
+                <button
+                  type="button"
+                  onClick={() => { navigate('/signup') }}
+                  aria-label="Sign Up"
+                  style={{
+                    background: 'none',
+                    border: 'none',
+                    padding: '0',
+                    font: 'inherit',
+                    cursor: 'pointer',
+                    textDecoration: 'underline',
+                    color: 'blue',
+                  }}
+                >
                   SignUp
-                </a></p>
+                </button>
+              </p>
             </div>
           </form>
         </div>

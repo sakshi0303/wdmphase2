@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { UserData } from '../types/types';
 
 type PersonalInfoOverlayProps = {
@@ -20,18 +20,19 @@ function PersonalInfoOverlay({
 
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Email validation regex
 
-  const handleClose = () => {
+  // Define the handleClose and handleOpen functions using useCallback
+  const handleClose = useCallback(() => {
     onToggle(false);
-  };
+  }, [onToggle]);
 
-  const handleOpen = () => {
+  const handleOpen = useCallback(() => {
     onToggle(true);
-  };
+  }, [onToggle]);
 
   useEffect(() => {
     handleOpen();
     return () => handleClose();
-  }, [onToggle]);
+  }, [handleClose, handleOpen]);
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();

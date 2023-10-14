@@ -16,6 +16,7 @@ student -> feedback -> stored in file -> admin dashboard shows feedback in dashb
 
 install 
 -npx create-react-app my-app --template typescript
+npm install --save-dev @babel/plugin-transform-private-property-in-object
 --npm run build
 --npm start run
 --npm install --save @babel/plugin-proposal-private-property-in-object

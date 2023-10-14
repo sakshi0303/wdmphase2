@@ -30,7 +30,7 @@ const FeedbackPieChartViewer: React.FC = () => {
     Negative: 0,
     Neutral: 0,
   });
-  const [showPieChart, setShowPieChart] = useState(true);
+  const [showPieChart] = useState(true);
 
   useEffect(() => {
     // Fetch student feedback data from a CSV file

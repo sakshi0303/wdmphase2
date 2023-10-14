@@ -6,20 +6,22 @@ import { Header, Footer } from './HeaderFooter';
 
 Chart.register(CategoryScale);
 
-type Telemetry = {
+// Define the Telemetry type for your data
+type TelemetryData = {
   Action: string;
   ComponentName: string;
   How: string;
 };
 
 const Telemetry: React.FC = () => {
-  const sampleTelemetry: Telemetry[] = [
+  const sampleTelemetry: TelemetryData[] = [
     { Action: "click", ComponentName: "button-login", How: "click" },
     { Action: "hover", ComponentName: "menu-dropdown", How: "hover" },
     { Action: "click", ComponentName: "link-home", How: "click" }
   ];
 
-  function processData(data: Telemetry[]) {
+  // Function to process telemetry data and count actions
+  function processData(data: TelemetryData[]) {
     return data.reduce((acc, curr) => {
       if (acc[curr.Action]) {
         acc[curr.Action]++;
@@ -30,6 +32,7 @@ const Telemetry: React.FC = () => {
     }, {} as Record<string, number>);
   }
 
+  // Initial chart data based on sample telemetry
   const initialChartData = {
     labels: Object.keys(processData(sampleTelemetry)),
     datasets: [
@@ -43,10 +46,12 @@ const Telemetry: React.FC = () => {
     ],
   };
 
+  // State for chart data and telemetry data
   const [chartDataState, setChartDataState] = useState(initialChartData);
   const [telemetryDataState, setTelemetryDataState] = useState(sampleTelemetry);
 
   useEffect(() => {
+    // Fetch telemetry data from a CSV file
     fetch(process.env.PUBLIC_URL + '/csv/telemetry.csv')
       .then(response => response.text())
       .then(data => {
@@ -72,22 +77,23 @@ const Telemetry: React.FC = () => {
       });
   }, []);
 
+  // Styles for the Telemetry Data Table
   const tableStyle: React.CSSProperties = {
     borderCollapse: 'collapse',
     width: '80%',
     margin: '20px auto',
     border: '1px solid #ddd'
-};
+  };
 
-const tableHeaderStyle: React.CSSProperties = {
+  const tableHeaderStyle: React.CSSProperties = {
     backgroundColor: '#f2f2f2',
     color: 'black'
-};
+  };
 
-const tableCellStyle: React.CSSProperties = {
+  const tableCellStyle: React.CSSProperties = {
     border: '1px solid #ddd',
     padding: '8px'
-};
+  };
 
   return (
     <div className="App">

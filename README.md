@@ -69,6 +69,7 @@ https://platform.openai.com/account/api-keys
 --npm start
 --npm run build to crete a build
 --npm install @types/papaparse
+-npm run build > build.log
 
 # Getting Started with Create React App
 

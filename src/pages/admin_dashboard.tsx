@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import '../assets/css/styles.css';
 import { Header, Footer } from '../components/HeaderFooter';
 import { UserMap } from '../types/types'
@@ -13,35 +13,22 @@ import { getSentiment as invokeGetSentimentAPI } from '../services/openai';
 const AdminDashboard = () => {
 
   const [users, setUsers] = useState<UserMap>({});
-  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const currentUserProfile = getCurrentUserProfile();
-  const allowedRoles: string[] = ["admin"];
-  const checkWithRoles = () => {
+  
+  
+    
+
+    // Move checkWithRoles into the main component
+  const checkWithRoles = useCallback(() => {
+    const allowedRoles: string[] = ["admin"];
     const isAuthorized = checkAuthorized(allowedRoles);
     if (!isAuthorized) {
       navigate('/error');
     }
-  };
-
-  useEffect(() => {
-    checkWithRoles();
-    if (Object.keys(users).length === 0) {
-      loadUserProfiles();
-    }
-    // Load data
-    fetchUserData();
-    userProfile(currentUserProfile.name);
-
-    // Intervals
-    setInterval(checkForMessages, 1000);
-    const intervalId = setInterval(checkWithRoles, 1000);
-    return () => {
-      clearInterval(intervalId);
-    };
-  }, []);
-
+  }, [checkAuthorized, navigate]);
+ 
   // Chat functions
   const checkForMessages = () => {
     // Check if there is a message for the student
@@ -62,6 +49,26 @@ const AdminDashboard = () => {
       window.localStorage.removeItem(`messageFor_${currentUserProfile.id}`);
     }
   };
+
+  useEffect(() => {
+    // Define the dependencies here
+    
+    checkWithRoles();
+    if (Object.keys(users).length === 0) {
+      loadUserProfiles();
+    }
+    // Load data
+    fetchUserData();
+    userProfile(currentUserProfile.name);
+
+    // Intervals
+    setInterval(checkForMessages, 1000);
+    const intervalId = setInterval(checkWithRoles, 1000);
+    return () => {
+      clearInterval(intervalId);
+    };
+  }, [checkForMessages, loadUserProfiles,checkWithRoles, currentUserProfile.name, users]);
+
 
   async function fetchUserData() {
     try {
@@ -245,7 +252,7 @@ const AdminDashboard = () => {
     }
   }
 
-  function handleEditAndUpdate(userId: string): void {
+  const handleEditAndUpdate = useCallback((userId: string): void => {
 
     const idCell = document.querySelector(`#user-id-${userId}`) as HTMLElement | null;
     const nameCell = document.querySelector(`#user-name-${userId}`) as HTMLElement | null;
@@ -325,7 +332,7 @@ const AdminDashboard = () => {
         console.error(`User row with ID ${userId} not found.`);
       }
     }
-  }
+  }, []);
 
   // Attach event listeners to edit buttons
   useEffect(() => {
@@ -344,7 +351,6 @@ const AdminDashboard = () => {
 
   function loadUserProfiles(): void {
     try {
-      setLoading(true);
       // Read the CSV file
       const filePath = process.env.PUBLIC_URL + '/csv/users.csv';
 
@@ -395,10 +401,8 @@ const AdminDashboard = () => {
 
         }
       )
-      setLoading(false);
     } catch (error) {
       console.error('Error loading user profiles:', error);
-      setLoading(false)
     }
   }
 

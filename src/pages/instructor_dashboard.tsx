@@ -1,5 +1,5 @@
 
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import '../assets/css/styles.css';
 import { Header, Footer } from '../components/HeaderFooter';
 import { UserData, UserMap } from '../types/types'
@@ -12,22 +12,17 @@ import PersonalInfoOverlay from '../components/personalInfo';
 
 const InstructorDashboard = () => {
 
-  
+
   const [users, setUsers] = useState<UserMap>({});
   const navigate = useNavigate();
   const [examData, setExamData] = useState<string[][]>([]);
   const [isExamOverlayVisible, setIsExamOverlayVisible] = useState(false);
-  const [name, setName] = useState<string>('');
-  const [email, setEmail] = useState<string>('');
-  const [utaId, setUtaId] = useState<string>('');
-  const [education, setEducation] = useState<string>('');
   const [isCreatingCourse, setIsCreatingCourse] = useState(false);
-  const [students, setStudents] = useState<string[][]>([]);
   const [isFeedbackOverlayVisible, setIsFeedbackOverlayVisible] = useState(false);
   const [courseData, setCourseData] = useState<string[][]>([]);
 
 
-  
+
 
   const [isPersonalInfoOverlayVisible, setIsPersonalInfoOverlayVisible] = useState(false);
 
@@ -41,11 +36,11 @@ const InstructorDashboard = () => {
 
   // auth
   const allowedRoles: string[] = ["instructor", "admin"];
-  const checkWithRoles = () => {    
+  const checkWithRoles = () => {
     const isAuthorized = checkAuthorized(allowedRoles);
     if (!isAuthorized) {
       navigate('/error')
-    }    
+    }
   };
 
   useEffect(() => {
@@ -54,22 +49,6 @@ const InstructorDashboard = () => {
       examOverlayElement.style.display = isExamOverlayVisible ? "block" : "none";
     }
   }, [isExamOverlayVisible]);
-
-  useEffect(() => {
-    async function loadStudents() {
-      try {
-        const response = await fetch(process.env.PUBLIC_URL + '/csv/students.csv');
-        const data = await response.text();
-        const rows = data.split('\n');
-        const studentsData = rows.map(row => row.split(','));
-        setStudents(studentsData);
-      } catch (error) {
-        console.error('Error reading students CSV file:', error);
-      }
-    }
-
-    loadStudents();
-  }, []);
 
   useEffect(() => {
 
@@ -204,86 +183,86 @@ const InstructorDashboard = () => {
   };
 
 
-const FeedbackOverlay = ({ onClose }: { onClose: () => void }) => {
-  const [feedbacks, setFeedbacks] = useState<{ [key: string]: string }>({});
-  const [isFeedbackOverlayVisible, setIsFeedbackOverlayVisible] = useState(true);
-  const [students, setStudents] = useState<{ id: string; name: string }[]>([]);
+  const FeedbackOverlay = ({ onClose }: { onClose: () => void }) => {
+    const [feedbacks, setFeedbacks] = useState<{ [key: string]: string }>({});
+    const [isFeedbackOverlayVisible, setIsFeedbackOverlayVisible] = useState(true);
+    const [students, setStudents] = useState<{ id: string; name: string }[]>([]);
 
-  useEffect(() => {
-    // Fetch the students.csv file
-    fetch(process.env.PUBLIC_URL + '/csv/students.csv')
-      .then((response) => response.text())
-      .then((fileText) => {
-        const lines = fileText.split('\n').slice(1); // Skip the first line
-        const studentData = lines.map((line) => {
-          const [name] = line.split(','); // Extract student name
-          return { id: name, name };
+    useEffect(() => {
+      // Fetch the students.csv file
+      fetch(process.env.PUBLIC_URL + '/csv/students.csv')
+        .then((response) => response.text())
+        .then((fileText) => {
+          const lines = fileText.split('\n').slice(1); // Skip the first line
+          const studentData = lines.map((line) => {
+            const [name] = line.split(','); // Extract student name
+            return { id: name, name };
+          });
+          setStudents(studentData);
+        })
+        .catch((error) => {
+          console.error('Error fetching or reading the file:', error);
         });
-        setStudents(studentData);
-      })
-      .catch((error) => {
-        console.error('Error fetching or reading the file:', error);
-      });
-  }, []);
+    }, []);
 
-  const handleSubmit = () => {
-    // Validate feedback
-    for (const key in students) {
-      if (!feedbacks[students[key].id] || feedbacks[students[key].id].trim() === '') {
-        alert('All feedback fields are mandatory.');
-        return;
+    const handleSubmit = () => {
+      // Validate feedback
+      for (const key in students) {
+        if (!feedbacks[students[key].id] || feedbacks[students[key].id].trim() === '') {
+          alert('All feedback fields are mandatory.');
+          return;
+        }
       }
-    }
-    alert('Your feedback is sent to admin for review.');
+      alert('Your feedback is sent to admin for review.');
 
-    setIsFeedbackOverlayVisible(false);
-    onClose();
+      setIsFeedbackOverlayVisible(false);
+      onClose();
+    };
+
+    return (
+      <div className="overlay" id="create-feedback-overlay" style={{ display: isFeedbackOverlayVisible ? 'block' : 'none' }}>
+        <div className="create-feedback-form-container">
+          <button className="create-feedback-close-btn" onClick={onClose}>
+            &times;
+          </button>
+          <h2>Feedback to Students</h2>
+          <table>
+            <thead>
+              <tr>
+                <th>Student Name</th>
+                <th>Feedback</th>
+              </tr>
+            </thead>
+            <tbody>
+              {students.map((student, index) => (
+                <tr key={index}>
+                  <td>{student.name}</td>
+                  <td>
+                    <input
+                      type="text"
+                      value={feedbacks[student.id] || ''}
+                      onChange={(e) => setFeedbacks({ ...feedbacks, [student.id]: e.target.value })}
+                    />
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          <button onClick={handleSubmit}>Submit Feedback</button>
+        </div>
+      </div>
+    );
   };
 
-  return (
-    <div className="overlay" id="create-feedback-overlay" style={{ display: isFeedbackOverlayVisible ? 'block' : 'none' }}>
-      <div className="create-feedback-form-container">
-        <button className="create-feedback-close-btn" onClick={onClose}>
-          &times;
-        </button>
-        <h2>Feedback to Students</h2>
-        <table>
-          <thead>
-            <tr>
-              <th>Student Name</th>
-              <th>Feedback</th>
-            </tr>
-          </thead>
-          <tbody>
-            {students.map((student, index) => (
-              <tr key={index}>
-                <td>{student.name}</td>
-                <td>
-                  <input
-                    type="text"
-                    value={feedbacks[student.id] || ''}
-                    onChange={(e) => setFeedbacks({ ...feedbacks, [student.id]: e.target.value })}
-                  />
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-        <button onClick={handleSubmit}>Submit Feedback</button>
-      </div>
-    </div>
-  );
-};
-
-  
-  
-
-  
 
 
 
 
-  
+
+
+
+
+
 
   async function loadPersonalInfo(): Promise<void> {
     const filePath: string = 'assets/reports/instructor.txt';
@@ -299,15 +278,10 @@ const FeedbackOverlay = ({ onClose }: { onClose: () => void }) => {
       }
     });
 
-    setName(info['Name'] || '');
-    setEmail(info['Email'] || '');
-    setUtaId(info['UtaId'] || '');
-    setEducation(info['Education'] || '');
-
     window.localStorage.setItem('instructorName', info['Name'] || '');
   }
 
-  
+
 
 
   const CourseCreationOverlay = ({ onClose }: { onClose: () => void }) => {
@@ -408,19 +382,19 @@ const FeedbackOverlay = ({ onClose }: { onClose: () => void }) => {
       alert("Please fill out all required fields.");
       return;
     }
-    
+
     if (!isNumeric(examDuration)) {
-        alert('Exam duration must be in mins.');
-        return;
+      alert('Exam duration must be in mins.');
+      return;
     }
 
     alert("Exam is created successfully and is under admin review.");
     setIsExamOverlayVisible(false);
-};
+  };
 
-const isNumeric = (value: string): boolean => {
-  return !isNaN(Number(value));
-};
+  const isNumeric = (value: string): boolean => {
+    return !isNaN(Number(value));
+  };
 
 
 
@@ -635,7 +609,7 @@ const isNumeric = (value: string): boolean => {
     }
   }
 
-  function handleEditAndUpdate(userId: string): void {
+  const handleEditAndUpdate = useCallback((userId: string): void => {
     console.log(`handle update2`);
 
     const idCell = document.querySelector(`#user-id-${userId}`) as HTMLElement | null;
@@ -653,7 +627,7 @@ const isNumeric = (value: string): boolean => {
 
 
     if (buttonCell.textContent === 'Save') {
-     
+
       // Save action here (you can implement your save logic)
       // Validate fields here (e.g., check if inputs are not empty)
       const nameInput = nameCell?.querySelector('input') as HTMLInputElement;
@@ -662,7 +636,7 @@ const isNumeric = (value: string): boolean => {
 
       if (!nameInput || !roleSelect || !emailInput) {
         console.error(`Input fields not found for user row with ID ${userId}.`);
-        
+
         return;
       }
 
@@ -722,7 +696,7 @@ const isNumeric = (value: string): boolean => {
         console.error(`User row with ID ${userId} not found.`);
       }
     }
-  }
+  }, []);
 
   // Attach event listeners to edit buttons
   useEffect(() => {
@@ -798,7 +772,7 @@ const isNumeric = (value: string): boolean => {
         }
       )
     } catch (error) {
-      console.error('Error loading user profiles:', error);      
+      console.error('Error loading user profiles:', error);
     }
   }
 
@@ -810,18 +784,19 @@ const isNumeric = (value: string): boolean => {
         <div className="dashboard-container">
           <span id="instructorName">{/* Your instructor name here */}</span>
 
-          <a className="instructor-1l-button" onClick={() => setIsExamOverlayVisible(true)}>CREATE EXAM</a>
+          <button className="instructor-1l-button" onClick={() => setIsExamOverlayVisible(true)}>CREATE EXAM</button>
           {isExamOverlayVisible && <ExamOverlay onClose={() => setIsExamOverlayVisible(false)} />}
 
-          <a className="instructor-1l-button" onClick={() => navigate('/studentprogress')}>STUDENT PROGRESS</a>
+          <button className="instructor-1l-button" onClick={() => navigate('/studentprogress')}>STUDENT PROGRESS</button>
 
-          <a className="instructor-1l-button" onClick={() => setIsCreatingCourse(true)}>CREATE COURSE</a>
+          <button className="instructor-1l-button" onClick={() => setIsCreatingCourse(true)}>CREATE COURSE</button>
           {isCreatingCourse && <CourseCreationOverlay onClose={() => setIsCreatingCourse(false)} />}
 
-          <a className="instructor-1l-button" onClick={() => setIsFeedbackOverlayVisible(true)}>
+          <button className="instructor-1l-button" onClick={() => setIsFeedbackOverlayVisible(true)}>
             FEEDBACK TO STUDENTS
-          </a>
+          </button>
           {isFeedbackOverlayVisible && <FeedbackOverlay onClose={() => setIsFeedbackOverlayVisible(false)} />}
+
         </div>
 
         <hr />
@@ -894,8 +869,8 @@ const isNumeric = (value: string): boolean => {
                 </table>
               </div>
             </div>
-            </div>
-            <div>
+          </div>
+          <div>
 
             <div className="instructor-2l-container">
               <div id="exam-list-container">

@@ -99,3 +99,7 @@ installing
 --npm run build to crete a build
 --npm install @types/papaparse
 -npm run build > build.log
+
+--npm install react-scripts --save --force
+--npm install --force
+--npm install -g react-scripts

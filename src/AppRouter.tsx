@@ -1,3 +1,12 @@
+/*  
+    Author: Sakshi
+    UTA ID: 1001993702
+    Email: sx3702@mavs.uta.edu
+    Group number: 1, WDM assignment, Assignment 3
+    Date: October 14, 2023
+    Description: 
+    
+*/
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import AdminDashboard from './pages/admin_dashboard';

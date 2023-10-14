@@ -1,15 +1,44 @@
-## Special feature
-1. at the end of course student will give feedback to instructor via feedback button which displays a form
-2. the feedback will be stored in aws s3 cloud (for now use storage / csv file)
-   - offline analysis of data by running openAI sentinment analysis on it
-3. admin dashboard will then display professors overall rating based on sentiment analysis
-   - 5 rating bar chart based on professors score
+<!--    
+    Author: Sakshi
+    UTA ID: 1001993702
+    Email: sx3702@mavs.uta.edu
+    Group number: 1, WDM assignment, Assignment 3
+    Date: September 25, 2023
+    Description: ReadMe
+    
+    CSE 5335 - SECTION 005 WEB DATA MANAGEMENT
+    Group1: 
+      Harini Aluka-1002080841 
+      Kiran Mai Akaram-1002115618 
+      Mary Pranavi Allam-1002077034 
+      Sai Vineeth Akula-1002028631 
+      Fnu Sakshi-1001993702
+-->
+
+UTA Cloud Link::
+
+Click on Login  https://sx3702.uta.cloud/assignment2/index.html to view students,instructor,admin,Program Coordinator, Quality Officer dashboard
+
+Below are credential used from /assets/reports/csv/users.csv for validation
+
+1. admin: 
+    email: admin@gmail.com 
+    password: admin
+2. student: 
+    email: alice@gmail.com 
+    password: pass
+3. instructor: 
+    email: bob@gmail.com 
+    password: pass
+4. Program coordinator: 
+    email:cod@gmail.com 
+    password: pass
+5. Quality Assurance: 
+    email:qa@gmail.com 
+    password: pass
 
 
-### next steps
-1. right now the values are randomly selector for pie chart
-2. call open ai and determine the right value
-3. set it and replace the random function
+    Requirment:
 
 student -> feedback -> stored in file -> admin dashboard shows feedback in dashboards
 

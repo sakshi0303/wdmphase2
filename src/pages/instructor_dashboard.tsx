@@ -1,4 +1,18 @@
-
+/*  
+    Author: Sakshi
+    UTA ID: 1001993702
+    Email: sx3702@mavs.uta.edu
+    Group number: 1, WDM assignment, Assignment 3
+    Date: October 14, 2023
+    Description: Instructor dashboard contains all features that enable instructors to manage their course
+    
+    Feature list:
+    •	Instructors can create and manage courses. (line 52)
+    •	Feedback to the students based on the assessments and exams. (line 56)
+    •	Personal information page (line 68)
+    •	Progress tracking of students. (line 50)
+    •	Chat (line 77)
+*/
 import { useCallback, useEffect, useState } from 'react';
 import '../assets/css/styles.css';
 import { Header, Footer } from '../components/HeaderFooter';

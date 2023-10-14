@@ -1,3 +1,7 @@
+/*Author: Harini Aluka,Kiran Mai Akaram-
+    UTA ID: 1002080841,1002115618
+    Group number: 1, WDM assignment, Assignment 3
+    Date: October 14 2023*/
 import React, { useEffect, useState } from 'react';
 import { Link} from 'react-router-dom';
 

@@ -1,4 +1,20 @@
-import { useCallback, useEffect, useState } from 'react';
+/*   
+    Author: Sakshi
+    UTA ID: 1001993702
+    Email: sx3702@mavs.uta.edu
+    Group number: 1, WDM assignment, Assignment
+    Date: October 14, 2023
+    Description: Admin dashboard
+
+    Features:
+    •	User permissions. (line 102, 227)
+    •	Manage students, instructors, QAO, Program coordinator. (line 102, 227)
+    •	Access and edit their profile information. (line 102, 227)
+    •	CRUD functionality. (line 102, 227)
+    •	Monitor user activity, troubleshoot issues. (line 47, 52)
+    •	Chat (line 79, 337)
+*/
+import { useEffect, useState } from 'react';
 import '../assets/css/styles.css';
 import { Header, Footer } from '../components/HeaderFooter';
 import { UserMap } from '../types/types'
@@ -16,19 +32,31 @@ const AdminDashboard = () => {
   const navigate = useNavigate();
 
   const currentUserProfile = getCurrentUserProfile();
-  
-  
-    
-
-    // Move checkWithRoles into the main component
-  const checkWithRoles = useCallback(() => {
-    const allowedRoles: string[] = ["admin"];
+  const allowedRoles: string[] = ["admin"];
+  const checkWithRoles = () => {
     const isAuthorized = checkAuthorized(allowedRoles);
     if (!isAuthorized) {
       navigate('/error');
     }
-  }, [checkAuthorized, navigate]);
- 
+  };
+
+  useEffect(() => {
+    checkWithRoles();
+    if (Object.keys(users).length === 0) {
+      loadUserProfiles();
+    }
+    // Load data
+    fetchUserData();
+    userProfile(currentUserProfile.name);
+
+    // Intervals
+    setInterval(checkForMessages, 1000);
+    const intervalId = setInterval(checkWithRoles, 1000);
+    return () => {
+      clearInterval(intervalId);
+    };
+  }, []);
+
   // Chat functions
   const checkForMessages = () => {
     // Check if there is a message for the student
@@ -49,26 +77,6 @@ const AdminDashboard = () => {
       window.localStorage.removeItem(`messageFor_${currentUserProfile.id}`);
     }
   };
-
-  useEffect(() => {
-    // Define the dependencies here
-    
-    checkWithRoles();
-    if (Object.keys(users).length === 0) {
-      loadUserProfiles();
-    }
-    // Load data
-    fetchUserData();
-    userProfile(currentUserProfile.name);
-
-    // Intervals
-    setInterval(checkForMessages, 1000);
-    const intervalId = setInterval(checkWithRoles, 1000);
-    return () => {
-      clearInterval(intervalId);
-    };
-  }, [checkForMessages, loadUserProfiles,checkWithRoles, currentUserProfile.name, users]);
-
 
   async function fetchUserData() {
     try {
@@ -252,7 +260,7 @@ const AdminDashboard = () => {
     }
   }
 
-  const handleEditAndUpdate = useCallback((userId: string): void => {
+  function handleEditAndUpdate(userId: string): void {
 
     const idCell = document.querySelector(`#user-id-${userId}`) as HTMLElement | null;
     const nameCell = document.querySelector(`#user-name-${userId}`) as HTMLElement | null;
@@ -332,7 +340,7 @@ const AdminDashboard = () => {
         console.error(`User row with ID ${userId} not found.`);
       }
     }
-  }, []);
+  }
 
   // Attach event listeners to edit buttons
   useEffect(() => {

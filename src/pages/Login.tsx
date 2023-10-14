@@ -56,6 +56,7 @@ const Login = () => {
             //return; // Exit the function if login is successful
           } else {
             // If no matching user found
+            alert("Login failed. Invalid credentials")
             console.log('Login failed. Invalid credentials');
           }
         } else {

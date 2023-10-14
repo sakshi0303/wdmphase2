@@ -17,15 +17,12 @@ import { useCallback, useEffect, useState } from 'react';
 import '../assets/css/styles.css';
 import { Header, Footer } from '../components/HeaderFooter';
 import { UserData, UserMap } from '../types/types'
-
-
 import { checkAuthorized, getCurrentUserProfile, userProfile } from '../utils/auth';
 import { KeyboardEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import PersonalInfoOverlay from '../components/personalInfo';
 
 const InstructorDashboard = () => {
-
 
   const [users, setUsers] = useState<UserMap>({});
   const navigate = useNavigate();
@@ -34,9 +31,6 @@ const InstructorDashboard = () => {
   const [isCreatingCourse, setIsCreatingCourse] = useState(false);
   const [isFeedbackOverlayVisible, setIsFeedbackOverlayVisible] = useState(false);
   const [courseData, setCourseData] = useState<string[][]>([]);
-
-
-
 
   const [isPersonalInfoOverlayVisible, setIsPersonalInfoOverlayVisible] = useState(false);
 
@@ -149,10 +143,6 @@ const InstructorDashboard = () => {
       console.error('Error reading CSV file:', error);
     }
   };
-
-
-
-
 
   const ExamOverlay = ({ onClose }: { onClose: () => void }) => {
     const [examName, setExamName] = useState<string>('');
@@ -268,16 +258,6 @@ const InstructorDashboard = () => {
     );
   };
 
-
-
-
-
-
-
-
-
-
-
   async function loadPersonalInfo(): Promise<void> {
     const filePath: string = 'assets/reports/instructor.txt';
     const response: Response = await fetch(filePath);
@@ -294,9 +274,6 @@ const InstructorDashboard = () => {
 
     window.localStorage.setItem('instructorName', info['Name'] || '');
   }
-
-
-
 
   const CourseCreationOverlay = ({ onClose }: { onClose: () => void }) => {
     const [courseName, setCourseName] = useState<string>('');
@@ -387,10 +364,6 @@ const InstructorDashboard = () => {
     );
   };
 
-
-
-
-
   const createExam = (examName: string, examDate: string, examDuration: string): void => {
     if (!examName || !examDate || !examDuration) {
       alert("Please fill out all required fields.");
@@ -409,8 +382,6 @@ const InstructorDashboard = () => {
   const isNumeric = (value: string): boolean => {
     return !isNaN(Number(value));
   };
-
-
 
   // chat functions
   const checkForMessages = () => {

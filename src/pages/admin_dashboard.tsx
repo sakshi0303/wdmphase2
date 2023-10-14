@@ -14,6 +14,9 @@
     •	Monitor user activity, troubleshoot issues. (line 47, 52)
     •	Chat (line 79, 337)
 */
+
+// This is the main export of this page
+// All stateful activity happens here
 import { useEffect, useState } from 'react';
 import '../assets/css/styles.css';
 import { Header, Footer } from '../components/HeaderFooter';
@@ -23,14 +26,10 @@ import { KeyboardEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getSentiment as invokeGetSentimentAPI } from '../services/openai';
 
-// This is the main export of this page
-// All stateful activity happens here
-// If you want to reference a stateful value inside a function, define it under AdminDashboard
 const AdminDashboard = () => {
 
   const [users, setUsers] = useState<UserMap>({});
   const navigate = useNavigate();
-
   const currentUserProfile = getCurrentUserProfile();
   const allowedRoles: string[] = ["admin"];
   const checkWithRoles = () => {
@@ -39,7 +38,6 @@ const AdminDashboard = () => {
       navigate('/error');
     }
   };
-
   useEffect(() => {
     checkWithRoles();
     if (Object.keys(users).length === 0) {
@@ -59,7 +57,7 @@ const AdminDashboard = () => {
 
   // Chat functions
   const checkForMessages = () => {
-    // Check if there is a message for the student
+    
     const message = window.localStorage.getItem(`messageFor_${currentUserProfile.id}`);
 
     if (message) {
@@ -230,7 +228,7 @@ const AdminDashboard = () => {
       return;
     }
 
-    const currentUserProfile = getCurrentUserProfile(); // You should define this function
+    const currentUserProfile = getCurrentUserProfile(); 
 
     // Only send a message if there is input
     if (userInput.trim() === '') {

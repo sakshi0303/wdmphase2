@@ -83,7 +83,7 @@ const CoordinatorDashboard = () => {
 
       case 'PCInstructor':
         return (
-          <section id="instructor">
+          <section id="program_coordinator">
             <table>
               <thead>
                 <tr>
@@ -124,7 +124,7 @@ const CoordinatorDashboard = () => {
                   <td>Mathematics</td>
                   <td>987-654-3210</td>
                 </tr>
-                {/* Add more rows as needed for additional instructors */}
+                {/* Add more rows as needed for additional program_coordinators */}
               </tbody>
             </table>
           </section>
@@ -158,7 +158,7 @@ const CoordinatorDashboard = () => {
           <h3>Responsibilities</h3>
           <p>
             Address the main liabilities and functions of the program coordinator. This can involve duties including
-            working with instructors, keeping track of students' progress, managing communications, and making sure the
+            working with program_coordinators, keeping track of students' progress, managing communications, and making sure the
             program is successful.
           </p>
         </div>
@@ -179,9 +179,9 @@ const CoordinatorDashboard = () => {
               <button className="chat-button" onClick={startChatWithUser}>Start Chat</button>
               <div className="chat-box">
                 <div id="Program CoodinatorMessages"></div>
-                <div id="instructorMessages"></div>
+                <div id="program_coordinatorMessages"></div>
               </div>
-              <div id="chatInterface" className="chat-input-container instructor-chat-container" style={{ display: 'none' }}>
+              <div id="chatInterface" className="chat-input-container program_coordinator-chat-container" style={{ display: 'none' }}>
                 <input type="text" id="userInput" className="chat-input" placeholder="Type your message here..." onKeyDown={handleKeyDown} />
                 <button className="chat-button" onClick={sendMessage}>Chat</button>
               </div>
@@ -228,8 +228,8 @@ const CoordinatorDashboard = () => {
           <p>  1. How do I reset my password?</p>
           <p> * To reset your password, click on the "Forgot Password" link on the login page. Follow the instructions
             sent to your registered email to create a new password.</p><br/>
-          <p>  2. How can I add a new instructor to the program?</p>
-          <p> * To add a new instructor, navigate to the "Instructors" section on the dashboard. Click the "Add
+          <p>  2. How can I add a new program_coordinator to the program?</p>
+          <p> * To add a new program_coordinator, navigate to the "Instructors" section on the dashboard. Click the "Add
             Instructor" button and fill out the required information. Don't forget to assign courses or
             responsibilities as needed.</p><br/>
           <p>  3. Can I export student performance reports for a specific time frame?</p>
@@ -488,10 +488,10 @@ const CoordinatorDashboard = () => {
     }
 
     // Send the message to the given user id
-    window.localStorage.setItem(`messageFor_${receiverData.id}`, `(instructor)   ${currentUserProfile.name}: ${userInput}`); // Include Program Coodinator name
+    window.localStorage.setItem(`messageFor_${receiverData.id}`, `(program_coordinator)   ${currentUserProfile.name}: ${userInput}`); // Include Program Coodinator name
 
     // send message to admin
-    window.localStorage.setItem(`messageFor_0`, `(instructor)   ${currentUserProfile.name}: ${userInput}`);
+    window.localStorage.setItem(`messageFor_0`, `(program_coordinator)   ${currentUserProfile.name}: ${userInput}`);
 
     // Clear user input
     (document.getElementById('userInput') as HTMLInputElement).value = '';

@@ -1,8 +1,10 @@
-/*Author: Harini Aluka,Kiran Mai Akaram-
-    UTA ID: 1002080841,1002115618
+/*
+    Author: Sai Vineeth Akula,Mary Pranavi Allam-
+    UTA ID: 1002028631,1002077034
     Group number: 1, WDM assignment, Assignment 3
-    Date: October 14 2023*/
-import React, { useEffect, useMemo, useState } from 'react';
+    Date: October 14, 2023
+*/
+import React, { useEffect, useState } from 'react';
 import '../assets/css/qastyles.css';
 import { Header, Footer } from '../components/HeaderFooter';
 import { UserMap } from '../types/types';
@@ -12,7 +14,7 @@ import { KeyboardEvent } from 'react';
 
 import ReportsComponent from '../components/reports';
 
-// ... (import statements)
+
 
 const QADashboard = () => {
   const [selectedComponent, setSelectedComponent] = useState('QADashboard');
@@ -23,8 +25,6 @@ const QADashboard = () => {
 
   const [users, setUsers] = useState<UserMap>({});
 
-
-  // Define your state variables for QA-related data here
 
   useEffect(() => {
     // Add your QA-related data fetching and setup logic here
@@ -81,7 +81,6 @@ const QADashboard = () => {
       newPoliciesContainer.appendChild(newPolicy);
     }
   };
-
 
   const renderSelectedComponent = () => {
     switch (selectedComponent) {
@@ -157,14 +156,14 @@ const QADashboard = () => {
           <button id="editButton" onClick={handleEditClick}>Edit</button>
 
 
-          <div className="instructor-2l-container">
+          <div className="QualityAssurance-2l-container">
             <div className="chat-container">
               <button className="chat-button" onClick={startChatWithUser}>Start Chat</button>
               <div className="chat-box">
                 <div id="Program CoodinatorMessages"></div>
-                <div id="instructorMessages"></div>
+                <div id="QualityAssuranceMessages"></div>
               </div>
-              <div id="chatInterface" className="chat-input-container instructor-chat-container" style={{ display: 'none' }}>
+              <div id="chatInterface" className="chat-input-container QualityAssurance-chat-container" style={{ display: 'none' }}>
                 <input type="text" id="userInput" className="chat-input" placeholder="Type your message here..." onKeyDown={handleKeyDown} />
                 <button className="chat-button" onClick={sendMessage}>Chat</button>
               </div>
@@ -188,7 +187,7 @@ const QADashboard = () => {
         <li>Conduct thorough quality checks on all training programs before deployment.</li>
         <li>Implement a feedback mechanism for learners to report issues and provide suggestions.</li>
         <li>Monitor learner progress and provide additional support to those who are struggling.</li>
-        <li>Collaborate with instructors and program coordinators to address any instructional issues.</li>
+        <li>Collaborate with QualityAssurances and program coordinators to address any instructional issues.</li>
         <li>Stay updated with industry best practices and incorporate them into training programs.</li>
       </ul>
       <label htmlFor="recommendationId">Enter ID:</label>
@@ -200,16 +199,13 @@ const QADashboard = () => {
     );
   };
 
+const navigate = useNavigate();
 
- 
-
-  const navigate = useNavigate();
-
-  const currentUserProfile = getCurrentUserProfile();
+const currentUserProfile = getCurrentUserProfile();
 
   // auth
 
-  const allowedRoles = useMemo(() => ["student", "admin"], []);
+  const allowedRoles: string[] = ["qa", "admin"];
 
   useEffect(() => {
     const checkWithRoles = () => {
@@ -238,13 +234,6 @@ const QADashboard = () => {
     // load data    
     fetchUserData();
     userProfile(currentUserProfile.name)
-
-
-    // Load user profiles if necessary (similar to Quality AssuranceDashboard)
-
-    // Load data (similar to Quality AssuranceDashboard)
-
-    // Intervals (similar to Quality AssuranceDashboard)
 
     setInterval(checkForMessages, 1000);
     const intervalId = setInterval(checkWithRoles, 1000);
@@ -426,17 +415,15 @@ const QADashboard = () => {
     }
 
     // Send the message to the given user id
-    window.localStorage.setItem(`messageFor_${receiverData.id}`, `(instructor)   ${currentUserProfile.name}: ${userInput}`); // Include Quality Assurance name
+    window.localStorage.setItem(`messageFor_${receiverData.id}`, `(QualityAssurance)   ${currentUserProfile.name}: ${userInput}`); // Include Quality Assurance name
 
     // send message to admin
-    window.localStorage.setItem(`messageFor_0`, `(instructor)   ${currentUserProfile.name}: ${userInput}`);
+    window.localStorage.setItem(`messageFor_0`, `(QualityAssurance)   ${currentUserProfile.name}: ${userInput}`);
 
     // Clear user input
     (document.getElementById('userInput') as HTMLInputElement).value = '';
   }
 
-  // manage users
-  // TODO: use this later
   function handleKeyDown(event: KeyboardEvent): void {
     if (event.key === 'Enter') {
       event.preventDefault(); // Prevent default 'Enter' behavior

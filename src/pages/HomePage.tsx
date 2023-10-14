@@ -23,7 +23,7 @@ const HomePage: React.FC = () => {
             <h2>Our Program</h2>
             <p>Masters in Computer Science program is meticulously designed to offer a holistic and future-ready education.
               We are not just fostering the next generation of computer scientists; we are shaping the pioneers and leaders
-              of tomorrow's digital world.More On: <a href="https://blogthemedotblog.wordpress.com/home/">WordPress Blogs</a></p>
+              of tomorrow's digital world.More On: <a href="https://blogthemedotblog.wordpress.com/home/" target="_blank">WordPress Blogs</a></p>
           </div>
 
           <div className="gif-container">
@@ -96,6 +96,5 @@ const HomePage: React.FC = () => {
 export default HomePage;
 
 // Note: 
-// - Remember to set up React and TypeScript correctly in your project to be able to use this component.
 // - The auth.js script should be converted into a proper TypeScript module for import and use within the component.
 // - Inline JS like the logoutButton

@@ -183,7 +183,7 @@ const StudentDashboard = () => {
               console.error('Chat input container not found.');
             }
           } else {
-            alert("Incorrect Email ID. Cross Check https://sx3702.uta.cloud/assignment2/assets/reports/csv/users.csv");
+            alert("Incorrect Email ID. ");
           }
         })
         .catch((error: Error) => {

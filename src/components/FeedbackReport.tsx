@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { BarChart } from './chart'; // Import the BarChart and PieChart components
 import { Footer, Header } from './HeaderFooter';
 import { useNavigate } from 'react-router-dom';
+import '../assets/css/styles.css';
 
 // Define the FeedbackData type based on your CSV structure
 type FeedbackData = {

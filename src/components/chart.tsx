@@ -1,19 +1,21 @@
 import React from "react";
 import { Line, Bar, Pie } from "react-chartjs-2";
-import { ChartData, ChartDataset } from 'chart.js';
+import { ChartData, ChartOptions } from 'chart.js';
 import { ChartEvent } from "chart.js/dist/core/core.plugins";
 
-type DataSet = ChartDataset<"line", number[]>;
 type LineChartData = ChartData<"line", number[], string>;
 type BarChartData = ChartData<"bar", number[], string>;
 type PieChartData = ChartData<'pie', number[], string>;
 
 type BarChartProps = {
-    chartData: ChartData<'bar', number[], string>;
+    chartData: BarChartData;
     title?: string;
     header?: string;
     onBarClick?: (label: string) => void; // Add an onClick event handler
+    options?: ChartOptions; // Add the options prop
 };
+
+
 
 type LineChartProps = {
     chartData: LineChartData;

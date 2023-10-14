@@ -1,177 +1,163 @@
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Routes, Link, Outlet, Route } from 'react-router-dom';
 
-import '../assets/css/pcss.css';
+
+import '../assets/css/qastyles.css';
+
 import { Header, Footer } from '../components/HeaderFooter';
 import { UserData, UserMap } from '../types/types';
 import { checkAuthorized, getCurrentUserProfile, userProfile } from '../utils/auth';
 import { useNavigate } from 'react-router-dom';
 import { KeyboardEvent } from 'react';
+import { BarChart } from '../components/chart';
 import ReportsComponent from '../components/reports';
 
+// ... (import statements)
 
+const QADashboard = () => {
+  const [selectedComponent, setSelectedComponent] = useState('QADashboard');
+  const [isEditing, setIsEditing] = useState<boolean>(false);
+  const [editableContent, setEditableContent] = useState<Record<string, string>>({});
+  const editableElementIds: string[] = ['policyTitle', 'policyDescription', 'programmeTitle', 'programmeDescription', 'feedbackTitle', 'feedbackDescription', 'supportTitle', 'supportDescription', 'internalTitle', 'internalDescription', 'actionsTitle', 'actionsList'];
 
-const CoordinatorDashboard = () => {
-  const [selectedComponent, setSelectedComponent] = useState('CoordinatorDashboard');
 
   const [users, setUsers] = useState<UserMap>({});
   const [isPersonalInfoOverlayVisible, setIsPersonalInfoOverlayVisible] = useState(false);
   const [isFeedbackOverlayVisible, setIsFeedbackOverlayVisible] = useState(false);
 
+  // Define your state variables for QA-related data here
 
-  // Define a function to render the selected component
+  useEffect(() => {
+    // Add your QA-related data fetching and setup logic here
+    editableElementIds.forEach((elementId) => {
+      const savedContent = localStorage.getItem(elementId);
+      if (savedContent) {
+        setEditableContent((prevContent) => ({
+          ...prevContent,
+          [elementId]: savedContent,
+        }));
+      }
+    });
+  }, []);
+
+  const handleEditClick = () => {
+    setIsEditing((prevState) => !prevState);
+    editableElementIds.forEach((elementId) => {
+      const element = document.getElementById(elementId);
+      if (element) {
+        element.contentEditable = (!isEditing).toString();
+        element.style.backgroundColor = isEditing ? 'transparent' : '#f0f0f0';
+      }
+    });
+  };
+
+  const handleSaveChanges = () => {
+    editableElementIds.forEach((elementId) => {
+      const element = document.getElementById(elementId);
+      if (element) {
+        localStorage.setItem(elementId, element.textContent || '');
+      }
+    });
+  };
+
+  const newPoliciesContainer = document.getElementById('newPolicies');
+
+  const handleAddNew = () => {
+    // Create new policy elements
+    const newPolicy = document.createElement('div');
+    newPolicy.innerHTML = `
+      <h2 class="editable" contenteditable="true">New Policy Header</h2>
+      <p class="editable" contenteditable="true">New Policy Content</p>
+    `;
+
+    const newElementIds = ['newPolicyHeader', 'newPolicyContent'];
+    newElementIds.forEach((elementId) => {
+      const newElement = newPolicy.querySelector(`#${elementId}`);
+      if (newElement) {
+        newElement.addEventListener('input', handleSaveChanges);
+      }
+    });
+
+    if (newPoliciesContainer) {
+      newPoliciesContainer.appendChild(newPolicy);
+    }
+  };
+
+
   const renderSelectedComponent = () => {
     switch (selectedComponent) {
-      case 'CoordinatorDashboard':
-        return renderCoordinatorDashboard();
-      case 'PCStudent':
-        return (
-          <section id="Student">
-            <table>
-              <thead>
-                <tr>
-                  <th>Student Name</th>
-                  <th>Student ID</th>
-                  <th>Email</th>
-                  <th>Mobile Number</th>
-                  <th>GPA</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>kiranmai</td>
-                  <td>1002080821</td>
-                  <td>kiran@mavs.uta.edu</td>
-                  <td>123-456-7890</td>
-                  <td>3.5</td>
-                </tr>
-                <tr>
-                  <td>Harini</td>
-                  <td>1002080841</td>
-                  <td>harini@mavs.uta.edu</td>
-                  <td>987-654-3210</td>
-                  <td>3.4</td>
-                </tr>
-                <tr>
-                  <td>Pranavi</td>
-                  <td>1002034891</td>
-                  <td>pranavi@mavs.uta.edu</td>
-                  <td>987-654-3210</td>
-                  <td>3.7</td>
-                </tr>
-                <tr>
-                  <td>Marnim</td>
-                  <td>1002080678</td>
-                  <td>marnim@mavs.uta.edu</td>
-                  <td>987-654-3210</td>
-                  <td>3.4</td>
-                </tr>
-                <tr>
-                  <td>krishna</td>
-                  <td>1002076543</td>
-                  <td>krishna.smith@email.com</td>
-                  <td>987-654-3210</td>
-                  <td>3.8</td>
-                </tr>
-                {/* Add more rows as needed for additional students */}
-              </tbody>
-            </table>
-          </section>
-        );
-
-      case 'PCInstructor':
-        return (
-          <section id="instructor">
-            <table>
-              <thead>
-                <tr>
-                  <th>Instructor Name</th>
-                  <th>Email ID</th>
-                  <th>Course</th>
-                  <th>Mobile Number</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>Elizabeth Diaz</td>
-                  <td>elizabeth@email.com</td>
-                  <td>Web Data Management</td>
-                  <td>123-456-7890</td>
-                </tr>
-                <tr>
-                  <td>Faranaz Rarahanipad</td>
-                  <td>farnaz@email.com</td>
-                  <td>Software Engineering</td>
-                  <td>987-654-3210</td>
-                </tr>
-                <tr>
-                  <td>Negin</td>
-                  <td>negin@email.com</td>
-                  <td>DAA</td>
-                  <td>987-654-3210</td>
-                </tr>
-                <tr>
-                  <td>Marnim Galib</td>
-                  <td>marnim@email.com</td>
-                  <td>Data Mining</td>
-                  <td>987-654-3210</td>
-                </tr>
-                <tr>
-                  <td>Ramakrishna</td>
-                  <td>ramakrishna.smith@email.com</td>
-                  <td>Mathematics</td>
-                  <td>987-654-3210</td>
-                </tr>
-                {/* Add more rows as needed for additional instructors */}
-              </tbody>
-            </table>
-          </section>
-        );
+      case 'QADashboard':
+        return renderQADashboard();
       case 'Reports':
         return <ReportsComponent/>
-      case 'PCHelp':
-        return renderPCHelp();
-      case 'PCFAQs':
-        return renderPCFAQs();
-      case 'PCContactUs':
-        return renderPCContactUs();
+      case 'Recommendations':
+        return renderRecommendations();
+      // Add cases for other QA-related components as needed
       default:
         return null;
     }
   };
 
-  // Define a function to render the content for PCHelp
-  const renderCoordinatorDashboard = () => {
+  const renderQADashboard = () => {
     return (
-      <section id="welcome">
-        <div>
-          <h3>Program Overview</h3>
-          <p>
-            Masters in Computer Science program is meticulously designed to offer a holistic and future-ready
-            education. We are not just fostering the next generation of computer scientists; we are shaping the pioneers
-            and leaders of tomorrow's digital world.
-          </p>
-        </div>
-        <div>
-          <h3>Responsibilities</h3>
-          <p>
-            Address the main liabilities and functions of the program coordinator. This can involve duties including
-            working with instructors, keeping track of students' progress, managing communications, and making sure the
-            program is successful.
-          </p>
-        </div>
-        <div>
-          <h3>Announcements</h3>
-          <p>
-            Important or urgent announcements are displayed here if there are any. This might be connected to
-            modifications to the program schedule, updated policies, or other significant information.
-          </p>
-        </div>
+      <div className="qa-dashboard-container">
 
+        
+        <div id="policies">
+          <h2 className="editable" id="policyTitle" contentEditable="true" suppressContentEditableWarning={true}>Quality Assurance Focus</h2>
+          <p className="editable" id="policyDescription" contentEditable="true" suppressContentEditableWarning={true}>
+            To encourage continuous improvement in the quality of all training programmes and associated
+            development
+            solutions, thereby making learning an enjoyable activity and through this, increasing learner
+            retention
+            and the achievement of learning aims.
+          </p>
 
+          <h2 className="editable" id="programmeTitle" contentEditable="true" suppressContentEditableWarning={true}>Programme Development</h2>
+          <p className="editable" id="programmeDescription" contentEditable="true" suppressContentEditableWarning={true}>
+            To develop and maintain a diverse range of programmes that will be appropriate across the entire
+            recruitment sector which provide learners with techniques, processes, and structures that will
+            enable
+            them to perform their roles at a higher standard.
+          </p>
 
-        <div>
+          <h2 className="editable" id="feedbackTitle" contentEditable="true" suppressContentEditableWarning={true}>Feedback and Improvement</h2>
+          <p className="editable" id="feedbackDescription" contentEditable="true" suppressContentEditableWarning={true}>
+            To provide information and feedback from all interactions with our clients and learners that
+            enables
+            continuous updates and improvements to our development solutions.
+          </p>
+
+          <h2 className="editable" id="supportTitle" contentEditable="true" suppressContentEditableWarning={true}>Supportive Services</h2>
+          <p className="editable" id="supportDescription" contentEditable="true" suppressContentEditableWarning={true}>
+            To establish standards and monitoring procedures for providing a supportive and accessible range
+            of
+            services to all learners.
+          </p>
+
+          <h2 className="editable" id="internalTitle" contentEditable="true" suppressContentEditableWarning={true}>Internal Quality Assurance for
+            Employees</h2>
+          <p className="editable" id="internalDescription" contentEditable="true" suppressContentEditableWarning={true}>
+            To review regularly the performance, training, and needs of all employees.
+          </p>
+
+          <h2 className="editable important" id="actionsTitle" contentEditable="true" suppressContentEditableWarning={true}>Actions</h2>
+          <ul className="editable" id="actionsList" contentEditable="true" suppressContentEditableWarning={true}>
+            <li>Action plan for improvement within Enabling Change Limited.</li>
+            <li>Highlight issues that need consideration by Enabling Change Limited.</li>
+            <li>Feedback on actions taken will be shared with employees.</li>
+            <li>Identify new initiatives and solutions that will improve the quality of development that we
+              bring to
+              our clients.</li>
+          </ul>
+
+          <div id="newPolicies">
+
+          </div>
+          <button id="addNewButton" onClick={handleAddNew}>Add New</button> |
+          <button id="editButton" onClick={handleEditClick}>Edit</button>
+
 
           <div className="instructor-2l-container">
             <div className="chat-container">
@@ -186,77 +172,23 @@ const CoordinatorDashboard = () => {
               </div>
             </div>
           </div>
-
-          {/* Add your content here */}
         </div>
-      </section>
-    );
-  };
 
-  // Define a function to render the content for PCHelp
-  const renderPCHelp = () => {
-    return (
-      <div>
-        <section id="help-content">
-          <h2>Get Help and Support</h2>
-          <p>If you need assistance or have any questions, please check the following resources:</p>
-          <ul>
-            <li><Link to="../components/pcFAQs">FAQs</Link></li>
-            <li><Link to="../components/pccontactUs">Contact Support</Link></li>
-          </ul>
-
-          <h3 id="faq">Frequently Asked Questions (FAQs)</h3>
-          <p>Find answers to common questions in our FAQ section.</p>
-          <li><Link to="../components/pcFAQs">Browse FAQs</Link></li>
-
-          <h3 id="contact">Contact Support</h3>
-          <p>If you need further assistance, feel free to contact our support team.</p>
-          <li><Link to="../components/pccontactUs">Contact Support</Link></li>
-        </section>
       </div>
     );
   };
 
-  // Define a function to render the content for PCFAQs
-  const renderPCFAQs = () => {
+  const renderRecommendations = () => {
     return (
-      <div>
-
-        <section id="FAQ">
-          <h2>Frequently Asked Questions</h2>
-          <p>1. How do I reset my password?</p>
-          <p> * To reset your password, click on the "Forgot Password" link on the login page. Follow the instructions
-            sent to your registered email to create a new password.</p>
-          <p>2. How can I add a new instructor to the program?</p>
-          <p> * To add a new instructor, navigate to the "Instructors" section on the dashboard. Click the "Add
-            Instructor" button and fill out the required information. Don't forget to assign courses or
-            responsibilities as needed.</p>
-          <p>3. Can I export student performance reports for a specific time frame?</p>
-          <p> * Yes, you can export student performance reports for a specific time frame. Visit the "Reports"
-            section, select the desired date range, and click the "Export" button to generate a report in a
-            downloadable format.</p>
-        </section>
-      </div>
-    );
-  };
-
-  // Define a function to render the content for PCContactUs
-  const renderPCContactUs = () => {
-    return (
-      <div>
-        <section id="contact">
-          <h2>Contact Us</h2>
-          <p>Support Email: support@yourprogramdashboard.com</p>
-          <p>Phone: +1 (123) 456-7890</p>
-          <p>Office Hours:</p>
-          <p>Monday to Friday: 9:00 AM - 5:00 PM (GMT)</p>
-          <p>Saturday: 10:00 AM - 2:00 PM (GMT)</p>
-          <p>Mailing Address:</p>
-          <p>Program Coordinator Dashboard Support</p>
-          <p>123 Main Street</p>
-          <p>Arlington, 73013</p>
-          <p>Texas</p>
-        </section>
+      <div className="qa-dashboard-container">
+        <div id="content">
+          <h2>Welcome to Quality Assurance Dashboard - Recommendations</h2>
+          <div id="recommendations">
+            <label htmlFor="recommendationId">Enter ID:</label>
+            <input type="text" id="recommendationId" />
+            <button id="generateButton">Generate</button>
+          </div>
+        </div>
       </div>
     );
   };
@@ -275,7 +207,8 @@ const CoordinatorDashboard = () => {
   const currentUserProfile = getCurrentUserProfile();
 
   // auth
-  const allowedRoles: string[] = ["coordinator", "admin"];
+
+  const allowedRoles: string[] = ["qa", "admin"];
 
   useEffect(() => {
     const checkWithRoles = () => {
@@ -289,7 +222,7 @@ const CoordinatorDashboard = () => {
     function checkForMessages(): void {
       const message = window.localStorage.getItem(`messageFor_${currentUserProfile.id}`);
       if (message) {
-        const messageType = message.startsWith("admin:") ? "admin-message" : "Program Coodinator-message";
+        const messageType = message.startsWith("admin:") ? "admin-message" : "Quality Assurance-message";
         const chatBox = document.querySelector('.chat-box');
         const messageDiv = document.createElement('div');
         messageDiv.className = messageType;
@@ -306,11 +239,11 @@ const CoordinatorDashboard = () => {
     userProfile(currentUserProfile.name)
 
 
-    // Load user profiles if necessary (similar to Program CoodinatorDashboard)
+    // Load user profiles if necessary (similar to Quality AssuranceDashboard)
 
-    // Load data (similar to Program CoodinatorDashboard)
+    // Load data (similar to Quality AssuranceDashboard)
 
-    // Intervals (similar to Program CoodinatorDashboard)
+    // Intervals (similar to Quality AssuranceDashboard)
 
     setInterval(checkForMessages, 1000);
     const intervalId = setInterval(checkWithRoles, 1000);
@@ -350,7 +283,7 @@ const CoordinatorDashboard = () => {
             const data = {
               id: users[typedFormData.id].id,
             };
-            window.localStorage.setItem('Program Coodinator-data', JSON.stringify(data));
+            window.localStorage.setItem('Quality Assurance-data', JSON.stringify(data));
             // Show the chat input container
             const chatInputContainer = document.querySelector('.chat-input-container') as HTMLElement | null;
             if (chatInputContainer) {
@@ -359,7 +292,7 @@ const CoordinatorDashboard = () => {
               console.error('Chat input container not found.');
             }
           } else {
-            alert("Incorrect Email ID. ");
+            alert("Incorrect Email ID. Cross Check ");
           }
         })
         .catch((error: Error) => {
@@ -406,7 +339,7 @@ const CoordinatorDashboard = () => {
       const form = document.createElement("form");
       form.className = "prompt-form";
 
-      // Create an input element for Program Coodinator ID
+      // Create an input element for Quality Assurance ID
       const userIdInput = document.createElement("input");
       userIdInput.type = "text";
       userIdInput.id = "userId";
@@ -456,9 +389,9 @@ const CoordinatorDashboard = () => {
     const chatBox = document.querySelector('.chat-box') as HTMLElement | null;
     const userInput = (document.getElementById('userInput') as HTMLInputElement).value;
 
-    const receiverDataJSON = window.localStorage.getItem('Program Coodinator-data');
+    const receiverDataJSON = window.localStorage.getItem('Quality Assurance-data');
     if (!receiverDataJSON) {
-      console.log('Program Coodinator data not found.'); // Debug log
+      console.log('Quality Assurance data not found.'); // Debug log
       return;
     }
 
@@ -486,13 +419,13 @@ const CoordinatorDashboard = () => {
     // Append the user's message to their chat
     const userMessage = document.createElement('div');
     userMessage.className = 'message user';
-    userMessage.innerHTML = `<p>(Program Coodinator)   ${currentUserProfile.name}: ${userInput}</p>`; // Include Program Coodinator name
+    userMessage.innerHTML = `<p>(Quality Assurance)   ${currentUserProfile.name}: ${userInput}</p>`; // Include Quality Assurance name
     if (chatBox) {
       chatBox.appendChild(userMessage);
     }
 
     // Send the message to the given user id
-    window.localStorage.setItem(`messageFor_${receiverData.id}`, `(instructor)   ${currentUserProfile.name}: ${userInput}`); // Include Program Coodinator name
+    window.localStorage.setItem(`messageFor_${receiverData.id}`, `(instructor)   ${currentUserProfile.name}: ${userInput}`); // Include Quality Assurance name
 
     // send message to admin
     window.localStorage.setItem(`messageFor_0`, `(instructor)   ${currentUserProfile.name}: ${userInput}`);
@@ -510,6 +443,7 @@ const CoordinatorDashboard = () => {
     }
   }
 
+
   return (
     <div className="container">
       <Header />
@@ -517,14 +451,9 @@ const CoordinatorDashboard = () => {
       <div className="container">
         <nav>
           <ul>
-            <li><button onClick={() => setSelectedComponent('CoordinatorDashboard')}>Coordinator Dashboard</button></li>
-            <li><button onClick={() => setSelectedComponent('PCStudent')}>Students</button></li>
-            <li><button onClick={() => setSelectedComponent('PCInstructor')}>Instructors</button></li>
+            <li><button onClick={() => setSelectedComponent('QADashboard')}>QA Dashboard</button></li>
             <li><button onClick={() => setSelectedComponent('Reports')}>Reports</button></li>
-            {/* <li><button onClick={() => setSelectedComponent('PCHelp')}>Help</button></li> */}
-            <li><button onClick={() => setSelectedComponent('PCFAQs')}>PC FAQs</button></li>
-            <li><button onClick={() => setSelectedComponent('PCContactUs')}>PC Contact Us</button></li>
-            {/* Add other navigation links/buttons as needed */}
+            <li><button onClick={() => setSelectedComponent('Recommendations')}>Recommendations</button></li>
           </ul>
         </nav>
         <main>
@@ -534,7 +463,6 @@ const CoordinatorDashboard = () => {
       <Footer />
     </div>
   );
-};
+}
 
-export default CoordinatorDashboard;
-
+export default QADashboard;

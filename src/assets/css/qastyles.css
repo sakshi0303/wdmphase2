@@ -13,6 +13,7 @@ body {
 }
 
 .qa-dashboard-container {
+    
 	display: flex;
 	flex-wrap: wrap;
 }
@@ -28,7 +29,7 @@ body {
 }
 
 #content {
-    margin-left: 250px; /* Adjusted margin for content */
+    /* Adjusted margin for content */
     padding: 20px;
     height: 100%;
 }
@@ -61,6 +62,8 @@ body {
 
 /* Styling for reports section */
 #reports {
+    text-align: left;
+    
     background-color: #fff;
     padding: 20px;
     border: 1px solid #ddd;
@@ -77,6 +80,7 @@ body {
 
 /* Styling for ID input and Generate button */
 #studentId {
+    text-align: left;
     padding: 10px;
     border: 1px solid #ddd;
     border-radius: 5px;

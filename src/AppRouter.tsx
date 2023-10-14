@@ -4,7 +4,7 @@ import AdminDashboard from './pages/admin_dashboard';
 import StudentDashboard from './pages/student_dashboard';
 import InstructorDashboard from './pages/instructor_dashboard';
 import CoordinatorDashboard from './pages/coordinator_dashboard';
-import QADashboard from './pages/qa_dashboard';
+import QADashboard from './pages/qa-dashboard';
 import Telemetry from './components/telemetry';
 import Operations from './components/Operations';
 import Login from './pages/Login';

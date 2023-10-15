@@ -10,7 +10,7 @@
 import { OpenAI } from 'openai'
 
 /**
- * openAI ensures you dont commit this in github
+ * 
  * key: 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
  */
 const openAI = new OpenAI({

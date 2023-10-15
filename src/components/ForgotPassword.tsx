@@ -1,4 +1,12 @@
-// ForgotPassword.tsx
+/*  
+    Author: Sakshi
+    UTA ID: 1001993702
+    Email: sx3702@mavs.uta.edu
+    Group number: 1, WDM assignment, Assignment 3
+    Date: October 14, 2023
+    Description: ForgotPassword.tsx
+    
+*/
 
 import React from 'react';
 import '../assets/css/styles.css';
@@ -43,7 +51,6 @@ const ForgotPassword: React.FC = () => {
 
 export default ForgotPassword;
 
-// Note:
-// - React and TypeScript must be correctly set up in your project to use this component.
+// ToDo:
 // - The logout function from auth.js should be converted into a proper TypeScript function.
 // - Inline JavaScript, like the logoutButton script, should be converted into React event handlers.

@@ -1,3 +1,11 @@
+/*  
+    Author: Sakshi
+    UTA ID: 1001993702
+    Email: sx3702@mavs.uta.edu
+    Group number: 1, WDM assignment, Assignment 3
+    Date: October 14, 2023
+    Description: studentprogress
+*/
 import React, { useEffect, useState } from 'react';
 import Papa from 'papaparse';
 import '../assets/css/styles.css';

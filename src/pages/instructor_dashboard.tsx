@@ -7,11 +7,11 @@
     Description: Instructor dashboard contains all features that enable instructors to manage their course
     
     Feature list:
-    •	Instructors can create and manage courses. (line 52)
-    •	Feedback to the students based on the assessments and exams. (line 56)
-    •	Personal information page (line 68)
-    •	Progress tracking of students. (line 50)
-    •	Chat (line 77)
+    •	Instructors can create and manage courses. 
+    •	Feedback to the students based on the assessments and exams. 
+    •	Personal information page 
+    •	Progress tracking of students. 
+    •	Chat 
 */
 import { useCallback, useEffect, useState } from 'react';
 import '../assets/css/styles.css';

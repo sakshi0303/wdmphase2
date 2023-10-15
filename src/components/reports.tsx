@@ -1,3 +1,11 @@
+/*  
+    Author: Sakshi
+    UTA ID: 1001993702
+    Email: sx3702@mavs.uta.edu
+    Group number: 1, WDM assignment, Assignment 3
+    Date: October 14, 2023
+    Description: reports
+*/
 import React, { useEffect, useState } from 'react';
 import { Bar } from 'react-chartjs-2'; // Import Bar component
 import { ChartData, ChartOptions } from 'chart.js'; // Import ChartData and ChartOptions types

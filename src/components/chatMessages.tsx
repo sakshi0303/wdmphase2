@@ -1,3 +1,12 @@
+/*  
+    Author: Sakshi
+    UTA ID: 1001993702
+    Email: sx3702@mavs.uta.edu
+    Group number: 1, WDM assignment, Assignment 3
+    Date: October 14, 2023
+    Description: chatmessage.tsx
+    
+*/
 import React, { useEffect, useState } from 'react';
 import { Message } from '../types/types';
 

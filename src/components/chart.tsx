@@ -1,3 +1,12 @@
+/*  
+    Author: Sakshi
+    UTA ID: 1001993702
+    Email: sx3702@mavs.uta.edu
+    Group number: 1, WDM assignment, Assignment 3
+    Date: October 14, 2023
+    Description: chart.tsx
+    
+*/
 import React from "react";
 import { Line, Bar, Pie } from "react-chartjs-2";
 import { ChartData, ChartOptions } from 'chart.js';

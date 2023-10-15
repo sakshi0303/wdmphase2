@@ -7,12 +7,12 @@
     Description: Admin dashboard
 
     Features:
-    •	User permissions. (line 102, 227)
+    •	User permissions. (line 375)
     •	Manage students, instructors, QAO, Program coordinator. (line 102, 227)
-    •	Access and edit their profile information. (line 102, 227)
-    •	CRUD functionality. (line 102, 227)
-    •	Monitor user activity, troubleshoot issues. (line 47, 52)
-    •	Chat (line 79, 337)
+    •	Access and edit their profile information. (line 451)
+    •	CRUD functionality. (line 261)
+    •	Monitor user activity, troubleshoot issues. (line 433)
+    •	Chat (line 59)
 */
 
 // This is the main export of this page

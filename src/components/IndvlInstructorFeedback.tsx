@@ -1,3 +1,11 @@
+/*  
+    Author: Sakshi
+    UTA ID: 1001993702
+    Email: sx3702@mavs.uta.edu
+    Group number: 1, WDM assignment, Assignment 3
+    Date: October 14, 2023
+    Description: individual instructor feedbacj
+*/
 import React, { useEffect, useState } from 'react';
 import { PieChart } from './chart'; // Import the PieChart component
 import { Footer, Header } from './HeaderFooter';
@@ -11,7 +19,7 @@ type FeedbackData = {
   feedbackText: string;
 };
 
-// ...
+
 // Define the colors for positive, neutral, and negative sentiments
 const positiveColor = '#32CD32'; // Lime green for positive
 const neutralColor = '#D3D3D3'; // Light gray for neutral
